@@ -1,17 +1,21 @@
 package com.example.recipeapp.auth.viewmodel
 
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.recipeapp.auth.repo.UserRepository
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 
 class RegisterViewmodel(val repo: UserRepository): ViewModel() {
-    fun verifyUsernameExists(username: String) = runBlocking{
-        val res = viewModelScope.async {
-            repo.hasUsername(username) == 1
+    fun verifyUsernameExists(username: String):  MutableLiveData<Boolean>{
+        val result = MutableLiveData<Boolean>()
+        viewModelScope.launch {
+            result.value = repo.hasUsername(username) == 1
         }
-        res.await()
+        return result
     }
+
 }

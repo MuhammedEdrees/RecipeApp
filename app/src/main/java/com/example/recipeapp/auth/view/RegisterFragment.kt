@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.Toast
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelStoreOwner
 import com.example.recipeapp.R
@@ -25,9 +26,6 @@ import kotlinx.coroutines.runBlocking
 
 class RegisterFragment : Fragment() {
     lateinit var viewModel: RegisterViewmodel
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -43,15 +41,19 @@ class RegisterFragment : Fragment() {
             prepareViewModel()
             if(password == confirmPassword && username.isNotBlank() && email.isNotBlank() && password.isNotBlank() && confirmPassword.isNotBlank())
             {
-                if(viewModel.verifyUsernameExists(username)) {
-                    val dao = RecipeDatabase.getInstance(requireContext()).userDao()
-                    runBlocking {
-                        dao.insertUser(User(username,email,password))
+                view.findViewById<TextInputLayout>(R.id.text_confirm_pass_layout).error = null
+                viewModel.verifyUsernameExists(username).observe(viewLifecycleOwner, Observer { result ->
+                    if (!result) {
+                        view.findViewById<TextInputLayout>(R.id.text_username_layout).error = null
+                        val dao = RecipeDatabase.getInstance(requireContext()).userDao()
+                        runBlocking {
+                            dao.insertUser(User(username,email,password))
+                        }
+                        Toast.makeText(context,"this user has been added successfully =]", Toast.LENGTH_LONG).show()
+                    } else {
+                        view.findViewById<TextInputLayout>(R.id.text_username_layout).error = "Username already exists!"
                     }
-                    Toast.makeText(context,"this user has been added successfully =]", Toast.LENGTH_LONG).show()
-                } else {
-                 view.findViewById<TextInputLayout>(R.id.text_username_layout).error = "Username already exists!"
-                }
+                })
             } else if(password != confirmPassword) {
                 view.findViewById<TextInputLayout>(R.id.text_confirm_pass_layout).error = "the two passwords don't match"
                 //Toast.makeText(context,"the two passwords doesn't match", Toast.LENGTH_LONG).show()
@@ -62,9 +64,6 @@ class RegisterFragment : Fragment() {
         return view
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-    }
     fun prepareViewModel() {
         val factory = RegisterViewModelFactory(UserRepositoryImpl(LocalSourceImpl(requireActivity())))
         viewModel = ViewModelProvider(requireActivity() as ViewModelStoreOwner, factory).get(

@@ -9,4 +9,8 @@ class RecipeActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_recipe)
     }
+
+    override fun onBackPressed() {
+        finish()
+    }
 }
