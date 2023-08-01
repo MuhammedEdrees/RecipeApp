@@ -21,7 +21,9 @@
 
         <com.google.android.material.textfield.TextInputEditText
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:textColorHint="#8D6E63"
+            tools:ignore="VisualLintTextFieldSize" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
@@ -40,7 +42,9 @@
 
         <com.google.android.material.textfield.TextInputEditText
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:textColorHint="#8D6E63"
+            tools:ignore="VisualLintTextFieldSize" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.button.MaterialButton
@@ -54,7 +58,8 @@
         android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/login_password_textfield" />
+        app:layout_constraintTop_toBottomOf="@id/login_password_textfield"
+        tools:ignore="VisualLintButtonSize" />
 
     <View
         android:id="@+id/login_line_seperator"
@@ -85,21 +90,12 @@
         android:layout_marginStart="40dp"
         android:layout_marginTop="10dp"
         android:layout_marginEnd="40dp"
-        android:text="Register"
+        android:text="@string/login_register_button"
         android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/dont_have_acconut_txt" />
+        app:layout_constraintTop_toBottomOf="@id/dont_have_acconut_txt"
+        tools:ignore="VisualLintButtonSize" />
 
-<!--    <com.google.android.material.button.MaterialButton-->
-<!--        android:id="@+id/login_register_button"-->
-<!--        android:layout_width="wrap_content"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:textColor="?attr/colorPrimary"-->
-<!--        android:background="?attr/colorPrimaryContainer"-->
-<!--        android:text="Register"-->
-<!--        app:layout_constraintStart_toEndOf="@+id/dont_have_acconut_txt"-->
-<!--        app:layout_constraintEnd_toEndOf="parent"-->
-<!--        app:layout_constraintTop_toBottomOf="@id/login_button" />-->
 
 </androidx.constraintlayout.widget.ConstraintLayout>
