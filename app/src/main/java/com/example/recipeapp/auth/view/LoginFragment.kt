@@ -1,5 +1,6 @@
 package com.example.recipeapp.auth.view
 
+import android.content.Context.MODE_PRIVATE
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -36,26 +37,30 @@ class LoginFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         prepareViewModel()
+        val prefs = activity?.getPreferences(MODE_PRIVATE)
+        val editor = prefs?.edit()
         usernameTextInputLayout = view.findViewById(R.id.login_username_textfield)
-        usernameEditText = TextInputEditText(usernameTextInputLayout.context)
+        usernameEditText = usernameTextInputLayout.editText as TextInputEditText
         passwordTextInputLayout = view.findViewById(R.id.login_password_textfield)
-        passwordEditText = TextInputEditText(passwordTextInputLayout.context)
+        passwordEditText = passwordTextInputLayout.editText as TextInputEditText
         loginButton = view.findViewById(R.id.login_button)
         loginButton.setOnClickListener {
             val username  = usernameEditText.text.toString()
             val password = passwordEditText.text.toString()
-            Log.d("edrees ->", "u: $username, p:$password")
-//            if(viewModel.verifyUsernameExists(username)) {
-//                val user = viewModel.getUserByUsername(username)
-//                if(password == user.password) {
-//                    TODO("Login")
-//                } else {
-//                    TODO("Show Invalid Password")
-//                }
-//            } else {
-//                TODO("Show Invalid Username")
-//            }
+            if(viewModel.verifyUsernameExists(username)) {
+                val user = viewModel.getUserByUsername(username)
+                if(password == user.password) {
+                    editor?.putInt("user_id", user.id)
+                    editor?.apply()
+                    TODO("NAVIGATE TO MAIN HOME FRAGMENT")
+                } else {
+                    passwordTextInputLayout.error = "Wrong Password!"
+                }
+            } else {
+                usernameTextInputLayout.error = "Username Doesn't Exist!"
+            }
         }
+        registerButton = view.findViewById(R.id.login_register_button)
         registerButton.setOnClickListener {
             TODO("Navigate to Register Fragment")
         }
