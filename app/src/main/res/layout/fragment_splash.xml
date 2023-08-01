@@ -37,7 +37,7 @@
         android:layout_marginStart="20dp"
         android:layout_marginTop="110dp"
         android:layout_marginEnd="20dp"
-        android:text="@string/welcome"
+        android:text="@string/welcome_splash"
         android:textAlignment="center"
         android:textAllCaps="false"
         android:textSize="24sp"
