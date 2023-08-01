@@ -1,6 +1,7 @@
 package com.example.recipeapp.auth.view
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -36,23 +37,24 @@ class LoginFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         prepareViewModel()
         usernameTextInputLayout = view.findViewById(R.id.login_username_textfield)
-
+        usernameEditText = TextInputEditText(usernameTextInputLayout.context)
         passwordTextInputLayout = view.findViewById(R.id.login_password_textfield)
-
+        passwordEditText = TextInputEditText(passwordTextInputLayout.context)
         loginButton = view.findViewById(R.id.login_button)
         loginButton.setOnClickListener {
-            val username  = ""
-            val password = ""
-            if(viewModel.verifyUsernameExists(username)) {
-                val user = viewModel.getUserByUsername(username)
-                if(password == user.password) {
-                    TODO("Login")
-                } else {
-                    TODO("Show Invalid Password")
-                }
-            } else {
-                TODO("Show Invalid Username")
-            }
+            val username  = usernameEditText.text.toString()
+            val password = passwordEditText.text.toString()
+            Log.d("edrees ->", "u: $username, p:$password")
+//            if(viewModel.verifyUsernameExists(username)) {
+//                val user = viewModel.getUserByUsername(username)
+//                if(password == user.password) {
+//                    TODO("Login")
+//                } else {
+//                    TODO("Show Invalid Password")
+//                }
+//            } else {
+//                TODO("Show Invalid Username")
+//            }
         }
         registerButton.setOnClickListener {
             TODO("Navigate to Register Fragment")
