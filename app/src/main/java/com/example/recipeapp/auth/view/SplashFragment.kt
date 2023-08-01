@@ -7,6 +7,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.navigation.findNavController
 import com.airbnb.lottie.LottieAnimationView
 import com.example.recipeapp.R
 
@@ -27,7 +28,7 @@ class SplashFragment : Fragment() {
             Handler(Looper.getMainLooper()).postDelayed({
                  lottie.playAnimation()
                 // Waiting for nav graph action
-                //view.findNavController().navigate(R.id.action_splashFragment_to_homeFragment)
+                view.findNavController().navigate(R.id.registerFragment)
             }, 3000)
 
             return view
