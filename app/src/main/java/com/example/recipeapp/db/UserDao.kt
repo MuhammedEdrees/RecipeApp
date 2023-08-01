@@ -11,9 +11,9 @@ interface UserDao {
     suspend fun insertUser(vararg users: User)
 
     @Query("SELECT EXISTS(SELECT * FROM users WHERE username = :username)")
-    suspend fun hasUsername(username: String)
+    suspend fun hasUsername(username: String): Int
 
-    @Query("SELECT EXISTS(SELECT * FROM users WHERE username = :username and password = :password)")
-    suspend fun verifyPassword(username: String, password: String)
+    @Query("SELECT * FROM users WHERE username = :username")
+    suspend fun getUserByUsername(username: String): User
 
 }

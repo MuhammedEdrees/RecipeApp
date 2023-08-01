@@ -7,4 +7,10 @@ class UserRepositoryImpl(val localSource: LocalSource): UserRepository {
     override suspend fun insertUser(user: User) {
         localSource.insertUser(user)
     }
+    override suspend fun hasUsername(username: String): Int {
+        return localSource.hasUsername(username)
+    }
+    override suspend fun getUserByUsername(username: String): User {
+        return localSource.getUserByUsername(username)
+    }
 }
