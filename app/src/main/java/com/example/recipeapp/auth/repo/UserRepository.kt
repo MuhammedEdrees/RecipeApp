@@ -1,7 +1,7 @@
-package com.example.recipeapp.auth.local
+package com.example.recipeapp.auth.repo
 
 import com.example.recipeapp.auth.model.User
 
-interface LocalSource {
+interface UserRepository {
     suspend fun insertUser(user: User)
 }
