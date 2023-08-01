@@ -9,6 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelStoreOwner
+import androidx.navigation.findNavController
 import com.example.recipeapp.R
 import com.example.recipeapp.auth.local.LocalSourceImpl
 import com.example.recipeapp.auth.repo.UserRepositoryImpl
@@ -52,7 +53,7 @@ class LoginFragment : Fragment() {
                 if(password == user.password) {
                     editor?.putInt("user_id", user.id)
                     editor?.apply()
-                    TODO("NAVIGATE TO MAIN HOME FRAGMENT")
+                    view.findNavController().navigate(R.id.recipeActivity)
                 } else {
                     passwordTextInputLayout.error = "Wrong Password!"
                 }
@@ -62,7 +63,7 @@ class LoginFragment : Fragment() {
         }
         registerButton = view.findViewById(R.id.login_register_button)
         registerButton.setOnClickListener {
-            TODO("Navigate to Register Fragment")
+            view.findNavController().navigate(R.id.registerFragment)
         }
     }
     fun prepareViewModel(){
