@@ -16,23 +16,28 @@
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             style="@style/Widget.MaterialComponents.Toolbar.Primary"
-            />
+            app:layout_scrollFlags="scroll|enterAlways|snap"/>
     </com.google.android.material.appbar.AppBarLayout>
 
 <!--    Navigation Host Layout-->
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-        <androidx.fragment.app.FragmentContainerView
-            android:id="@+id/activity_recipe_nav_host"
-            android:name="androidx.navigation.fragment.NavHostFragment"
+<!--        <androidx.fragment.app.FragmentContainerView-->
+<!--            android:id="@+id/activity_recipe_nav_host"-->
+<!--            android:name="androidx.navigation.fragment.NavHostFragment"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="0dp"-->
+<!--            app:defaultNavHost="true"-->
+<!--            app:layout_constraintLeft_toLeftOf="parent"-->
+<!--            app:layout_constraintRight_toRightOf="parent"-->
+<!--            app:layout_constraintTop_toTopOf="parent"-->
+<!--            app:navGraph="@navigation/recipe_nav_graph"/>-->
+        <TextView
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            app:defaultNavHost="true"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:navGraph="@navigation/recipe_nav_graph"/>
+            android:layout_height="match_parent"
+            android:text="Recipe"
+            android:gravity="center"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <!-- Bottom Navigation View -->

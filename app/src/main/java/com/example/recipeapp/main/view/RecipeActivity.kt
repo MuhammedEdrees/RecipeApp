@@ -13,6 +13,7 @@ class RecipeActivity : AppCompatActivity() {
         setContentView(R.layout.activity_recipe)
         val topBar = findViewById<MaterialToolbar>(R.id.top_app_bar)
         setSupportActionBar(topBar)
+        supportActionBar?.title = "Recipe App"
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
