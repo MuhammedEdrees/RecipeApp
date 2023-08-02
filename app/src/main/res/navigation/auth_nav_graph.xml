@@ -22,7 +22,7 @@
         tools:layout="@layout/fragment_splash" />
     <activity
         android:id="@+id/recipeActivity"
-        android:name="com.example.recipeapp.main.RecipeActivity"
+        android:name="com.example.recipeapp.main.view.RecipeActivity"
         android:label="activity_recipe"
         tools:layout="@layout/activity_recipe" />
 </navigation>

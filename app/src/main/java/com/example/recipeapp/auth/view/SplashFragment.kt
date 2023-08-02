@@ -20,14 +20,14 @@ class SplashFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
             val view = inflater.inflate(R.layout.fragment_splash, container, false)
-            lottie = view.findViewById(R.id.lottie)
-           // lottie.animate().translationZ(2000f).setDuration(2000).setStartDelay(3000)
-
-            Handler(Looper.getMainLooper()).postDelayed({
-                 lottie.playAnimation()
-                // Waiting for nav graph action
-                view.findNavController().navigate(R.id.registerFragment)
-            }, 3000)
+//            lottie = view.findViewById(R.id.lottie)
+//           // lottie.animate().translationZ(2000f).setDuration(2000).setStartDelay(3000)
+//
+//            Handler(Looper.getMainLooper()).postDelayed({
+//                 lottie.playAnimation()
+//                // Waiting for nav graph action
+//                view.findNavController().navigate(R.id.registerFragment)
+//            }, 3000)
 
             return view
         }
