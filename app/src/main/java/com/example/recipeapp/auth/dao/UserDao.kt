@@ -1,4 +1,4 @@
-package com.example.recipeapp.db
+package com.example.recipeapp.auth.dao
 
 import androidx.room.Dao
 import androidx.room.Insert

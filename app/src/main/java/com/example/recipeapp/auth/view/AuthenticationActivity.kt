@@ -14,7 +14,7 @@ class AuthenticationActivity : AppCompatActivity() {
         val navController = navHostFragment.navController
 
 
-        val navGraph = navController.navInflater.inflate(R.navigation.auth_graph)
+        val navGraph = navController.navInflater.inflate(R.navigation.auth_nav_graph)
         navController.graph = navGraph
     }
 }

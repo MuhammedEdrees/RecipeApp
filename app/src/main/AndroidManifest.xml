@@ -16,18 +16,20 @@
         android:theme="@style/Theme.RecipeApp"
         tools:targetApi="31">
         <activity
-            android:name=".main.RecipeActivity"
-            android:exported="false"
+            android:name=".main.view.RecipeActivity"
+            android:exported="true"
             android:label="@string/title_activity_recipe"
-            android:theme="@style/Theme.RecipeApp" />
+            android:theme="@style/Theme.RecipeApp">
+        <intent-filter>
+            <action android:name="android.intent.action.MAIN" />
+
+            <category android:name="android.intent.category.LAUNCHER" />
+        </intent-filter>
+        </activity>
         <activity
             android:name=".auth.view.AuthenticationActivity"
-            android:exported="true">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+            android:exported="false">
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
     </application>
 
