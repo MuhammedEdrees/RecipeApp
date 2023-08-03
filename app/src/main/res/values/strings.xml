@@ -65,4 +65,6 @@
     <string name="bottom_nav_favorites">Favorites</string>
     <string name="options_menu_sign_out">Sign Out</string>
     <string name="options_menu_about_us">About Us</string>
+    <string name="item_category_label">Category :</string>
+    <string name="search_item_area_label">Area         :</string>
 </resources>
