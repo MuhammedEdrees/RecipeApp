@@ -5,7 +5,7 @@ import com.example.recipeapp.auth.model.User
 import com.example.recipeapp.db.RecipeDatabase
 import com.example.recipeapp.auth.dao.UserDao
 
-class LocalSourceImpl(val context: Context): LocalSource {
+class UserLocalSourceImpl(val context: Context): UserLocalSource {
     lateinit private var dao: UserDao
     init {
         dao = RecipeDatabase.getInstance(context).userDao()

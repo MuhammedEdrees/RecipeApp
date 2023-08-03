@@ -11,12 +11,9 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelStoreOwner
 import com.example.recipeapp.R
-import com.example.recipeapp.auth.local.LocalSourceImpl
+import com.example.recipeapp.auth.local.UserLocalSourceImpl
 import com.example.recipeapp.auth.model.User
-import com.example.recipeapp.auth.repo.UserRepository
 import com.example.recipeapp.auth.repo.UserRepositoryImpl
-import com.example.recipeapp.auth.viewmodel.LoginViewModelFactory
-import com.example.recipeapp.auth.viewmodel.LoginViewmodel
 import com.example.recipeapp.auth.viewmodel.RegisterViewModelFactory
 import com.example.recipeapp.auth.viewmodel.RegisterViewmodel
 import com.example.recipeapp.db.RecipeDatabase
@@ -37,7 +34,7 @@ class RegisterFragment : Fragment() {
             val email: String = view.findViewById<TextInputEditText?>(R.id.email).text.toString()
             val password: String = view.findViewById<TextInputEditText?>(R.id.password).text.toString()
             val confirmPassword: String = view.findViewById<TextInputEditText?>(R.id.confirm_password).text.toString()
-            val repo = UserRepositoryImpl(LocalSourceImpl(requireActivity()))
+            val repo = UserRepositoryImpl(UserLocalSourceImpl(requireActivity()))
 
             prepareViewModel()
 
@@ -66,7 +63,7 @@ class RegisterFragment : Fragment() {
     }
 
     fun prepareViewModel() {
-        val factory = RegisterViewModelFactory(UserRepositoryImpl(LocalSourceImpl(requireActivity())))
+        val factory = RegisterViewModelFactory(UserRepositoryImpl(UserLocalSourceImpl(requireActivity())))
         viewModel = ViewModelProvider(requireActivity() as ViewModelStoreOwner, factory).get(
             RegisterViewmodel::class.java)
     }
