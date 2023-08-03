@@ -3,26 +3,21 @@ package com.example.recipeapp.auth.view
 import android.content.Context.MODE_PRIVATE
 import android.os.Bundle
 import androidx.lifecycle.Observer
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelStoreOwner
 import androidx.navigation.findNavController
 import com.example.recipeapp.R
-import com.example.recipeapp.auth.local.LocalSourceImpl
-import com.example.recipeapp.auth.model.User
+import com.example.recipeapp.auth.local.UserLocalSourceImpl
 import com.example.recipeapp.auth.repo.UserRepositoryImpl
 import com.example.recipeapp.auth.viewmodel.LoginViewModelFactory
 import com.example.recipeapp.auth.viewmodel.LoginViewmodel
-import com.example.recipeapp.db.RecipeDatabase
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
-import kotlinx.coroutines.runBlocking
 
 class LoginFragment : Fragment() {
     lateinit var usernameTextInputLayout: TextInputLayout
@@ -77,7 +72,7 @@ class LoginFragment : Fragment() {
         }
     }
     fun prepareViewModel(){
-        val factory = LoginViewModelFactory(UserRepositoryImpl(LocalSourceImpl(requireActivity())))
+        val factory = LoginViewModelFactory(UserRepositoryImpl(UserLocalSourceImpl(requireActivity())))
         viewModel = ViewModelProvider(requireActivity() as ViewModelStoreOwner, factory).get(LoginViewmodel::class.java)
     }
 }

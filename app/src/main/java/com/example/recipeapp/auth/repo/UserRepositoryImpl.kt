@@ -1,16 +1,16 @@
 package com.example.recipeapp.auth.repo
 
-import com.example.recipeapp.auth.local.LocalSource
+import com.example.recipeapp.auth.local.UserLocalSource
 import com.example.recipeapp.auth.model.User
 
-class UserRepositoryImpl(val localSource: LocalSource): UserRepository {
+class UserRepositoryImpl(val userLocalSource: UserLocalSource): UserRepository {
     override suspend fun insertUser(user: User) {
-        localSource.insertUser(user)
+        userLocalSource.insertUser(user)
     }
     override suspend fun hasUsername(username: String): Int {
-        return localSource.hasUsername(username)
+        return userLocalSource.hasUsername(username)
     }
     override suspend fun getUserByUsername(username: String): User {
-        return localSource.getUserByUsername(username)
+        return userLocalSource.getUserByUsername(username)
     }
 }
