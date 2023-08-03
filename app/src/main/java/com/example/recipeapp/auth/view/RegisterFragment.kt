@@ -38,7 +38,9 @@ class RegisterFragment : Fragment() {
             val password: String = view.findViewById<TextInputEditText?>(R.id.password).text.toString()
             val confirmPassword: String = view.findViewById<TextInputEditText?>(R.id.confirm_password).text.toString()
             val repo = UserRepositoryImpl(LocalSourceImpl(requireActivity()))
+
             prepareViewModel()
+
             if(password == confirmPassword && username.isNotBlank() && email.isNotBlank() && password.isNotBlank() && confirmPassword.isNotBlank())
             {
                 view.findViewById<TextInputLayout>(R.id.text_confirm_pass_layout).error = null
@@ -56,7 +58,6 @@ class RegisterFragment : Fragment() {
                 })
             } else if(password != confirmPassword) {
                 view.findViewById<TextInputLayout>(R.id.text_confirm_pass_layout).error = "the two passwords don't match"
-                //Toast.makeText(context,"the two passwords doesn't match", Toast.LENGTH_LONG).show()
             } else {
                 Toast.makeText(context,"please fill all the fields", Toast.LENGTH_LONG).show()
             }
