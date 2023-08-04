@@ -17,11 +17,6 @@ open class RecipeViewModel(private val mealRepo: MealsRepository,
 ) : ViewModel() {
     protected val _listOfMeals = MutableLiveData<List<Meal>>()
     val listOfMeals: LiveData<List<Meal>> = _listOfMeals
-    open fun getListOfMeals() {
-        viewModelScope.launch {
-            TODO("implement get meals from the api")
-        }
-    }
 
     fun addFavorite(item: Favorite) {
         viewModelScope.launch {
