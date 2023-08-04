@@ -10,6 +10,7 @@ import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelStoreOwner
 import androidx.navigation.findNavController
+import androidx.navigation.fragment.findNavController
 import com.example.recipeapp.R
 import com.example.recipeapp.auth.local.UserLocalSourceImpl
 import com.example.recipeapp.auth.repo.UserRepositoryImpl
@@ -37,6 +38,7 @@ class LoginFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        findNavController().popBackStack(R.id.splashFragment, false)
         prepareViewModel()
         val prefs = activity?.getPreferences(MODE_PRIVATE)
         val editor = prefs?.edit()

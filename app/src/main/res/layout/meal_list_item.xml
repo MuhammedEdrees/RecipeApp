@@ -9,16 +9,21 @@
     android:elevation="24dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:padding="16dp">
 
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.84"/>
+
         <ImageView
-            android:id="@+id/search_image_thumbnail"
-            android:layout_width="120dp"
-            android:layout_height="150dp"
-            android:layout_marginTop="4dp"
-            android:layout_marginEnd="16dp"
+            android:id="@+id/meal_thumbnail"
+            android:layout_width="300dp"
+            android:layout_height="140dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
@@ -31,10 +36,9 @@
             android:layout_height="wrap_content"
             android:textSize="24sp"
             android:gravity="center_horizontal"
-            android:layout_marginStart="8dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@id/search_image_thumbnail"
-            app:layout_constraintStart_toEndOf="@id/search_image_thumbnail"
+            app:layout_constraintEnd_toEndOf="@id/guideline1"
+            app:layout_constraintTop_toBottomOf="@id/meal_thumbnail"
+            app:layout_constraintStart_toStartOf="@id/meal_thumbnail"
             tools:text="Meal Title" />
 
         <com.google.android.material.textview.MaterialTextView
@@ -55,7 +59,7 @@
             android:layout_height="wrap_content"
             android:textSize="18sp"
             android:gravity="center_horizontal"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintEnd_toEndOf="@id/meal_title"
             app:layout_constraintTop_toTopOf="@id/meal_category_label"
             app:layout_constraintBottom_toBottomOf="@id/meal_category_label"
             app:layout_constraintStart_toEndOf="@id/meal_category_label"
@@ -79,7 +83,7 @@
             android:layout_height="wrap_content"
             android:textSize="18sp"
             android:gravity="center_horizontal"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintEnd_toEndOf="@id/meal_title"
             app:layout_constraintTop_toTopOf="@id/meal_area_label"
             app:layout_constraintBottom_toBottomOf="@id/meal_area_label"
             app:layout_constraintStart_toEndOf="@id/meal_area_label"
@@ -90,8 +94,8 @@
             style="?android:attr/starStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@id/meal_area_text"
-            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintBottom_toBottomOf="@id/meal_area_text"
+            app:layout_constraintStart_toEndOf="@id/guideline1"
             app:layout_constraintEnd_toEndOf="parent"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
