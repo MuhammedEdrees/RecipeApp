@@ -38,9 +38,8 @@ class LoginFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        //findNavController().popBackStack(R.id.splashFragment, false)
         prepareViewModel()
-        val prefs = activity?.getPreferences(MODE_PRIVATE)
+        val prefs = activity?.getSharedPreferences("user_prefs", MODE_PRIVATE)
         val editor = prefs?.edit()
         usernameTextInputLayout = view.findViewById(R.id.login_username_textfield)
         usernameEditText = usernameTextInputLayout.editText as TextInputEditText
