@@ -11,7 +11,7 @@ interface FavoriteDao {
     @Insert
     suspend fun insertFavorite(vararg favorite: Favorite)
 
-    @Query("select mealID from favorites where userID = :userID")
+    @Query("select * from favorites where userID = :userID")
     suspend fun getUserFavorites(userID: Int): List<Favorite>
 
     @Query("select exists(select * from favorites where userID = :userID and mealID = :mealID)")
