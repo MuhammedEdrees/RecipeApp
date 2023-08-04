@@ -1,22 +1,17 @@
 package com.example.recipeapp.main.viewmodel
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
+import android.util.Log
 import androidx.lifecycle.viewModelScope
-import com.example.recipeapp.main.model.Favorite
-import com.example.recipeapp.main.model.Meal
-import com.example.recipeapp.main.network.APIClient
 import com.example.recipeapp.main.repo.FavoriteRepository
 import com.example.recipeapp.main.repo.MealsRepository
 import kotlinx.coroutines.launch
 
-class SearchViewModel(private val mealRepo: MealsRepository,
-                      private val mealClient: APIClient,
-                      private val favoriteRepo: FavoriteRepository) : ViewModel(), RecipeViewModel {
-    fun getListOfMeals() {
+class SearchViewModel(mealRepo: MealsRepository,
+                      favoriteRepo: FavoriteRepository) : RecipeViewModel(mealRepo, favoriteRepo) {
+    fun searchMeals(query: String) {
         viewModelScope.launch {
-            TODO("implement search")
+            val response = mealRepo.search(query)
+            _listOfMeals.value = mealRepo.search(query).meals
         }
     }
 }

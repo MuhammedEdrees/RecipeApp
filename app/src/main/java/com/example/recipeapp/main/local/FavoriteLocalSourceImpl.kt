@@ -1,6 +1,7 @@
 package com.example.recipeapp.main.local
 
 import android.content.Context
+import android.util.Log
 import com.example.recipeapp.db.RecipeDatabase
 import com.example.recipeapp.main.model.Favorite
 
@@ -11,7 +12,9 @@ class FavoriteLocalSourceImpl(private val context: Context): FavoriteLocalSource
     }
 
     override suspend fun checkIfFavorite(userID: Int, mealID: String): Int {
-        return dao.checkIfFavorite(userID, mealID)
+        val res = dao.checkIfFavorite(userID, mealID)
+        Log.d("edrees -->", "$res")
+        return res
     }
 
     override suspend fun getUserFavorites(userID: Int): List<Favorite> {

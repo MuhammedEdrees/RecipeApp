@@ -1,12 +1,14 @@
 package com.example.recipeapp.main.view
 
 import android.content.Context
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.CheckBox
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.RecyclerView
@@ -18,7 +20,7 @@ import com.example.recipeapp.main.viewmodel.RecipeViewModel
 import com.example.recipeapp.main.viewmodel.SearchViewModel
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 
-class MealAdapter(private val viewModel: RecipeViewModel): RecyclerView.Adapter<MealAdapter.MealViewHolder>() {
+class MealAdapter(private val viewModel: RecipeViewModel, private val owner: LifecycleOwner): RecyclerView.Adapter<MealAdapter.MealViewHolder>() {
     private val data = mutableListOf<Meal>()
     class MealViewHolder(row: View): RecyclerView.ViewHolder(row) {
         val thumbnailHolder = row.findViewById<ImageView>(R.id.meal_thumbnail)
@@ -37,16 +39,19 @@ class MealAdapter(private val viewModel: RecipeViewModel): RecyclerView.Adapter<
 
     override fun onBindViewHolder(holder: MealViewHolder, position: Int) {
         Glide.with(holder.itemView.context)
-            .load(data[position])
+            .load(data[position].strMealThumb)
             .into(holder.thumbnailHolder)
+        Log.d("edrees -->", "Thumbnail Loaded")
         holder.titleHolder.text = data[position].strMeal
         holder.categoryHolder.text = String.format(holder.itemView.resources.getString(R.string.category_str), data[position].strCategory)
         holder.areaHolder.text = String.format(holder.itemView.resources.getString(R.string.area_str), data[position].strArea)
         val prefs = holder.itemView.context.getSharedPreferences("user_prefs", Context.MODE_PRIVATE)
         val userId = prefs.getInt("user_id", -1)
-        viewModel.checkIfFavoite(userId, data[position].idMeal).observe(holder.itemView.context as LifecycleOwner, Observer {isFavorite ->
-            holder.favoriteButton.isChecked = isFavorite
-        })
+        viewModel.listOfFavorites.value?.forEach {
+            if(data[position].idMeal == it.mealID) {
+                holder.favoriteButton.isChecked = true
+            }
+        }
         holder.favoriteButton.setOnCheckedChangeListener{buttonView, isChecked ->
             if (isChecked) {
                 viewModel.addFavorite(Favorite(userId, data[position].idMeal))
@@ -57,15 +62,16 @@ class MealAdapter(private val viewModel: RecipeViewModel): RecyclerView.Adapter<
                         viewModel.deleteFavorite(Favorite(userId, data[position].idMeal))
                     }
                     .setNegativeButton("No") { dialog, which ->
-                        holder.favoriteButton.isChecked = true
+                        dialog.cancel()
+                        buttonView.isChecked = true
                     }.show()
             }
         }
-
     }
 
     fun setData(newData: List<Meal>) {
         data.clear()
         data.addAll(newData)
+        notifyDataSetChanged()
     }
 }

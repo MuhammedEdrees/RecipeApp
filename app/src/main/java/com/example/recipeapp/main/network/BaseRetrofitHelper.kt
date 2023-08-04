@@ -9,15 +9,14 @@ import retrofit2.converter.gson.GsonConverterFactory
 object BaseRetrofitHelper {
 
     val gson = GsonBuilder().serializeNulls().create()
-    val loggingInterceptor = HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY)
-
-    val okHttpClient: OkHttpClient = OkHttpClient.Builder()
-        .addInterceptor(loggingInterceptor)
-        .build()
+//    val loggingInterceptor = HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY)
+//
+//    val okHttpClient: OkHttpClient = OkHttpClient.Builder()
+//        .addInterceptor(loggingInterceptor)
+//        .build()
 
     val retrofit = Retrofit.Builder()
-        .baseUrl("www.themealdb.com/api/json/v1/1/")
+        .baseUrl("https://www.themealdb.com/api/json/v1/1/")
         .addConverterFactory(GsonConverterFactory.create(gson))
-        .client(okHttpClient)
         .build()
 }
