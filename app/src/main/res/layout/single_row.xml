@@ -23,47 +23,41 @@
 
 
             <ImageView
-                android:id="@+id/imageView2"
+                android:id="@+id/meal_thumbnail"
                 android:layout_width="wrap_content"
                 android:layout_height="150dp"
                 android:layout_gravity="center"
                 android:layout_marginBottom="10dp"
                 tools:srcCompat="@tools:sample/avatars" />
             <TextView
-                android:id="@+id/txt_meal"
+                android:id="@+id/meal_title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="10dp"
                 android:text="TextView"
-                android:textSize="20sp"
+                android:gravity="center_horizontal"
+                android:textSize="24sp"
                 android:textStyle="bold" />
 
             <TextView
-                android:id="@+id/txt_catg"
+                android:id="@+id/meal_category"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="5dp"
-                android:text="TextView"
+                android:text="@string/category_str"
                 android:textSize="18sp" />
 
             <TextView
-                android:id="@+id/txt_area"
+                android:id="@+id/meal_area"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="5dp"
-                android:text="TextView"
-                android:textSize="18sp" />
-
-            <TextView
-                android:id="@+id/txt_tag"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="5dp"
-                android:text="TextView"
+                android:text="@string/area_str"
                 android:textSize="18sp" />
 
             <CheckBox
                 android:layout_width="wrap_content"
+                android:id="@+id/favorite_check_box"
                 android:layout_height="wrap_content"
                 app:useMaterialThemeColors="false"
                 style="?android:attr/starStyle"
