@@ -2,7 +2,7 @@ package com.example.recipeapp.main.network
 
 import com.example.recipeapp.main.model.MealResponse
 
-interface RemoteDataSource {
+interface MealRemoteDataSource {
 
     suspend fun getMealsResponseByFirstLetter(char: Char): MealResponse
     suspend fun getRandomMeal(): MealResponse
