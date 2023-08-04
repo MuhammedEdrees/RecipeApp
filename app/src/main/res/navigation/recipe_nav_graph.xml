@@ -3,20 +3,10 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/recipe_nav_graph.xml"
-    app:startDestination="@id/loginFragment2">
-
+    app:startDestination="@id/searchFragment">
     <fragment
-        android:id="@+id/loginFragment2"
-        android:name="com.example.recipeapp.auth.view.LoginFragment"
-        android:label="fragment_login"
-        tools:layout="@layout/fragment_login" >
-        <action
-            android:id="@+id/action_loginFragment2_to_registerFragment2"
-            app:destination="@id/registerFragment2" />
-    </fragment>
-    <fragment
-        android:id="@+id/registerFragment2"
-        android:name="com.example.recipeapp.auth.view.RegisterFragment"
-        android:label="fragment_register"
-        tools:layout="@layout/fragment_register" />
+        android:id="@+id/searchFragment"
+        android:name="com.example.recipeapp.main.view.SearchFragment"
+        android:label="fragment_search"
+        tools:layout="@layout/fragment_search" />
 </navigation>
