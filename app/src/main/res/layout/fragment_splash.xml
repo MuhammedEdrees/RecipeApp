@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/download2"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".auth.view.SplashFragment">
 
@@ -35,7 +36,7 @@
         android:layout_above="@+id/lottie"
         android:layout_alignParentTop="true"
         android:layout_marginStart="20dp"
-        android:layout_marginTop="110dp"
+        android:layout_marginTop="160dp"
         android:layout_marginEnd="20dp"
         android:text="@string/welcome_splash"
         android:textAlignment="center"
@@ -50,7 +51,7 @@
     <com.airbnb.lottie.LottieAnimationView
         android:id="@+id/lottie"
         android:layout_width="350dp"
-        android:layout_height="wrap_content"
+        android:layout_height="300dp"
         android:layout_centerInParent="true"
         android:layout_marginTop="84dp"
         app:layout_constraintEnd_toStartOf="@+id/guideline3"

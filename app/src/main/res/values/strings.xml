@@ -67,4 +67,6 @@
     <string name="options_menu_about_us">About Us</string>
     <string name="item_category_label">Category :</string>
     <string name="search_item_area_label">Area         :</string>
+    <string name="login">LOGIN</string>
+
 </resources>
