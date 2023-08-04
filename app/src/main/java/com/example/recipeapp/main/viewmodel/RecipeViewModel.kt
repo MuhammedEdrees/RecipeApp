@@ -12,7 +12,6 @@ import com.example.recipeapp.main.repo.MealsRepository
 import kotlinx.coroutines.launch
 
 open class RecipeViewModel(protected val mealRepo: MealsRepository,
-                           protected val mealClient: APIClient,
                            protected val favoriteRepo: FavoriteRepository
 ) : ViewModel() {
     protected val _listOfMeals = MutableLiveData<List<Meal>>()
