@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.recipeapp.R
 import com.example.recipeapp.main.local.FavoriteLocalSourceImpl
 import com.example.recipeapp.main.local.MealLocalSourceImpl
+import com.example.recipeapp.main.model.Meal
 import com.example.recipeapp.main.network.APIClient
 import com.example.recipeapp.main.repo.FavoriteRepositoryImpl
 import com.example.recipeapp.main.repo.MealsRepositoryImpl
@@ -39,8 +40,8 @@ class FavoriteFragment : Fragment() {
         val prefs = requireContext().getSharedPreferences("user_refs", Context.MODE_PRIVATE)
         val userID = prefs.getInt("user_id", -1)
         viewModel.getLocalFavoriteMeals(userID)
-        viewModel.listOfMeals.observe(viewLifecycleOwner, Observer{meals ->
-            adapter.setData(meals)
+        viewModel.listOfMeals.observe(viewLifecycleOwner, Observer{favorites ->
+            adapter.setData(favorites)
         })
     }
     fun prepareViewModel() {

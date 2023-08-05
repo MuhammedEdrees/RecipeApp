@@ -44,7 +44,7 @@ class FavoriteMealAdapter(val viewModel: FavoriteViewModel) : RecyclerView.Adapt
         val userId = prefs.getInt("user_id", -1)
         holder.favButton.setOnCheckedChangeListener{buttonView, isChecked ->
             if (isChecked) {
-                viewModel.addFavorite(Favorite(userId, data[position].idMeal))
+                viewModel.addFavorite(Favorite(userId, data[position].idMeal), data[position])
             } else {
                 MaterialAlertDialogBuilder(holder.itemView.context).setTitle("Confirm")
                     .setMessage("Are you sure you want to remove this item from your favorites?")
