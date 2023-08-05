@@ -6,7 +6,7 @@
     android:icon="@drawable/ic_bottom_nav_home"
     android:title="@string/bottom_nav_home"/>
 <item
-    android:id="@+id/bottom_nav_search"
+    android:id="@+id/searchFragment"
     android:enabled="true"
     android:icon="@drawable/ic_bottom_nav_search"
     android:title="@string/bottom_nav_search"/>

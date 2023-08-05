@@ -7,6 +7,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.OnBackPressedCallback
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelStoreOwner
 import androidx.navigation.findNavController
@@ -19,6 +20,8 @@ import com.example.recipeapp.auth.viewmodel.LoginViewmodel
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
+import java.util.regex.Pattern
+import java.util.regex.Matcher
 
 class LoginFragment : Fragment() {
     lateinit var usernameTextInputLayout: TextInputLayout
@@ -38,9 +41,8 @@ class LoginFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        //findNavController().popBackStack(R.id.splashFragment, false)
         prepareViewModel()
-        val prefs = activity?.getPreferences(MODE_PRIVATE)
+        val prefs = activity?.getSharedPreferences("user_prefs", MODE_PRIVATE)
         val editor = prefs?.edit()
         usernameTextInputLayout = view.findViewById(R.id.login_username_textfield)
         usernameEditText = usernameTextInputLayout.editText as TextInputEditText
@@ -59,6 +61,7 @@ class LoginFragment : Fragment() {
                             editor?.putInt("user_id", user.id)
                             editor?.apply()
                             view.findNavController().navigate(R.id.recipeActivity)
+                            requireActivity().finish()
                         } else {
                             passwordTextInputLayout.error = "Wrong Password!"
                         }
@@ -72,6 +75,11 @@ class LoginFragment : Fragment() {
         registerButton.setOnClickListener {
             view.findNavController().navigate(R.id.registerFragment)
         }
+        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, object: OnBackPressedCallback(true){
+            override fun handleOnBackPressed() {
+                requireActivity().finish()
+            }
+        })
     }
     fun prepareViewModel(){
         val factory = LoginViewModelFactory(UserRepositoryImpl(UserLocalSourceImpl(requireActivity())))

@@ -5,7 +5,14 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".main.view.SearchFragment">
-
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="invisible"
+        android:id="@+id/no_matches_found_txt"
+        android:text="@string/no_matches_found"
+        android:textSize="24sp"
+        android:gravity="center"/>
     <com.google.android.material.textfield.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -24,6 +31,7 @@
         android:layout_height="wrap_content"
         android:id="@+id/search_recycler_view"
         app:layout_constraintTop_toBottomOf="@id/search_text_input_layout"
-        android:scrollbars="vertical"/>
+        android:scrollbars="vertical"
+        android:layout_margin="8dp"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
