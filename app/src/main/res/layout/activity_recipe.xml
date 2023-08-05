@@ -23,6 +23,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+
 <!--        <androidx.fragment.app.FragmentContainerView-->
 <!--            android:id="@+id/activity_recipe_nav_host"-->
 <!--            android:name="androidx.navigation.fragment.NavHostFragment"-->

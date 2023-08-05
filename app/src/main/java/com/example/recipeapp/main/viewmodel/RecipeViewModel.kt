@@ -6,9 +6,11 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.recipeapp.main.model.Favorite
 import com.example.recipeapp.main.model.Meal
+import com.example.recipeapp.main.model.MealResponse
 import com.example.recipeapp.main.network.APIClient
 import com.example.recipeapp.main.repo.FavoriteRepository
 import com.example.recipeapp.main.repo.MealsRepository
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 open class RecipeViewModel(protected val mealRepo: MealsRepository,
@@ -35,5 +37,28 @@ open class RecipeViewModel(protected val mealRepo: MealsRepository,
             res.value = favoriteRepo.checkIfFavorite(userId, mealId) == 1
         }
         return res
+    }
+
+
+    fun getListOfMeals() {
+        viewModelScope.launch(Dispatchers.IO) {
+            try {
+                val response: MealResponse = APIClient.getMealsResponseByFirstLetter('s')
+                _listOfMeals.value = response.meals
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+        }
+    }
+
+    fun getRandomMeal(){
+        viewModelScope.launch(Dispatchers.IO) {
+            try {
+                val response: MealResponse = APIClient.getRandomMeal()
+                _listOfMeals.value = response.meals
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+        }
     }
 }
