@@ -11,7 +11,7 @@ import com.example.recipeapp.main.dao.MealDao
 import com.example.recipeapp.main.model.Favorite
 import com.example.recipeapp.main.model.Meal
 
-@Database(entities = [User::class, Meal::class, Favorite::class], version = 2)
+@Database(entities = [User::class, Meal::class, Favorite::class], version = 3)
 abstract class RecipeDatabase : RoomDatabase() {
     abstract fun userDao(): UserDao
 

@@ -11,7 +11,7 @@ class SearchViewModel(mealRepo: MealsRepository,
     fun searchMeals(query: String) {
         viewModelScope.launch {
             val response = mealRepo.search(query)
-            _listOfMeals.value = mealRepo.search(query).meals
+            _listOfMeals.value = mealRepo.search(query).meals ?: emptyList()
         }
     }
 }
