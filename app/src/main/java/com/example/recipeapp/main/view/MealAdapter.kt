@@ -46,6 +46,10 @@ class MealAdapter(private val viewModel: RecipeViewModel, private val owner: Lif
         holder.areaHolder.text = String.format(holder.itemView.resources.getString(R.string.area_str), data[position].strArea)
         val prefs = holder.itemView.context.getSharedPreferences("user_prefs", Context.MODE_PRIVATE)
         val userId = prefs.getInt("user_id", -1)
+//        viewModel.checkIfFavorite(userId, data[position].idMeal)
+//        viewModel.isFavorite.observe(holder.itemView.context as LifecycleOwner, Observer {
+//            holder.favoriteButton.isChecked = it
+//        })
         viewModel.listOfFavorites.value?.forEach {
             if(data[position].idMeal == it.mealID) {
                 holder.favoriteButton.isChecked = true
@@ -54,11 +58,13 @@ class MealAdapter(private val viewModel: RecipeViewModel, private val owner: Lif
         holder.favoriteButton.setOnCheckedChangeListener{buttonView, isChecked ->
             if (isChecked) {
                 viewModel.addFavorite(Favorite(userId, data[position].idMeal))
+                viewModel.getUserFavorites(userId)
             } else {
                 MaterialAlertDialogBuilder(holder.itemView.context).setTitle("Confirm")
                     .setMessage("Are you sure you want to remove this item from your favorites?")
                     .setPositiveButton("Yes") { dialog, which ->
                         viewModel.deleteFavorite(Favorite(userId, data[position].idMeal))
+                        viewModel.getUserFavorites(userId)
                     }
                     .setNegativeButton("No") { dialog, which ->
                         dialog.cancel()
