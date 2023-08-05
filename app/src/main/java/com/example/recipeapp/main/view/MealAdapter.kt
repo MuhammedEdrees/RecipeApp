@@ -17,7 +17,6 @@ import com.example.recipeapp.R
 import com.example.recipeapp.main.model.Favorite
 import com.example.recipeapp.main.model.Meal
 import com.example.recipeapp.main.viewmodel.RecipeViewModel
-import com.example.recipeapp.main.viewmodel.SearchViewModel
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 
 class MealAdapter(private val viewModel: RecipeViewModel, private val owner: LifecycleOwner): RecyclerView.Adapter<MealAdapter.MealViewHolder>() {

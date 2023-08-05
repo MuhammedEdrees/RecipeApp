@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.navigation.NavOptions
 import androidx.fragment.app.FragmentManager
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
@@ -32,6 +33,7 @@ class SplashFragment : Fragment() {
                 view.findNavController().navigate(R.id.loginFragment)
             } else {
                 view.findNavController().navigate(R.id.recipeActivity)
+                requireActivity().finish()
             }
         }, 3000)
 
