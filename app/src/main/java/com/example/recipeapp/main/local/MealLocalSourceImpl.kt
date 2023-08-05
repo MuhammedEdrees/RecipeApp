@@ -17,4 +17,8 @@ class MealLocalSourceImpl(private val context: Context): MealLocalSource {
     override suspend fun deleteMeal(meal: Meal) {
         dao.deleteMeal(meal)
     }
+
+    override suspend fun getFavoriteMeals(userId: Int): List<Meal> {
+        return dao.getFavoriteMeals(userId)
+    }
 }

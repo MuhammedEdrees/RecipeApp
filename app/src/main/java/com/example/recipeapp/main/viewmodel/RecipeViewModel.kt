@@ -9,7 +9,6 @@ import com.example.recipeapp.main.model.Favorite
 import com.example.recipeapp.main.model.Meal
 import com.example.recipeapp.main.repo.FavoriteRepository
 import com.example.recipeapp.main.repo.MealsRepository
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 open class RecipeViewModel(protected val mealRepo: MealsRepository,
@@ -19,8 +18,8 @@ open class RecipeViewModel(protected val mealRepo: MealsRepository,
     protected val _isFavorite = MutableLiveData<Boolean>()
     val isFavorite : LiveData<Boolean> = _isFavorite
     val listOfMeals: LiveData<List<Meal>> = _listOfMeals
-    protected val _listOfVaorites = MutableLiveData<List<Favorite>>()
-    val listOfFavorites: LiveData<List<Favorite>> = _listOfVaorites
+    protected val _listOfFavorites = MutableLiveData<List<Favorite>>()
+    val listOfFavorites: LiveData<List<Favorite>> = _listOfFavorites
 
     fun addFavorite(item: Favorite) {
         viewModelScope.launch {
@@ -35,8 +34,8 @@ open class RecipeViewModel(protected val mealRepo: MealsRepository,
     }
     fun getUserFavorites(userId: Int){
         viewModelScope.launch {
-            _listOfVaorites.value = favoriteRepo.getLocalUserFavorites(userId)
-            Log.d("edrees -->", "Favorites: ${_listOfVaorites.value}")
+            _listOfFavorites.value = favoriteRepo.getLocalUserFavorites(userId)
+            Log.d("edrees -->", "Favorites: ${_listOfFavorites.value}")
         }
     }
     fun checkIfFavorite(userId: Int, mealId: String) {

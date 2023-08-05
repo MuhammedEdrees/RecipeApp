@@ -71,7 +71,6 @@ class SearchFragment : Fragment() {
                 Log.d("edrees -->", "Search Completed")
             }
         })
-
     }
     private fun prepareViewModel() {
         val factory = RecipeViewModelFactory(FavoriteRepositoryImpl(FavoriteLocalSourceImpl(requireContext())),
