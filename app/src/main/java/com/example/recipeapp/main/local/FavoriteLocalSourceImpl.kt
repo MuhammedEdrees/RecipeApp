@@ -18,7 +18,9 @@ class FavoriteLocalSourceImpl(private val context: Context): FavoriteLocalSource
     }
 
     override suspend fun getUserFavorites(userID: Int): List<Favorite> {
-        return dao.getUserFavorites(userID)
+        val res = dao.getUserFavorites(userID)
+        Log.d("edrees -->", "$res")
+        return res
     }
 
     override suspend fun deleteFavorite(favorite: Favorite) {

@@ -21,6 +21,7 @@
             android:label="@string/title_activity_recipe"
             android:theme="@style/Theme.RecipeApp">
 
+
         </activity>
         <activity
             android:name=".auth.view.AuthenticationActivity"

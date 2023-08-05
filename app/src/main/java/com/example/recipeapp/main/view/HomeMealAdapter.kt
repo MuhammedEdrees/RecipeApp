@@ -17,31 +17,31 @@ import com.example.recipeapp.main.model.Meal
 import com.example.recipeapp.main.viewmodel.RecipeViewModel
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 
-class MealAdapter(private val viewModel: RecipeViewModel, private val owner: LifecycleOwner): RecyclerView.Adapter<MealAdapter.MealViewHolder>() {
+class HomeMealAdapter (private val viewModel: RecipeViewModel, private val owner: LifecycleOwner): RecyclerView.Adapter<MealAdapter.MealViewHolder>() {
     private val data = mutableListOf<Meal>()
-    class MealViewHolder(row: View): RecyclerView.ViewHolder(row) {
-        val thumbnailHolder = row.findViewById<ImageView>(R.id.favorite_thumbnail)
-        val titleHolder = row.findViewById<TextView>(R.id.favorite_title)
-        val categoryHolder = row.findViewById<TextView>(R.id.favorite_category_txt)
-        val areaHolder = row.findViewById<TextView>(R.id.favorite_area_txt)
-        val favoriteButton = row.findViewById<CheckBox>(R.id.favorite_check_box)
+    class HomeMealViewHolder(row: View): RecyclerView.ViewHolder(row) {
+        val thumbnailHolder = row.findViewById<ImageView>(R.id.meal_thumbnail)
+        val titleHolder = row.findViewById<TextView>(R.id.meal_title)
+        val categoryHolder = row.findViewById<TextView>(R.id.meal_category)
+        val areaHolder = row.findViewById<TextView>(R.id.meal_area)
+        val favoriteButton = row.findViewById<CheckBox>(R.id.meal_check_box)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MealAdapter.MealViewHolder {
-        val layout = LayoutInflater.from(parent.context).inflate(R.layout.favorite_list_item, parent, false)
-        return MealViewHolder(layout)
+        val layout = LayoutInflater.from(parent.context).inflate(R.layout.single_row, parent, false)
+        return MealAdapter.MealViewHolder(layout)
     }
 
     override fun getItemCount() = data.size
 
-    override fun onBindViewHolder(holder: MealViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: MealAdapter.MealViewHolder, position: Int) {
         Glide.with(holder.itemView.context)
             .load(data[position].strMealThumb)
             .into(holder.thumbnailHolder)
         Log.d("edrees -->", "Thumbnail Loaded")
         holder.titleHolder.text = data[position].strMeal
-        holder.categoryHolder.text = data[position].strCategory
-        holder.areaHolder.text = data[position].strArea
+        holder.categoryHolder.text = String.format(holder.itemView.resources.getString(R.string.category_str), data[position].strCategory)
+        holder.areaHolder.text = String.format(holder.itemView.resources.getString(R.string.area_str), data[position].strArea)
         val prefs = holder.itemView.context.getSharedPreferences("user_prefs", Context.MODE_PRIVATE)
         val userId = prefs.getInt("user_id", -1)
         holder.favoriteButton.setOnCheckedChangeListener(null)
@@ -68,4 +68,3 @@ class MealAdapter(private val viewModel: RecipeViewModel, private val owner: Lif
         data.addAll(newData)
         notifyDataSetChanged()
     }
-}
