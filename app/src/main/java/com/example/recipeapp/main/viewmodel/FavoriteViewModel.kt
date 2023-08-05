@@ -21,11 +21,4 @@ class FavoriteViewModel(mealRepo: MealsRepository,
             Log.d("edrees -->", "${_listOfMeals.value}")
         }
     }
-    fun getLocalMealById(mealId: String) {
-        viewModelScope.launch {
-            Log.d("edrees -->", "Function Called")
-            _localMeal.postValue(mealRepo.getMealById(mealId))
-            Log.d("edrees -->", "${_localMeal.value}")
-        }
-    }
 }

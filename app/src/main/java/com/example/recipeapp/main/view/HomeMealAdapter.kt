@@ -68,3 +68,4 @@ class HomeMealAdapter (private val viewModel: RecipeViewModel, private val owner
         data.addAll(newData)
         notifyDataSetChanged()
     }
+}
