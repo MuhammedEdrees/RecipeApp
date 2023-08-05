@@ -21,9 +21,10 @@ open class RecipeViewModel(protected val mealRepo: MealsRepository,
     protected val _listOfFavorites = MutableLiveData<List<Favorite>>()
     val listOfFavorites: LiveData<List<Favorite>> = _listOfFavorites
 
-    fun addFavorite(item: Favorite) {
+    fun addFavorite(fav: Favorite, meal: Meal) {
         viewModelScope.launch {
-            favoriteRepo.insertLocalFavorite(item)
+            favoriteRepo.insertLocalFavorite(fav)
+            mealRepo.insertMeal(meal)
         }
     }
 
@@ -34,6 +35,7 @@ open class RecipeViewModel(protected val mealRepo: MealsRepository,
     }
     fun getUserFavorites(userId: Int){
         viewModelScope.launch {
+            Log.d("edrees -->", "Function Called")
             _listOfFavorites.value = favoriteRepo.getLocalUserFavorites(userId)
             Log.d("edrees -->", "Favorites: ${_listOfFavorites.value}")
         }
@@ -43,5 +45,8 @@ open class RecipeViewModel(protected val mealRepo: MealsRepository,
             _isFavorite.value = favoriteRepo.checkIfFavorite(userId, mealId) == 1
             Log.d("edrees -->", "Favorite: ${_isFavorite.value}")
         }
+    }
+    fun resetSearchResult(){
+        _listOfMeals.value = emptyList()
     }
 }

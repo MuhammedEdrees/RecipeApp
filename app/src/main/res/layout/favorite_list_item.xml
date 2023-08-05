@@ -21,9 +21,7 @@
         <ImageView
             android:id="@+id/favorite_thumbnail"
             android:layout_width="130dp"
-            android:layout_height="130dp"
-            android:layout_gravity="center"
-            android:layout_marginBottom="10dp"
+            android:layout_height="150dp"
             android:scaleType="centerCrop"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -39,14 +37,14 @@
             app:layout_constraintStart_toEndOf="@id/favorite_thumbnail"
             app:layout_constraintEnd_toEndOf="parent"
             android:gravity="center_horizontal"
-            android:textSize="28sp"
-            android:textStyle="bold" />
+            android:textSize="24sp"
+            android:textStyle="bold"/>
 
         <TextView
             android:id="@+id/favorite_category_label"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
+            android:layout_marginTop="12dp"
             app:layout_constraintStart_toStartOf="@id/favorite_title"
             app:layout_constraintTop_toBottomOf="@id/favorite_title"
             android:text="@string/category_str"
@@ -59,15 +57,15 @@
             app:layout_constraintStart_toEndOf="@id/favorite_category_label"
             app:layout_constraintTop_toTopOf="@id/favorite_category_label"
             app:layout_constraintBottom_toBottomOf="@id/favorite_category_label"
-            tools:text="Category Text"
             android:textSize="18sp" />
 
         <TextView
             android:id="@+id/favorite_area_label"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
             app:layout_constraintStart_toStartOf="@id/favorite_category_label"
+            app:layout_constraintEnd_toEndOf="@id/favorite_category_label"
             app:layout_constraintTop_toBottomOf="@id/favorite_category_label"
             android:text="@string/area_str"
             android:textSize="18sp" />
