@@ -10,6 +10,8 @@ class RecipeViewModelFactory (val favRepo: FavoriteRepository, val mealRepo: Mea
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
         return if(modelClass.isAssignableFrom(SearchViewModel::class.java)) {
             SearchViewModel(mealRepo, favRepo) as T
+        } else if(modelClass.isAssignableFrom(RecipeViewModel::class.java)) {
+            RecipeViewModel(mealRepo, favRepo) as T
         } else {
             throw IllegalArgumentException("SearchViewModel is not found!")
         }

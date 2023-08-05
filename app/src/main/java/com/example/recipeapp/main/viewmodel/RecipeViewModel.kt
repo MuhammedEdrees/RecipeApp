@@ -18,9 +18,11 @@ open class RecipeViewModel(protected val mealRepo: MealsRepository,
                            protected val favoriteRepo: FavoriteRepository
 ) : ViewModel() {
     protected val _listOfMeals = MutableLiveData<List<Meal>>()
+    protected val _RandomMeal = MutableLiveData<Meal>()
     protected val _isFavorite = MutableLiveData<Boolean>()
     val isFavorite : LiveData<Boolean> = _isFavorite
     val listOfMeals: LiveData<List<Meal>> = _listOfMeals
+    val RandomMeal: LiveData<Meal> = _RandomMeal
     protected val _listOfVaorites = MutableLiveData<List<Favorite>>()
     val listOfFavorites: LiveData<List<Favorite>> = _listOfVaorites
 
@@ -58,7 +60,7 @@ open class RecipeViewModel(protected val mealRepo: MealsRepository,
         viewModelScope.launch(Dispatchers.IO) {
             try {
                 val response: MealResponse = APIClient.getRandomMeal()
-                _listOfMeals.value = response.meals
+                _RandomMeal.value = response.meals.first()
             } catch (e: Exception) {
                 e.printStackTrace()
             }

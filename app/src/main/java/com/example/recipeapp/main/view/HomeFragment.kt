@@ -14,7 +14,13 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.example.recipeapp.R
+import com.example.recipeapp.main.local.FavoriteLocalSourceImpl
+import com.example.recipeapp.main.local.MealLocalSourceImpl
+import com.example.recipeapp.main.network.APIClient
+import com.example.recipeapp.main.repo.FavoriteRepositoryImpl
+import com.example.recipeapp.main.repo.MealsRepositoryImpl
 import com.example.recipeapp.main.viewmodel.RecipeViewModel
+import com.example.recipeapp.main.viewmodel.RecipeViewModelFactory
 
 
 class HomeFragment : Fragment() {
@@ -31,45 +37,52 @@ class HomeFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         val view = inflater.inflate(R.layout.fragment_home, container, false)
-        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, object: OnBackPressedCallback(true){
-            override fun handleOnBackPressed() {
-                requireActivity().finish()
-            }
-        })
+
         return view
-        // Inflate the layout for this fragment
-        val view =inflater.inflate(R.layout.fragment_home, container, false)
+
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         val rv =view.findViewById<RecyclerView>(R.id.recyclerView)
-        img=view.findViewById(R.id.imageView2)
+        img=view.findViewById(R.id.meal_thumbnail)
         meal=view.findViewById(R.id.txt_meal)
         catg=view.findViewById(R.id.txt_catg)
 
-
-        mealVModel = ViewModelProvider(this).get(RecipeViewModel::class.java)
+        val factory=RecipeViewModelFactory(FavoriteRepositoryImpl(FavoriteLocalSourceImpl(requireContext())),MealsRepositoryImpl(APIClient,MealLocalSourceImpl(requireContext())))
+        mealVModel = ViewModelProvider(this,factory).get(RecipeViewModel::class.java)
         mealVModel.getListOfMeals()
+        val adapter = MealAdapter(mealVModel,viewLifecycleOwner)
+        rv.adapter = adapter
+        rv.layoutManager =
+            LinearLayoutManager(this.requireContext(), RecyclerView.HORIZONTAL, false)
         mealVModel.listOfMeals.observe(viewLifecycleOwner) { meals
             ->
-
-            val adapter = MealAdapter(mealVModel)
-            rv.adapter = adapter
             adapter.setData(meals)
-            rv.layoutManager =
-                LinearLayoutManager(this.requireContext(), RecyclerView.HORIZONTAL, false)
         }
         mealVModel.getRandomMeal()
-        mealVModel.listOfMeals.observe(viewLifecycleOwner){ meals ->
-            meal.text=meals[1].strMeal
-            catg.text=meals[1].strCategory
+        mealVModel.RandomMeal.observe(viewLifecycleOwner){ meals ->
+            meal.text=meals.strMeal
+            catg.text=meals.strCategory
             Glide.with(this)
-                .load(meals[1].strMealThumb)
+                .load(meals.strMealThumb)
                 .apply(
                     RequestOptions()
                         .placeholder(R.drawable.loading2)
                 )
                 .into(img)
         }
-        return view
+
+        requireActivity().onBackPressedDispatcher.addCallback(
+            viewLifecycleOwner,
+            object : OnBackPressedCallback(true) {
+                override fun handleOnBackPressed() {
+                    requireActivity().finish()
+                }
+            })
     }
+
+
 
 
 }
