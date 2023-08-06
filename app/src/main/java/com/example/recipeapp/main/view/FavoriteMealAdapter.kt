@@ -34,6 +34,7 @@ class FavoriteMealAdapter(val viewModel: FavoriteViewModel) : RecyclerView.Adapt
     override fun getItemCount() = data.size
 
     override fun onBindViewHolder(holder: FavoriteMealViewHolder, position: Int) {
+        holder.favButton.setOnCheckedChangeListener(null)
         Glide.with(holder.itemView.context)
             .load(data[position].strMealThumb)
             .into(holder.favThumbnail)
@@ -41,7 +42,6 @@ class FavoriteMealAdapter(val viewModel: FavoriteViewModel) : RecyclerView.Adapt
         holder.favCategory.text = data[position].strCategory
         holder.favArea.text = data[position].strArea
         holder.favButton.isChecked = true
-        Log.d("edrees", "index: $position, title: ${data[position].strMeal}")
         val prefs = holder.itemView.context.getSharedPreferences("user_prefs", Context.MODE_PRIVATE)
         val userId = prefs.getInt("user_id", -1)
         holder.favButton.setOnCheckedChangeListener{buttonView, isChecked ->
@@ -52,6 +52,8 @@ class FavoriteMealAdapter(val viewModel: FavoriteViewModel) : RecyclerView.Adapt
                     .setMessage("Are you sure you want to remove this item from your favorites?")
                     .setPositiveButton("Yes") { dialog, which ->
                         viewModel.deleteFavorite(Favorite(userId, data[position].idMeal))
+                        data.removeAt(position)
+                        notifyDataSetChanged()
                     }
                     .setNegativeButton("No") { dialog, which ->
                         dialog.cancel()

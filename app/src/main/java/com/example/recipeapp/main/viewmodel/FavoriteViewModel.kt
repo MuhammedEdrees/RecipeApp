@@ -9,7 +9,9 @@ import com.example.recipeapp.main.model.Favorite
 import com.example.recipeapp.main.model.Meal
 import com.example.recipeapp.main.repo.FavoriteRepository
 import com.example.recipeapp.main.repo.MealsRepository
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class FavoriteViewModel(private val mealRepo: MealsRepository,
                         private val favoriteRepo: FavoriteRepository
@@ -32,9 +34,7 @@ class FavoriteViewModel(private val mealRepo: MealsRepository,
 
     fun getUserFavorites(userId: Int){
         viewModelScope.launch {
-            Log.d("edrees -->", "Function Called")
             _listOfFavorites.value = favoriteRepo.getLocalUserFavorites(userId)
-            Log.d("edrees -->", "Favorites: ${_listOfFavorites.value}")
         }
     }
     fun getLocalFavoriteMeals(list: List<String>) {
@@ -46,9 +46,6 @@ class FavoriteViewModel(private val mealRepo: MealsRepository,
     fun deleteFavorite(item: Favorite) {
         viewModelScope.launch {
             favoriteRepo.deleteLocalFavorite(item)
-            val list = _listOfMeals.value?.toMutableList()
-            list?.removeIf { it.idMeal == item.mealID }
-            _listOfMeals.value = list?:listOf<Meal>()
         }
     }
 }

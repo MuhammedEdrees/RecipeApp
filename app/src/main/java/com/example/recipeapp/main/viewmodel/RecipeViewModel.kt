@@ -35,15 +35,12 @@ open class RecipeViewModel(protected val mealRepo: MealsRepository,
     }
     fun getUserFavorites(userId: Int){
         viewModelScope.launch {
-            Log.d("edrees -->", "Function Called")
             _listOfFavorites.value = favoriteRepo.getLocalUserFavorites(userId)
-            Log.d("edrees -->", "Favorites: ${_listOfFavorites.value}")
         }
     }
     fun checkIfFavorite(userId: Int, mealId: String) {
         viewModelScope.launch {
             _isFavorite.value = favoriteRepo.checkIfFavorite(userId, mealId) == 1
-            Log.d("edrees -->", "Favorite: ${_isFavorite.value}")
         }
     }
     fun resetSearchResult(){
