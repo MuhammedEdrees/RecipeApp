@@ -10,5 +10,5 @@ interface MealsRepository {
     suspend fun insertMeal(meal: Meal)
     suspend fun deleteMeal(meal: Meal)
     suspend fun getMealById(mealID: String): Meal
-    suspend fun getFavoriteMeals(userId: Int): List<Meal>
+    suspend fun getFavoriteMeals(list: List<String>): List<Meal>
 }

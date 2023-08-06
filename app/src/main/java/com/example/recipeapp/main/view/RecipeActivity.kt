@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import androidx.navigation.NavController
+import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
 import com.example.recipeapp.R
@@ -47,7 +48,7 @@ class RecipeActivity : AppCompatActivity() {
                 true
             }
             R.id.about_us -> {
-                TODO("About as")
+                findNavController(R.id.activity_recipe_nav_host).navigate(R.id.aboutUsFragment)
                 true
             }
             else -> super.onOptionsItemSelected(item)
