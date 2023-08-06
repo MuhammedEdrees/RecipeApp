@@ -2,6 +2,7 @@ package com.example.recipeapp.main.view
 
 import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -13,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.recipeapp.R
 import com.example.recipeapp.main.local.FavoriteLocalSourceImpl
 import com.example.recipeapp.main.local.MealLocalSourceImpl
+import com.example.recipeapp.main.model.Meal
 import com.example.recipeapp.main.network.APIClient
 import com.example.recipeapp.main.repo.FavoriteRepositoryImpl
 import com.example.recipeapp.main.repo.MealsRepositoryImpl
@@ -36,11 +38,12 @@ class FavoriteFragment : Fragment() {
         recyclerView.layoutManager = LinearLayoutManager(requireActivity())
         val adapter = FavoriteMealAdapter(viewModel)
         recyclerView.adapter = adapter
-        val prefs = requireContext().getSharedPreferences("user_refs", Context.MODE_PRIVATE)
+        val prefs = requireContext().getSharedPreferences("user_prefs", Context.MODE_PRIVATE)
         val userID = prefs.getInt("user_id", -1)
+        Log.d("edrees", "$userID")
         viewModel.getLocalFavoriteMeals(userID)
-        viewModel.listOfMeals.observe(viewLifecycleOwner, Observer{meals ->
-            adapter.setData(meals)
+        viewModel.listOfMeals.observe(viewLifecycleOwner, Observer{favorites ->
+            adapter.setData(favorites)
         })
     }
     fun prepareViewModel() {
