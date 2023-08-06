@@ -28,7 +28,7 @@ open class RecipeViewModel(protected val mealRepo: MealsRepository,
         }
     }
 
-    fun deleteFavorite(item: Favorite) {
+    open fun deleteFavorite(item: Favorite) {
         viewModelScope.launch {
             favoriteRepo.deleteLocalFavorite(item)
         }

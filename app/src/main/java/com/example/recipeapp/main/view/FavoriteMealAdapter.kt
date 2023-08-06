@@ -1,6 +1,7 @@
 package com.example.recipeapp.main.view
 
 import android.content.Context
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -40,6 +41,7 @@ class FavoriteMealAdapter(val viewModel: FavoriteViewModel) : RecyclerView.Adapt
         holder.favCategory.text = data[position].strCategory
         holder.favArea.text = data[position].strArea
         holder.favButton.isChecked = true
+        Log.d("edrees", "index: $position, title: ${data[position].strMeal}")
         val prefs = holder.itemView.context.getSharedPreferences("user_prefs", Context.MODE_PRIVATE)
         val userId = prefs.getInt("user_id", -1)
         holder.favButton.setOnCheckedChangeListener{buttonView, isChecked ->
@@ -50,8 +52,6 @@ class FavoriteMealAdapter(val viewModel: FavoriteViewModel) : RecyclerView.Adapt
                     .setMessage("Are you sure you want to remove this item from your favorites?")
                     .setPositiveButton("Yes") { dialog, which ->
                         viewModel.deleteFavorite(Favorite(userId, data[position].idMeal))
-                        data.remove(data[position])
-                        notifyItemRemoved(position)
                     }
                     .setNegativeButton("No") { dialog, which ->
                         dialog.cancel()

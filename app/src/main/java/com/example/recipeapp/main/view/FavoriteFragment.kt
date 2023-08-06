@@ -40,11 +40,14 @@ class FavoriteFragment : Fragment() {
         recyclerView.adapter = adapter
         val prefs = requireContext().getSharedPreferences("user_prefs", Context.MODE_PRIVATE)
         val userID = prefs.getInt("user_id", -1)
-        Log.d("edrees", "$userID")
-        viewModel.getLocalFavoriteMeals(userID)
-        viewModel.listOfMeals.observe(viewLifecycleOwner, Observer{favorites ->
-            adapter.setData(favorites)
-        })
+        viewModel.getUserFavorites(userID)
+        viewModel.listOfFavorites.observe(viewLifecycleOwner){favorites ->
+            viewModel.getLocalFavoriteMeals(favorites.map{it.mealID})
+            viewModel.listOfMeals.observe(viewLifecycleOwner, Observer{favoriteMeals ->
+                adapter.setData(favoriteMeals)
+            })
+        }
+
     }
     fun prepareViewModel() {
         val factory = RecipeViewModelFactory(FavoriteRepositoryImpl(FavoriteLocalSourceImpl(requireContext())),

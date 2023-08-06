@@ -19,6 +19,6 @@ interface MealDao {
     @Query("select * from meals where idMeal = :mealID")
     suspend fun getMealById(mealID: String): Meal
 
-    @Query("select * from meals where idMeal in (select idMeal from favorites where userID = :userId)")
-    suspend fun getFavoriteMeals(userId: Int): List<Meal>
+    @Query("select * from meals where idMeal in (:list)")
+    suspend fun getFavoriteMeals(list: List<String>): List<Meal>
 }
