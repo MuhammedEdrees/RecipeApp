@@ -1,6 +1,7 @@
 package com.example.recipeapp.main.view
 
 import android.content.Context
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -15,7 +16,7 @@ import com.example.recipeapp.main.model.Meal
 import com.example.recipeapp.main.viewmodel.FavoriteViewModel
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 
-class FavoriteMealAdapter(val viewModel: FavoriteViewModel) : RecyclerView.Adapter<FavoriteMealAdapter.FavoriteMealViewHolder>() {
+class FavoriteMealAdapter(val fragment: MealCallback) : RecyclerView.Adapter<FavoriteMealAdapter.FavoriteMealViewHolder>() {
     private val data = mutableListOf<Meal>()
     class FavoriteMealViewHolder(val row: View): RecyclerView.ViewHolder(row) {
         val favThumbnail = row.findViewById<ImageView>(R.id.favorite_thumbnail)
@@ -33,6 +34,7 @@ class FavoriteMealAdapter(val viewModel: FavoriteViewModel) : RecyclerView.Adapt
     override fun getItemCount() = data.size
 
     override fun onBindViewHolder(holder: FavoriteMealViewHolder, position: Int) {
+        holder.favButton.setOnCheckedChangeListener(null)
         Glide.with(holder.itemView.context)
             .load(data[position].strMealThumb)
             .into(holder.favThumbnail)
@@ -44,14 +46,12 @@ class FavoriteMealAdapter(val viewModel: FavoriteViewModel) : RecyclerView.Adapt
         val userId = prefs.getInt("user_id", -1)
         holder.favButton.setOnCheckedChangeListener{buttonView, isChecked ->
             if (isChecked) {
-                viewModel.addFavorite(Favorite(userId, data[position].idMeal), data[position])
+                fragment.addFavoriteCallback(Favorite(userId, data[position].idMeal), data[position])
             } else {
                 MaterialAlertDialogBuilder(holder.itemView.context).setTitle("Confirm")
                     .setMessage("Are you sure you want to remove this item from your favorites?")
                     .setPositiveButton("Yes") { dialog, which ->
-                        viewModel.deleteFavorite(Favorite(userId, data[position].idMeal))
-                        data.remove(data[position])
-                        notifyItemRemoved(position)
+                        fragment.deleteFavoriteCallback(Favorite(userId, data[position].idMeal))
                     }
                     .setNegativeButton("No") { dialog, which ->
                         dialog.cancel()

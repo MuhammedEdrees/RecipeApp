@@ -19,9 +19,17 @@ class MealLocalSourceImpl(private val context: Context): MealLocalSource {
         dao.deleteMeal(meal)
     }
 
-    override suspend fun getFavoriteMeals(userId: Int): List<Meal> {
-        val res = dao.getFavoriteMeals(userId)
-        Log.d("edrees -->", "$res")
+    override suspend fun getFavoriteMeals(list: List<String>): List<Meal> {
+        val res = dao.getFavoriteMeals(list)
+        Log.d("edrees -->", "local source: ${res.map{it.strMeal}}")
         return res
+    }
+
+    override suspend fun checkIfFavorite(mealId: String): Boolean {
+        return dao.checkIfFavorite(mealId) == 1
+    }
+
+    override suspend fun deleteMealById(mealID: String) {
+        dao.deleteMealById(mealID)
     }
 }
