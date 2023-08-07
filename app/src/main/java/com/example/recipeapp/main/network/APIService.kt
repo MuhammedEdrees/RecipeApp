@@ -8,8 +8,8 @@ import retrofit2.http.Query
 
 interface APIService {
 
-    @GET("search.php?f={letter}")
-    suspend fun getMealsResponseByFirstLetter(@Path("letter") letter: Char): MealResponse
+    @GET("search.php")
+    suspend fun getMealsResponseByFirstLetter(@Query("f") letter: Char): MealResponse
     @GET("random.php")
     suspend fun getRandomMeal(): MealResponse
 //    @GET("search.php?s={name}")

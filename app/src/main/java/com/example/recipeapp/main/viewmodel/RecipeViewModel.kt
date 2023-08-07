@@ -46,24 +46,20 @@ open class RecipeViewModel(protected val mealRepo: MealsRepository,
 
 
     fun getListOfMeals() {
-        viewModelScope.launch(Dispatchers.IO) {
-            try {
+        viewModelScope.launch {
+
                 val response: MealResponse = APIClient.getMealsResponseByFirstLetter('s')
                 _listOfMeals.value = response.meals
-            } catch (e: Exception) {
-                e.printStackTrace()
-            }
+
         }
     }
 
     fun getRandomMeal(){
-        viewModelScope.launch(Dispatchers.IO) {
-            try {
+        viewModelScope.launch {
+
                 val response: MealResponse = APIClient.getRandomMeal()
                 _RandomMeal.value = response.meals.first()
-            } catch (e: Exception) {
-                e.printStackTrace()
-            }
+
         }
     }
     fun checkIfFavorite(userId: Int, mealId: String) {

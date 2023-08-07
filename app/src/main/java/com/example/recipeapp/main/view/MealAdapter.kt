@@ -46,11 +46,11 @@ class MealAdapter(private val viewModel: RecipeViewModel, private val owner: Lif
         holder.areaHolder.text = String.format(holder.itemView.resources.getString(R.string.area_str), data[position].strArea)
         val prefs = holder.itemView.context.getSharedPreferences("user_prefs", Context.MODE_PRIVATE)
         val userId = prefs.getInt("user_id", -1)
-        viewModel.listOfFavorites.value?.forEach {
+        /*viewModel.listOfFavorites.value?.forEach {
             if(data[position].idMeal == it.mealID) {
                 holder.favoriteButton.isChecked = true
             }
-        }
+        }*/
         holder.favoriteButton.setOnCheckedChangeListener{buttonView, isChecked ->
             if (isChecked) {
                 viewModel.addFavorite(Favorite(userId, data[position].idMeal))
