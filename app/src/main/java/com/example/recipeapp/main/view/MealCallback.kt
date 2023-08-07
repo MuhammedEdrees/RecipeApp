@@ -6,4 +6,5 @@ import com.example.recipeapp.main.model.Meal
 interface MealCallback {
     fun addFavoriteCallback(favorite: Favorite, meal: Meal)
     fun deleteFavoriteCallback(favorite: Favorite)
+    fun navigateToDetailsCallback(mealId: String)
 }

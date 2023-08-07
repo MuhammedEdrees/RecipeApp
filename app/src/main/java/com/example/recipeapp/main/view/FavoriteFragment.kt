@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.recipeapp.R
@@ -66,5 +67,10 @@ class FavoriteFragment : Fragment(), MealCallback {
             }
         }
         viewModel.getUserFavorites(favorite.userID)
+    }
+
+    override fun navigateToDetailsCallback(mealId: String) {
+        val action = FavoriteFragmentDirections.actionFavoriteFragmentToDetailsFragment(mealId)
+        view?.findNavController()?.navigate(action)
     }
 }

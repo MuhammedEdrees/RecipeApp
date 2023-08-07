@@ -57,6 +57,9 @@ class SearchMealAdapter(private val fragment: SearchMealCallback): RecyclerView.
                     }.show()
             }
         }
+        holder.itemView.setOnClickListener {
+            fragment.navigateToDetailsCallback(data[position].idMeal)
+        }
     }
 
     fun setData(newData: List<Meal>) {

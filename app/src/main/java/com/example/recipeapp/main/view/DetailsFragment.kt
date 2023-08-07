@@ -12,11 +12,21 @@ import android.widget.TextView
 import androidx.activity.OnBackPressedCallback
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.isVisible
+import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.myapplication3.IngredientRow
 import com.example.myapplication3.TableAdapter
 import com.example.recipeapp.R
+import com.example.recipeapp.main.local.FavoriteLocalSourceImpl
+import com.example.recipeapp.main.local.MealLocalSourceImpl
+import com.example.recipeapp.main.network.APIClient
+import com.example.recipeapp.main.repo.FavoriteRepositoryImpl
+import com.example.recipeapp.main.repo.MealsRepositoryImpl
+import com.example.recipeapp.main.viewmodel.DetailsViewModel
+import com.example.recipeapp.main.viewmodel.RecipeViewModelFactory
+import com.example.recipeapp.main.viewmodel.SearchViewModel
 import com.google.android.material.appbar.CollapsingToolbarLayout
 import com.google.android.material.button.MaterialButton
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.YouTubePlayer
@@ -25,17 +35,26 @@ import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTube
 
 class DetailsFragment : Fragment() {
 
+    val args: DetailsFragmentArgs by navArgs()
+    lateinit var viewModel: DetailsViewModel
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         val view = inflater.inflate(R.layout.fragment_details, container, false)
+        return view
+    }
 
-
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        prepareViewModel()
+        viewModel.getRemoteMeal(args.mealId)
+        viewModel.meal.observe(viewLifecycleOwner) {meal ->
+            TODO("m3ak el meal 3ee4 7yatak hena gwa el observer")
+        }
         val collapsingToolbarLayout: CollapsingToolbarLayout = view.findViewById(R.id.collapsingToolbarLayout)
         collapsingToolbarLayout.title = "remo meal"
         collapsingToolbarLayout.setBackgroundResource(R.drawable.food)
-
 
         view.findViewById<TextView>(R.id.categoryContent).text = "food"
         view.findViewById<TextView>(R.id.areaContent).text = "egypt"
@@ -105,7 +124,14 @@ class DetailsFragment : Fragment() {
                 })
             }
         })
-        return view
+    }
+
+    private fun prepareViewModel() {
+        val factory = RecipeViewModelFactory(
+            FavoriteRepositoryImpl(FavoriteLocalSourceImpl(requireContext())),
+            MealsRepositoryImpl(APIClient, MealLocalSourceImpl(requireContext()))
+        )
+        viewModel = ViewModelProvider(this, factory).get(DetailsViewModel::class.java)
     }
 
     fun setOnClickListener(view: View,labelID: Int, contentID: Int, arrowID: Int)

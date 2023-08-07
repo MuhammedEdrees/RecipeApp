@@ -7,4 +7,5 @@ interface MealRemoteDataSource {
     suspend fun getMealsResponseByFirstLetter(char: Char): MealResponse
     suspend fun getRandomMeal(): MealResponse
     suspend fun search(name: String): MealResponse
+    suspend fun getMealById(mealId: String): MealResponse
 }

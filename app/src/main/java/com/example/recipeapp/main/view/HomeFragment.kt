@@ -6,12 +6,13 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
+import androidx.navigation.findNavController
 import com.example.recipeapp.R
+import com.example.recipeapp.main.model.Favorite
+import com.example.recipeapp.main.model.Meal
 
 
-class HomeFragment : Fragment() {
-
-
+class HomeFragment : Fragment(){
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?

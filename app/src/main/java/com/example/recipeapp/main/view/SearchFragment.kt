@@ -12,6 +12,7 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.recipeapp.R
@@ -107,5 +108,9 @@ class SearchFragment : Fragment(), SearchMealCallback {
             }
         }
         viewModel.getUserFavorites(favorite.userID)
+    }
+    override fun navigateToDetailsCallback(mealId: String) {
+        val action = SearchFragmentDirections.actionSearchFragmentToDetailsFragment(mealId)
+        view?.findNavController()?.navigate(action)
     }
 }

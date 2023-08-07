@@ -59,6 +59,9 @@ class FavoriteMealAdapter(val fragment: MealCallback) : RecyclerView.Adapter<Fav
                     }.show()
             }
         }
+        holder.itemView.setOnClickListener {
+            fragment.navigateToDetailsCallback(data[position].idMeal)
+        }
     }
 
     fun setData(newData: List<Meal>) {
