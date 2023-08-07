@@ -30,6 +30,7 @@ class HomeFragment : Fragment() {
     lateinit var img:ImageView
     lateinit var meal:TextView
     lateinit var catg:TextView
+    lateinit var area:TextView
 
 
     override fun onCreateView(
@@ -46,8 +47,9 @@ class HomeFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         val rv =view.findViewById<RecyclerView>(R.id.recyclerView)
         img=view.findViewById(R.id.meal_thumbnail)
-        meal=view.findViewById(R.id.txt_meal)
-        catg=view.findViewById(R.id.txt_catg)
+        meal=view.findViewById(R.id.meal_title)
+        catg=view.findViewById(R.id.meal_category)
+        area=view.findViewById(R.id.meal_area)
 
         val factory=RecipeViewModelFactory(FavoriteRepositoryImpl(FavoriteLocalSourceImpl(requireContext())),MealsRepositoryImpl(APIClient,MealLocalSourceImpl(requireContext())))
         mealVModel = ViewModelProvider(this,factory).get(RecipeViewModel::class.java)
@@ -61,11 +63,12 @@ class HomeFragment : Fragment() {
             adapter.setData(meals)
         }
         mealVModel.getRandomMeal()
-        mealVModel.RandomMeal.observe(viewLifecycleOwner){ meals ->
-            meal.text=meals.strMeal
-            catg.text=meals.strCategory
+        mealVModel.RandomMeal.observe(viewLifecycleOwner){ meal ->
+            this.meal.text=meal.strMeal
+            catg.text=String.format(getString(R.string.category_str), meal.strCategory)
+            area.text=String.format(getString(R.string.area_str), meal.strArea)
             Glide.with(this)
-                .load(meals.strMealThumb)
+                .load(meal.strMealThumb)
                 .apply(
                     RequestOptions()
                         .placeholder(R.drawable.loading2)

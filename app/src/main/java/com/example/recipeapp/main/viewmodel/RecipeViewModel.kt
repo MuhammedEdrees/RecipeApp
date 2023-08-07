@@ -48,7 +48,7 @@ open class RecipeViewModel(protected val mealRepo: MealsRepository,
     fun getListOfMeals() {
         viewModelScope.launch {
 
-                val response: MealResponse = APIClient.getMealsResponseByFirstLetter('s')
+                val response: MealResponse = APIClient.getMealsResponseByFirstLetter(('A'..'z').random())
                 _listOfMeals.value = response.meals
 
         }
