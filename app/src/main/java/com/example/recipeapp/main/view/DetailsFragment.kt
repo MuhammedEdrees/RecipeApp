@@ -77,7 +77,7 @@ class DetailsFragment : Fragment() {
         youTubePlayerView.addYouTubePlayerListener(object : AbstractYouTubePlayerListener(){
             override fun onReady(youTubePlayer: YouTubePlayer) {
                 super.onReady(youTubePlayer)
-                val videoId = "6R8ffRRJcrg"
+                val videoId = "dQw4w9WgXcQ"
                 youTubePlayer.loadVideo(videoId, 0F)
                 youTubePlayer.pause()
                 view.findViewById<Button>(R.id.startVideoBtn).setOnClickListener {
