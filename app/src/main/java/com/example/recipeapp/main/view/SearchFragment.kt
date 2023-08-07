@@ -17,6 +17,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.recipeapp.R
 import com.example.recipeapp.main.local.FavoriteLocalSourceImpl
 import com.example.recipeapp.main.local.MealLocalSourceImpl
+import com.example.recipeapp.main.model.Favorite
+import com.example.recipeapp.main.model.Meal
 import com.example.recipeapp.main.network.APIClient
 import com.example.recipeapp.main.repo.FavoriteRepositoryImpl
 import com.example.recipeapp.main.repo.MealsRepositoryImpl
@@ -25,9 +27,9 @@ import com.example.recipeapp.main.viewmodel.SearchViewModel
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 
-class SearchFragment : Fragment() {
+class SearchFragment : Fragment(), SearchMealCallback {
     lateinit var recyclerView: RecyclerView
-    lateinit var searchAdapter: MealAdapter
+    lateinit var searchAdapter: SearchMealAdapter
     lateinit var viewModel: SearchViewModel
     lateinit var searchBar: TextInputEditText
     override fun onCreateView(
@@ -41,26 +43,28 @@ class SearchFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         prepareViewModel()
         viewModel.resetSearchResult()
+        searchBar = view.findViewById<TextInputLayout>(R.id.search_text_input_layout).editText as TextInputEditText
         recyclerView = view.findViewById(R.id.search_recycler_view)
         recyclerView.layoutManager = LinearLayoutManager(requireActivity())
-        searchAdapter = MealAdapter(viewModel, viewLifecycleOwner)
-        searchBar = view.findViewById<TextInputLayout>(R.id.search_text_input_layout).editText as TextInputEditText
+        searchAdapter = SearchMealAdapter(this)
+        recyclerView.adapter = searchAdapter
         val prefs = view.context.getSharedPreferences("user_prefs", Context.MODE_PRIVATE)
         val userId = prefs.getInt("user_id", -1)
+        var isLoaded = false
         viewModel.getUserFavorites(userId)
         viewModel.listOfFavorites.observe(viewLifecycleOwner, Observer {
-            viewModel.listOfMeals.observe(viewLifecycleOwner, Observer {meals ->
-                if (meals.size > 0) {
-                    recyclerView.visibility = View.VISIBLE
-                    view.findViewById<TextView>(R.id.no_matches_found_txt).visibility = View.INVISIBLE
-                    searchAdapter.setData(meals)
-                } else if(!searchBar.text.isNullOrEmpty()){
-                    recyclerView.visibility = View.INVISIBLE
-                    view.findViewById<TextView>(R.id.no_matches_found_txt).visibility = View.VISIBLE
-                }
-            })
+            isLoaded = true
         })
-        recyclerView.adapter = searchAdapter
+        viewModel.listOfMeals.observe(viewLifecycleOwner, Observer {meals ->
+            if (meals.size > 0) {
+                recyclerView.visibility = View.VISIBLE
+                view.findViewById<TextView>(R.id.no_matches_found_txt).visibility = View.INVISIBLE
+                searchAdapter.setData(meals)
+            } else if(!searchBar.text.isNullOrEmpty()){
+                recyclerView.visibility = View.INVISIBLE
+                view.findViewById<TextView>(R.id.no_matches_found_txt).visibility = View.VISIBLE
+            }
+        })
         searchBar.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(s: Editable) {}
 
@@ -68,7 +72,9 @@ class SearchFragment : Fragment() {
                                            count: Int, after: Int) {}
 
             override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
-                viewModel.searchMeals(s.toString())
+                if (isLoaded){
+                    viewModel.searchMeals(s.toString())
+                }
             }
         })
     }
@@ -82,5 +88,24 @@ class SearchFragment : Fragment() {
         super.onPause()
         searchAdapter.setData(emptyList())
         Log.d("edrees -->", "OnPause Called")
+    }
+
+    override fun isFavoriteCallback(mealId: String): Boolean {
+        return viewModel.listOfFavorites.value?.any {it.mealID == mealId} ?: false
+    }
+
+    override fun addFavoriteCallback(favorite: Favorite, meal: Meal) {
+        viewModel.addFavorite(favorite, meal)
+    }
+
+    override fun deleteFavoriteCallback(favorite: Favorite) {
+        viewModel.deleteFavorite(favorite)
+        viewModel.checkIfFavorite(favorite.mealID)
+        viewModel.isFavorite.observe(viewLifecycleOwner) {isFavorite ->
+            if(isFavorite){
+                viewModel.deletMeal(favorite.mealID)
+            }
+        }
+        viewModel.getUserFavorites(favorite.userID)
     }
 }

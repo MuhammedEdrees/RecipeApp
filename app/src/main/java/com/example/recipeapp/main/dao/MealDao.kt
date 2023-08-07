@@ -16,9 +16,15 @@ interface MealDao {
     @Delete
     suspend fun deleteMeal(meal: Meal)
 
+    @Query("delete from meals where idMeal = :mealID")
+    suspend fun deleteMealById(mealID: String)
+
     @Query("select * from meals where idMeal = :mealID")
     suspend fun getMealById(mealID: String): Meal
 
     @Query("select * from meals where idMeal in (:list)")
     suspend fun getFavoriteMeals(list: List<String>): List<Meal>
+
+    @Query("select exists (select * from meals where idMeal = :mealId)")
+    suspend fun checkIfFavorite(mealId: String): Int
 }
