@@ -1,5 +1,6 @@
 package com.example.recipeapp.main.viewmodel
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -16,7 +17,8 @@ class DetailsViewModel (private val mealRepo: MealsRepository,
     val meal: LiveData<Meal> = _meal
     fun getRemoteMeal(mealID: String){
         viewModelScope.launch{
-            _meal.value = mealRepo.getRemoteMealById(mealID)
+            _meal.value = mealRepo.getRemoteMealById(mealID).meals.first()
+            Log.d("edrees ->", "Response: ${_meal.value}")
         }
     }
 }

@@ -10,7 +10,7 @@ interface MealsRepository {
     suspend fun insertMeal(meal: Meal)
     suspend fun deleteMeal(meal: Meal)
     suspend fun getLocalMealById(mealID: String): Meal
-    suspend fun getRemoteMealById(mealId: String): Meal
+    suspend fun getRemoteMealById(mealId: String): MealResponse
     suspend fun getFavoriteMeals(list: List<String>): List<Meal>
     suspend fun checkIfFavorite(mealId: String): Boolean
 

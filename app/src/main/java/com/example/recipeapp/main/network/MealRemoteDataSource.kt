@@ -1,5 +1,6 @@
 package com.example.recipeapp.main.network
 
+import com.example.recipeapp.main.model.Meal
 import com.example.recipeapp.main.model.MealResponse
 
 interface MealRemoteDataSource {

@@ -1,5 +1,7 @@
 package com.example.recipeapp.main.network
 
+import android.util.Log
+import com.example.recipeapp.main.model.Meal
 import com.example.recipeapp.main.model.MealResponse
 
 object APIClient : MealRemoteDataSource {

@@ -2,6 +2,7 @@ package com.example.recipeapp.main.view
 
 import android.graphics.Color
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -50,7 +51,7 @@ class DetailsFragment : Fragment() {
         prepareViewModel()
         viewModel.getRemoteMeal(args.mealId)
         viewModel.meal.observe(viewLifecycleOwner) {meal ->
-            TODO("m3ak el meal 3ee4 7yatak hena gwa el observer")
+            Log.d("edrees ->", "Response: ${meal}")
         }
         val collapsingToolbarLayout: CollapsingToolbarLayout = view.findViewById(R.id.collapsingToolbarLayout)
         collapsingToolbarLayout.title = "remo meal"
