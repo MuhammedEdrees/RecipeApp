@@ -51,6 +51,14 @@
             app:layout_scrollFlags="scroll|snap|exitUntilCollapsed"
             app:title="strMeal">
 
+            <ImageView
+                android:id="@+id/backdrop_image_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:scaleType="centerCrop"
+                app:layout_collapseMode="parallax"
+                app:layout_collapseParallaxMultiplier="0.7" />
+
             <androidx.appcompat.widget.Toolbar
                 android:id="@+id/toolbar"
                 android:layout_width="match_parent"
@@ -397,13 +405,14 @@
     </androidx.core.widget.NestedScrollView>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/favoriteBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="30dp"
         android:backgroundTint="#facf5a"
         android:baselineAlignBottom="false"
         android:clickable="true"
-        android:src="@drawable/ic_launcher_foreground"
+        android:src="@drawable/unchecked_favorite"
         app:fabSize="normal"
         app:layout_anchor="@id/appbar"
         app:layout_anchorGravity="end|bottom" />

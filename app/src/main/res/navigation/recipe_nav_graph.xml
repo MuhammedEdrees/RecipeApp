@@ -38,6 +38,7 @@
         tools:layout="@layout/fragment_about_us" />
     <fragment
         android:id="@+id/detailsFragment"
+        tools:layout="@layout/fragment_details"
         android:name="com.example.recipeapp.main.view.DetailsFragment"
         android:label="DetailsFragment" >
         <argument
