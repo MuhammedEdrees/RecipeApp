@@ -23,8 +23,8 @@
     <string name="second_fragment_label">Second Fragment</string>
     <string name="next">Next</string>
     <string name="previous">Previous</string>
-    <string name="category_str">Category  : </string>
-    <string name="area_str">Area          : </string>
+    <string name="category_str">Category  : %1$s </string>
+    <string name="area_str">Area          : %1$s </string>
     <string name="lorem_ipsum">
         Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam in scelerisque sem. Mauris
         volutpat, dolor id interdum ullamcorper, risus dolor egestas lectus, sit amet mattis purus
@@ -70,5 +70,8 @@
     <string name="search_item_area_label">Area         :</string>
     <string name="login">LOGIN</string>
     <string name="no_matches_found">No Matches Found</string>
+    <string name="nothing_to_see_here">Nothing to See Here</string>
+    <string name="our_daily_recipe">Our Daily Recipe</string>
+    <string name="our_recipes">Our Recipes</string>
 
 </resources>
