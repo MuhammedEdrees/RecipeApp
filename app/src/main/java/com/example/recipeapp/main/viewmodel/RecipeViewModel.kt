@@ -22,8 +22,8 @@ open class RecipeViewModel(protected val mealRepo: MealsRepository,
     val isFavorite : LiveData<Boolean> = _isFavorite
     val listOfMeals: LiveData<List<Meal>> = _listOfMeals
     val RandomMeal: LiveData<Meal> = _RandomMeal
-    protected val _listOfVaorites = MutableLiveData<List<Favorite>>()
-    val listOfFavorites: LiveData<List<Favorite>> = _listOfVaorites
+    protected val _listOfFavorites = MutableLiveData<List<Favorite>>()
+    val listOfFavorites: LiveData<List<Favorite>> = _listOfFavorites
 
     fun addFavorite(fav: Favorite, meal: Meal) {
         viewModelScope.launch {
@@ -49,6 +49,7 @@ open class RecipeViewModel(protected val mealRepo: MealsRepository,
 
                 val response: MealResponse = APIClient.getMealsResponseByFirstLetter(('A'..'z').random())
                 _listOfMeals.value = response.meals
+            //Log.d("vmodel",response.toString())
 
         }
     }

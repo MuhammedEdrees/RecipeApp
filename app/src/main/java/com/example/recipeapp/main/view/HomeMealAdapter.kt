@@ -17,7 +17,7 @@ import com.example.recipeapp.main.model.Meal
 import com.example.recipeapp.main.viewmodel.RecipeViewModel
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 
-class HomeMealAdapter (private val viewModel: RecipeViewModel, private val owner: LifecycleOwner): RecyclerView.Adapter<SearchMealAdapter.MealViewHolder>() {
+class HomeMealAdapter (private val viewModel: RecipeViewModel, private val owner: LifecycleOwner): RecyclerView.Adapter<HomeMealAdapter.HomeMealViewHolder>() {
     private val data = mutableListOf<Meal>()
     class HomeMealViewHolder(row: View): RecyclerView.ViewHolder(row) {
         val thumbnailHolder = row.findViewById<ImageView>(R.id.meal_thumbnail)
@@ -27,14 +27,14 @@ class HomeMealAdapter (private val viewModel: RecipeViewModel, private val owner
         val favoriteButton = row.findViewById<CheckBox>(R.id.meal_check_box)
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SearchMealAdapter.MealViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HomeMealAdapter.HomeMealViewHolder {
         val layout = LayoutInflater.from(parent.context).inflate(R.layout.single_row, parent, false)
-        return SearchMealAdapter.MealViewHolder(layout)
+        return HomeMealAdapter.HomeMealViewHolder(layout)
     }
 
     override fun getItemCount() = data.size
 
-    override fun onBindViewHolder(holder: SearchMealAdapter.MealViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: HomeMealAdapter.HomeMealViewHolder, position: Int) {
         Glide.with(holder.itemView.context)
             .load(data[position].strMealThumb)
             .into(holder.thumbnailHolder)

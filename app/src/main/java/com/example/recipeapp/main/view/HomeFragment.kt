@@ -56,7 +56,7 @@ class HomeFragment : Fragment() {
         val factory=RecipeViewModelFactory(FavoriteRepositoryImpl(FavoriteLocalSourceImpl(requireContext())),MealsRepositoryImpl(APIClient,MealLocalSourceImpl(requireContext())))
         mealVModel = ViewModelProvider(this,factory).get(RecipeViewModel::class.java)
         mealVModel.getListOfMeals()
-        val adapter = MealAdapter(mealVModel,viewLifecycleOwner)
+        val adapter = HomeMealAdapter(mealVModel,viewLifecycleOwner)
         rv.adapter = adapter
         rv.layoutManager =
             LinearLayoutManager(this.requireContext(), RecyclerView.HORIZONTAL, false)
