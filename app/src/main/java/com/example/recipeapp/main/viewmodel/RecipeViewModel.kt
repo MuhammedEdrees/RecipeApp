@@ -7,6 +7,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.recipeapp.main.model.Favorite
 import com.example.recipeapp.main.model.Meal
+import com.example.recipeapp.main.model.MealResponse
+import com.example.recipeapp.main.network.APIClient
 import com.example.recipeapp.main.repo.FavoriteRepository
 import com.example.recipeapp.main.repo.MealsRepository
 import kotlinx.coroutines.launch
@@ -15,11 +17,13 @@ open class RecipeViewModel(protected val mealRepo: MealsRepository,
                            protected val favoriteRepo: FavoriteRepository
 ) : ViewModel() {
     protected val _listOfMeals = MutableLiveData<List<Meal>>()
+    protected val _RandomMeal = MutableLiveData<Meal>()
     protected val _isFavorite = MutableLiveData<Boolean>()
     val isFavorite : LiveData<Boolean> = _isFavorite
     val listOfMeals: LiveData<List<Meal>> = _listOfMeals
-    protected val _listOfFavorites = MutableLiveData<List<Favorite>>()
-    val listOfFavorites: LiveData<List<Favorite>> = _listOfFavorites
+    val RandomMeal: LiveData<Meal> = _RandomMeal
+    protected val _listOfVaorites = MutableLiveData<List<Favorite>>()
+    val listOfFavorites: LiveData<List<Favorite>> = _listOfVaorites
 
     fun addFavorite(fav: Favorite, meal: Meal) {
         viewModelScope.launch {
@@ -36,6 +40,25 @@ open class RecipeViewModel(protected val mealRepo: MealsRepository,
     fun getUserFavorites(userId: Int){
         viewModelScope.launch {
             _listOfFavorites.value = favoriteRepo.getLocalUserFavorites(userId)
+        }
+    }
+
+
+    fun getListOfMeals() {
+        viewModelScope.launch {
+
+                val response: MealResponse = APIClient.getMealsResponseByFirstLetter(('A'..'z').random())
+                _listOfMeals.value = response.meals
+
+        }
+    }
+
+    fun getRandomMeal(){
+        viewModelScope.launch {
+
+                val response: MealResponse = APIClient.getRandomMeal()
+                _RandomMeal.value = response.meals.first()
+
         }
     }
     fun checkIfFavorite(userId: Int, mealId: String) {
