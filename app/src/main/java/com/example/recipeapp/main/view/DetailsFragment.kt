@@ -35,6 +35,7 @@ import com.example.recipeapp.main.repo.MealsRepositoryImpl
 import com.example.recipeapp.main.viewmodel.DetailsViewModel
 import com.example.recipeapp.main.viewmodel.RecipeViewModelFactory
 import com.example.recipeapp.main.viewmodel.SearchViewModel
+import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.appbar.CollapsingToolbarLayout
 import com.google.android.material.appbar.MaterialToolbar
 import com.google.android.material.bottomnavigation.BottomNavigationView
@@ -58,6 +59,15 @@ class DetailsFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        val activity = requireActivity()
+
+        val topAppBarLayout = activity.findViewById<AppBarLayout>(R.id.top_app_bar_layout)
+        val bottomNavigationView = activity.findViewById<BottomNavigationView>(R.id.bottom_navigation)
+
+        topAppBarLayout.visibility = View.GONE
+        bottomNavigationView.visibility = View.GONE
+
         prepareViewModel()
         args.meal.also { meal ->
 
@@ -115,16 +125,7 @@ class DetailsFragment : Fragment() {
             val recyclerView: RecyclerView = view.findViewById(R.id.ingredientsTable)
             recyclerView.layoutManager = LinearLayoutManager(context) // it was this
             // maps each ingredient to its corresponding measure and eliminates any nulls
-            val mealsMap2 = meal::class.members
-                .filter { it.name.startsWith("strIngredient") }
-                .mapIndexedNotNull { index, property ->
-                    val ingredient = property.call(meal) as? String
-                    val measureProperty = meal::class.members.find { it.name == "strMeasure${index + 1}" }
-                    val measure = measureProperty?.call(meal) as? String
-                    ingredient?.let { it to measure }
-                }
-                .toMap()
-            Log.d("edrees", "Map: ${mealsMap2}")
+
             val mealsMap: MutableMap<String?, String?> = mutableMapOf<String?, String?>()
             mealsMap[meal.strIngredient1] = meal.strMeasure1
             mealsMap[meal.strIngredient2] = meal.strMeasure2
@@ -213,7 +214,8 @@ class DetailsFragment : Fragment() {
                                     videoLayout.visibility = View.GONE
                                     youTubePlayer.pause()
                                 } else {
-
+                                    topAppBarLayout.visibility = View.VISIBLE
+                                    bottomNavigationView.visibility = View.VISIBLE
                                     findNavController().popBackStack()
                                 }
                             }
