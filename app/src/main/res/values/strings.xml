@@ -70,5 +70,6 @@
     <string name="search_item_area_label">Area         :</string>
     <string name="login">LOGIN</string>
     <string name="no_matches_found">No Matches Found</string>
+    <string name="nothing_to_see_here">Nothing to See Here</string>
 
 </resources>
