@@ -46,23 +46,20 @@ open class RecipeViewModel(protected val mealRepo: MealsRepository,
 
     fun getListOfMeals() {
         viewModelScope.launch {
-
-                val response: MealResponse = APIClient.getMealsResponseByFirstLetter(('A'..'z').random())
-                _listOfMeals.value = response.meals
-            //Log.d("vmodel",response.toString())
-
+            Log.d("edrees ->", "Fuction called")
+            val response = APIClient.getMealsResponseByFirstLetter(('a'..'z').random()).meals ?: emptyList()
+            Log.d("vmodel",response.toString())
+            _listOfMeals.value = response
         }
     }
 
     fun getRandomMeal(){
         viewModelScope.launch {
-
-                val response: MealResponse = APIClient.getRandomMeal()
-                _RandomMeal.value = response.meals.first()
-
+            val response: MealResponse = APIClient.getRandomMeal()
+            _RandomMeal.value = response.meals.first()
         }
     }
-    fun checkIfFavorite(userId: Int, mealId: String) {
+    open fun checkIfFavorite(userId: Int, mealId: String) {
         viewModelScope.launch {
             _isFavorite.value = favoriteRepo.checkIfFavorite(userId, mealId) == 1
         }
@@ -70,4 +67,15 @@ open class RecipeViewModel(protected val mealRepo: MealsRepository,
     fun resetSearchResult(){
         _listOfMeals.value = emptyList()
     }
+    fun deletMeal(mealID: String) {
+        viewModelScope.launch {
+            mealRepo.deleteMealById(mealID)
+        }
+    }
+    open fun checkIfFavorite(mealId: String) {
+        viewModelScope.launch {
+            _isFavorite.value = mealRepo.checkIfFavorite(mealId)
+        }
+    }
 }
+

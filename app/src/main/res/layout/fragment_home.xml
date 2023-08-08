@@ -14,13 +14,13 @@
         android:layout_margin="10sp"
         android:textSize="24sp"
         android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@+id/cardView"
-        app:layout_constraintEnd_toEndOf="@+id/cardView"
-        app:layout_constraintStart_toStartOf="@+id/cardView"
+        app:layout_constraintBottom_toTopOf="@+id/random_meal_cardview"
+        app:layout_constraintEnd_toEndOf="@+id/random_meal_cardview"
+        app:layout_constraintStart_toStartOf="@+id/random_meal_cardview"
         app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.cardview.widget.CardView
-        android:id="@+id/cardView"
+        android:id="@+id/random_meal_cardview"
         android:layout_width="match_parent"
         android:layout_height="290dp"
         android:layout_margin="16dp"
@@ -112,9 +112,9 @@
         android:layout_margin="10dp"
         android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@id/recyclerView"
-        app:layout_constraintTop_toBottomOf="@id/cardView"
-        app:layout_constraintStart_toStartOf="@id/cardView"
-        app:layout_constraintEnd_toEndOf="@id/cardView"/>
+        app:layout_constraintTop_toBottomOf="@id/random_meal_cardview"
+        app:layout_constraintStart_toStartOf="@id/random_meal_cardview"
+        app:layout_constraintEnd_toEndOf="@id/random_meal_cardview"/>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"

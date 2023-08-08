@@ -15,6 +15,7 @@ import androidx.constraintlayout.widget.Guideline
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.airbnb.lottie.LottieAnimationView
@@ -125,9 +126,9 @@ class SearchFragment : Fragment(), SearchMealCallback {
         }
         viewModel.getUserFavorites(favorite.userID)
     }
-    override fun navigateToDetailsCallback(mealId: String) {
-        val action = SearchFragmentDirections.actionSearchFragmentToDetailsFragment(mealId)
-        view?.findNavController()?.navigate(action)
+    override fun navigateToDetailsCallback(meal: Meal) {
+        val action = SearchFragmentDirections.actionSearchFragmentToDetailsFragment(meal)
+        findNavController().navigate(action)
     }
     fun setStartSearchAnimationVisible(){
         lottieLayout.visibility = View.VISIBLE
