@@ -30,4 +30,9 @@ class MealsRepositoryImpl(val mealRemoteDataSource: MealRemoteDataSource, val me
     override suspend fun getMealById(mealID: String): Meal {
         return mealLocalSource.getMealById(mealID)
     }
+
+    override suspend fun getFavoriteMeals(list: List<String>): List<Meal> {
+        val res = mealLocalSource.getFavoriteMeals(list)
+        return res
+    }
 }

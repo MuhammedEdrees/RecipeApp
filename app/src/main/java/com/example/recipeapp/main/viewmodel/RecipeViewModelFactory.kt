@@ -12,6 +12,8 @@ class RecipeViewModelFactory (val favRepo: FavoriteRepository, val mealRepo: Mea
             SearchViewModel(mealRepo, favRepo) as T
         } else if(modelClass.isAssignableFrom(RecipeViewModel::class.java)) {
             RecipeViewModel(mealRepo, favRepo) as T
+        } else if(modelClass.isAssignableFrom(FavoriteViewModel::class.java)) {
+            FavoriteViewModel(mealRepo, favRepo) as T
         } else {
             throw IllegalArgumentException("SearchViewModel is not found!")
         }

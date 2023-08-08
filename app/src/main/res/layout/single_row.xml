@@ -74,7 +74,7 @@
 
             <CheckBox
                 android:layout_width="wrap_content"
-                android:id="@+id/favorite_check_box"
+                android:id="@+id/meal_check_box"
                 android:layout_height="wrap_content"
                 app:useMaterialThemeColors="false"
                 style="?android:attr/starStyle"

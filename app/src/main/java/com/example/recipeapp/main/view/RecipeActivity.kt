@@ -5,16 +5,27 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import androidx.navigation.NavController
 import androidx.navigation.findNavController
+import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.ui.setupWithNavController
 import com.example.recipeapp.R
 import com.example.recipeapp.auth.view.AuthenticationActivity
 import com.google.android.material.appbar.MaterialToolbar
+import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class RecipeActivity : AppCompatActivity() {
+    lateinit var topBar: MaterialToolbar
+    lateinit var navController: NavController
+    lateinit var bottomNavigation: BottomNavigationView
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_recipe)
-        val topBar = findViewById<MaterialToolbar>(R.id.top_app_bar)
+        topBar = findViewById<MaterialToolbar>(R.id.top_app_bar)
+        val navHostFragment = supportFragmentManager.findFragmentById(R.id.activity_recipe_nav_host) as NavHostFragment
+        val navController = navHostFragment.navController
+        bottomNavigation= findViewById(R.id.bottom_navigation)
+        bottomNavigation.setupWithNavController(navController)
         setSupportActionBar(topBar)
         supportActionBar?.title = "Recipe App"
     }
@@ -37,7 +48,7 @@ class RecipeActivity : AppCompatActivity() {
                 true
             }
             R.id.about_us -> {
-                TODO("About as")
+                findNavController(R.id.activity_recipe_nav_host).navigate(R.id.aboutUsFragment)
                 true
             }
             else -> super.onOptionsItemSelected(item)

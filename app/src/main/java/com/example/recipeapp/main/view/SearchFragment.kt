@@ -27,6 +27,7 @@ import com.google.android.material.textfield.TextInputLayout
 
 class SearchFragment : Fragment() {
     lateinit var recyclerView: RecyclerView
+    lateinit var searchAdapter: MealAdapter
     lateinit var viewModel: SearchViewModel
     lateinit var searchBar: TextInputEditText
     override fun onCreateView(
@@ -39,9 +40,11 @@ class SearchFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         prepareViewModel()
+        viewModel.resetSearchResult()
         recyclerView = view.findViewById(R.id.search_recycler_view)
         recyclerView.layoutManager = LinearLayoutManager(requireActivity())
-        val adapter = MealAdapter(viewModel, viewLifecycleOwner)
+        searchAdapter = MealAdapter(viewModel, viewLifecycleOwner)
+        searchBar = view.findViewById<TextInputLayout>(R.id.search_text_input_layout).editText as TextInputEditText
         val prefs = view.context.getSharedPreferences("user_prefs", Context.MODE_PRIVATE)
         val userId = prefs.getInt("user_id", -1)
         viewModel.getUserFavorites(userId)
@@ -50,16 +53,14 @@ class SearchFragment : Fragment() {
                 if (meals.size > 0) {
                     recyclerView.visibility = View.VISIBLE
                     view.findViewById<TextView>(R.id.no_matches_found_txt).visibility = View.INVISIBLE
-                    adapter.setData(meals)
-                    Log.d("edrees -->", "Data is set")
-                } else {
+                    searchAdapter.setData(meals)
+                } else if(!searchBar.text.isNullOrEmpty()){
                     recyclerView.visibility = View.INVISIBLE
                     view.findViewById<TextView>(R.id.no_matches_found_txt).visibility = View.VISIBLE
                 }
             })
         })
-        recyclerView.adapter = adapter
-        searchBar = view.findViewById<TextInputLayout>(R.id.search_text_input_layout).editText as TextInputEditText
+        recyclerView.adapter = searchAdapter
         searchBar.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(s: Editable) {}
 
@@ -68,14 +69,18 @@ class SearchFragment : Fragment() {
 
             override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
                 viewModel.searchMeals(s.toString())
-                Log.d("edrees -->", "Search Completed")
             }
         })
-
     }
     private fun prepareViewModel() {
         val factory = RecipeViewModelFactory(FavoriteRepositoryImpl(FavoriteLocalSourceImpl(requireContext())),
                                             MealsRepositoryImpl(APIClient, MealLocalSourceImpl(requireContext())))
         viewModel = ViewModelProvider(this, factory).get(SearchViewModel::class.java)
+    }
+
+    override fun onPause() {
+        super.onPause()
+        searchAdapter.setData(emptyList())
+        Log.d("edrees -->", "OnPause Called")
     }
 }

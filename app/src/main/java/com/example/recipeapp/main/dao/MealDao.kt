@@ -3,12 +3,14 @@ package com.example.recipeapp.main.dao
 import androidx.room.Dao
 import androidx.room.Delete
 import androidx.room.Insert
+import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import com.example.recipeapp.main.model.Meal
+import com.google.android.material.circularreveal.CircularRevealHelper.Strategy
 
 @Dao
 interface MealDao {
-    @Insert
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertMeal(vararg meal: Meal)
 
     @Delete
@@ -16,4 +18,7 @@ interface MealDao {
 
     @Query("select * from meals where idMeal = :mealID")
     suspend fun getMealById(mealID: String): Meal
+
+    @Query("select * from meals where idMeal in (:list)")
+    suspend fun getFavoriteMeals(list: List<String>): List<Meal>
 }
