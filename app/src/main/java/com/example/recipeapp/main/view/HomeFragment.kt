@@ -8,6 +8,9 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
+import androidx.navigation.findNavController
+import com.example.recipeapp.main.model.Favorite
+import com.example.recipeapp.main.model.Meal
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -31,7 +34,6 @@ class HomeFragment : Fragment() {
     lateinit var meal:TextView
     lateinit var catg:TextView
     lateinit var area:TextView
-
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -84,8 +86,4 @@ class HomeFragment : Fragment() {
                 }
             })
     }
-
-
-
-
 }
