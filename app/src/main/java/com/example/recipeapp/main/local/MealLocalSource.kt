@@ -9,4 +9,6 @@ interface MealLocalSource {
     suspend fun deleteMeal(meal: Meal)
 
     suspend fun getMealById(mealID: String): Meal
+
+    suspend fun getFavoriteMeals(list: List<String>): List<Meal>
 }

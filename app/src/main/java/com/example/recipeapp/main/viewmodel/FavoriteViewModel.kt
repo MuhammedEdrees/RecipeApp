@@ -7,21 +7,21 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.recipeapp.main.model.Favorite
 import com.example.recipeapp.main.model.Meal
-import com.example.recipeapp.main.model.MealResponse
-import com.example.recipeapp.main.network.APIClient
 import com.example.recipeapp.main.repo.FavoriteRepository
 import com.example.recipeapp.main.repo.MealsRepository
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
-open class RecipeViewModel(protected val mealRepo: MealsRepository,
-                           protected val favoriteRepo: FavoriteRepository
+class FavoriteViewModel(private val mealRepo: MealsRepository,
+                        private val favoriteRepo: FavoriteRepository
 ) : ViewModel() {
+    private val _localMeal = MutableLiveData<Meal>()
+    val localMeal: LiveData<Meal> = _localMeal
     protected val _listOfMeals = MutableLiveData<List<Meal>>()
-    protected val _RandomMeal = MutableLiveData<Meal>()
     protected val _isFavorite = MutableLiveData<Boolean>()
     val isFavorite : LiveData<Boolean> = _isFavorite
     val listOfMeals: LiveData<List<Meal>> = _listOfMeals
-    val RandomMeal: LiveData<Meal> = _RandomMeal
     protected val _listOfFavorites = MutableLiveData<List<Favorite>>()
     val listOfFavorites: LiveData<List<Favorite>> = _listOfFavorites
 
@@ -32,42 +32,20 @@ open class RecipeViewModel(protected val mealRepo: MealsRepository,
         }
     }
 
-    open fun deleteFavorite(item: Favorite) {
-        viewModelScope.launch {
-            favoriteRepo.deleteLocalFavorite(item)
-        }
-    }
     fun getUserFavorites(userId: Int){
         viewModelScope.launch {
             _listOfFavorites.value = favoriteRepo.getLocalUserFavorites(userId)
         }
     }
-
-
-    fun getListOfMeals() {
+    fun getLocalFavoriteMeals(list: List<String>) {
         viewModelScope.launch {
-
-                val response: MealResponse = APIClient.getMealsResponseByFirstLetter(('A'..'z').random())
-                _listOfMeals.value = response.meals
-            //Log.d("vmodel",response.toString())
-
+            _listOfMeals.value = mealRepo.getFavoriteMeals(list)
         }
     }
 
-    fun getRandomMeal(){
+    fun deleteFavorite(item: Favorite) {
         viewModelScope.launch {
-
-                val response: MealResponse = APIClient.getRandomMeal()
-                _RandomMeal.value = response.meals.first()
-
+            favoriteRepo.deleteLocalFavorite(item)
         }
-    }
-    fun checkIfFavorite(userId: Int, mealId: String) {
-        viewModelScope.launch {
-            _isFavorite.value = favoriteRepo.checkIfFavorite(userId, mealId) == 1
-        }
-    }
-    fun resetSearchResult(){
-        _listOfMeals.value = emptyList()
     }
 }

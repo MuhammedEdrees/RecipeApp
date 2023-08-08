@@ -1,6 +1,7 @@
 package com.example.recipeapp.main.local
 
 import android.content.Context
+import android.util.Log
 import com.example.recipeapp.db.RecipeDatabase
 import com.example.recipeapp.main.model.Meal
 
@@ -16,5 +17,11 @@ class MealLocalSourceImpl(private val context: Context): MealLocalSource {
 
     override suspend fun deleteMeal(meal: Meal) {
         dao.deleteMeal(meal)
+    }
+
+    override suspend fun getFavoriteMeals(list: List<String>): List<Meal> {
+        val res = dao.getFavoriteMeals(list)
+        Log.d("edrees -->", "local source: ${res.map{it.strMeal}}")
+        return res
     }
 }
