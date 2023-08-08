@@ -19,9 +19,4 @@ class DetailsViewModel(mealRepo: MealsRepository,
             _meal.value = mealRepo.getRemoteMealById(mealID).meals.first()
         }
     }
-    fun checkIfFavorite(mealId: String){
-        viewModelScope.launch{
-            _isFavorite.value = mealRepo.checkIfFavorite(mealId)
-        }
-    }
 }

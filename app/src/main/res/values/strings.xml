@@ -73,5 +73,7 @@
     <string name="nothing_to_see_here">Nothing to See Here</string>
     <string name="our_daily_recipe">Our Daily Recipe</string>
     <string name="our_recipes">Our Recipes</string>
+    <string name="category_label">Category :</string>
+    <string name="area_label">Area :</string>
 
 </resources>

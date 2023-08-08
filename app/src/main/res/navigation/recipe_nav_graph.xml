@@ -42,7 +42,7 @@
         android:name="com.example.recipeapp.main.view.DetailsFragment"
         android:label="DetailsFragment" >
         <argument
-            android:name="meal_id"
-            app:argType="string" />
+            android:name="meal"
+            app:argType="com.example.recipeapp.main.model.Meal" />
     </fragment>
 </navigation>

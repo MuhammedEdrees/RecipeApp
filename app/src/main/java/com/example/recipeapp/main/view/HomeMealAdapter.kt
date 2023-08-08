@@ -17,7 +17,7 @@ import com.example.recipeapp.main.model.Meal
 import com.example.recipeapp.main.viewmodel.RecipeViewModel
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 
-class HomeMealAdapter (private val viewModel: RecipeViewModel, private val owner: LifecycleOwner): RecyclerView.Adapter<HomeMealAdapter.HomeMealViewHolder>() {
+class HomeMealAdapter (private val fragment: SearchMealCallback): RecyclerView.Adapter<HomeMealAdapter.HomeMealViewHolder>() {
     private val data = mutableListOf<Meal>()
     class HomeMealViewHolder(row: View): RecyclerView.ViewHolder(row) {
         val thumbnailHolder = row.findViewById<ImageView>(R.id.meal_thumbnail)
@@ -38,28 +38,30 @@ class HomeMealAdapter (private val viewModel: RecipeViewModel, private val owner
         Glide.with(holder.itemView.context)
             .load(data[position].strMealThumb)
             .into(holder.thumbnailHolder)
-        Log.d("edrees -->", "Thumbnail Loaded")
         holder.titleHolder.text = data[position].strMeal
         holder.categoryHolder.text = String.format(holder.itemView.resources.getString(R.string.category_str), data[position].strCategory)
         holder.areaHolder.text = String.format(holder.itemView.resources.getString(R.string.area_str), data[position].strArea)
         val prefs = holder.itemView.context.getSharedPreferences("user_prefs", Context.MODE_PRIVATE)
         val userId = prefs.getInt("user_id", -1)
         holder.favoriteButton.setOnCheckedChangeListener(null)
-        holder.favoriteButton.isChecked = viewModel.listOfFavorites.value?.any { it.mealID == data[position].idMeal } ?: false
+        holder.itemView.setOnClickListener(null)
+        holder.favoriteButton.isChecked = fragment.isFavoriteCallback(data[position].idMeal)
         holder.favoriteButton.setOnCheckedChangeListener{ buttonView, isChecked ->
             if (isChecked) {
-                viewModel.addFavorite(Favorite(userId, data[position].idMeal), data[position])
-                viewModel.getUserFavorites(userId)
+                fragment.addFavoriteCallback(Favorite(userId, data[position].idMeal), data[position])
             } else {
                 MaterialAlertDialogBuilder(holder.itemView.context).setTitle("Confirm")
                     .setMessage("Are you sure you want to remove this item from your favorites?")
                     .setPositiveButton("Yes") { dialog, which ->
-                        viewModel.deleteFavorite(Favorite(userId, data[position].idMeal))
+                        fragment.deleteFavoriteCallback(Favorite(userId, data[position].idMeal))
                     }
                     .setNegativeButton("No") { dialog, which ->
                         buttonView.isChecked = true
                     }.show()
             }
+        }
+        holder.itemView.setOnClickListener {
+            fragment.navigateToDetailsCallback(data[position])
         }
     }
 

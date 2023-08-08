@@ -59,9 +59,7 @@ class DetailsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         prepareViewModel()
-
-        viewModel.getRemoteMeal(args.mealId)
-        viewModel.meal.observe(viewLifecycleOwner) { meal ->
+        args.meal.also { meal ->
 
             val favoriteBtn: FloatingActionButton = view.findViewById(R.id.favoriteBtn)
 
@@ -116,7 +114,17 @@ class DetailsFragment : Fragment() {
 
             val recyclerView: RecyclerView = view.findViewById(R.id.ingredientsTable)
             recyclerView.layoutManager = LinearLayoutManager(context) // it was this
-
+            // maps each ingredient to its corresponding measure and eliminates any nulls
+            val mealsMap2 = meal::class.members
+                .filter { it.name.startsWith("strIngredient") }
+                .mapIndexedNotNull { index, property ->
+                    val ingredient = property.call(meal) as? String
+                    val measureProperty = meal::class.members.find { it.name == "strMeasure${index + 1}" }
+                    val measure = measureProperty?.call(meal) as? String
+                    ingredient?.let { it to measure }
+                }
+                .toMap()
+            Log.d("edrees", "Map: ${mealsMap2}")
             val mealsMap: MutableMap<String?, String?> = mutableMapOf<String?, String?>()
             mealsMap[meal.strIngredient1] = meal.strMeasure1
             mealsMap[meal.strIngredient2] = meal.strMeasure2
