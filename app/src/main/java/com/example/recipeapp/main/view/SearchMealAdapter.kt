@@ -13,38 +13,37 @@ import com.bumptech.glide.Glide
 import com.example.recipeapp.R
 import com.example.recipeapp.main.model.Favorite
 import com.example.recipeapp.main.model.Meal
-import com.example.recipeapp.main.viewmodel.FavoriteViewModel
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 
-class FavoriteMealAdapter(val fragment: MealCallback) : RecyclerView.Adapter<FavoriteMealAdapter.FavoriteMealViewHolder>() {
+class SearchMealAdapter(private val fragment: SearchMealCallback): RecyclerView.Adapter<SearchMealAdapter.MealViewHolder>() {
     private val data = mutableListOf<Meal>()
-    class FavoriteMealViewHolder(val row: View): RecyclerView.ViewHolder(row) {
-        val favThumbnail = row.findViewById<ImageView>(R.id.favorite_thumbnail)
-        val favTitle = row.findViewById<TextView>(R.id.favorite_title)
-        val favCategory = row.findViewById<TextView>(R.id.favorite_category_txt)
-        val favArea = row.findViewById<TextView>(R.id.favorite_area_txt)
-        val favButton = row.findViewById<CheckBox>(R.id.favorite_check_box)
+    class MealViewHolder(row: View): RecyclerView.ViewHolder(row) {
+        val thumbnailHolder = row.findViewById<ImageView>(R.id.favorite_thumbnail)
+        val titleHolder = row.findViewById<TextView>(R.id.favorite_title)
+        val categoryHolder = row.findViewById<TextView>(R.id.favorite_category_txt)
+        val areaHolder = row.findViewById<TextView>(R.id.favorite_area_txt)
+        val favoriteButton = row.findViewById<CheckBox>(R.id.favorite_check_box)
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FavoriteMealViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.favorite_list_item, parent, false)
-        return FavoriteMealViewHolder(view)
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SearchMealAdapter.MealViewHolder {
+        val layout = LayoutInflater.from(parent.context).inflate(R.layout.favorite_list_item, parent, false)
+        return MealViewHolder(layout)
     }
 
     override fun getItemCount() = data.size
 
-    override fun onBindViewHolder(holder: FavoriteMealViewHolder, position: Int) {
-        holder.favButton.setOnCheckedChangeListener(null)
+    override fun onBindViewHolder(holder: MealViewHolder, position: Int) {
         Glide.with(holder.itemView.context)
             .load(data[position].strMealThumb)
-            .into(holder.favThumbnail)
-        holder.favTitle.text = data[position].strMeal
-        holder.favCategory.text = data[position].strCategory
-        holder.favArea.text = data[position].strArea
-        holder.favButton.isChecked = true
+            .into(holder.thumbnailHolder)
+        holder.titleHolder.text = data[position].strMeal
+        holder.categoryHolder.text = data[position].strCategory
+        holder.areaHolder.text = data[position].strArea
         val prefs = holder.itemView.context.getSharedPreferences("user_prefs", Context.MODE_PRIVATE)
         val userId = prefs.getInt("user_id", -1)
-        holder.favButton.setOnCheckedChangeListener{buttonView, isChecked ->
+        holder.favoriteButton.setOnCheckedChangeListener(null)
+        holder.favoriteButton.isChecked = fragment.isFavoriteCallback(data[position].idMeal)
+        holder.favoriteButton.setOnCheckedChangeListener{ buttonView, isChecked ->
             if (isChecked) {
                 fragment.addFavoriteCallback(Favorite(userId, data[position].idMeal), data[position])
             } else {
@@ -54,7 +53,6 @@ class FavoriteMealAdapter(val fragment: MealCallback) : RecyclerView.Adapter<Fav
                         fragment.deleteFavoriteCallback(Favorite(userId, data[position].idMeal))
                     }
                     .setNegativeButton("No") { dialog, which ->
-                        dialog.cancel()
                         buttonView.isChecked = true
                     }.show()
             }

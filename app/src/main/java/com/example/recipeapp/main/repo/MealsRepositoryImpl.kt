@@ -27,12 +27,24 @@ class MealsRepositoryImpl(val mealRemoteDataSource: MealRemoteDataSource, val me
         mealLocalSource.deleteMeal(meal)
     }
 
-    override suspend fun getMealById(mealID: String): Meal {
+    override suspend fun getLocalMealById(mealID: String): Meal {
         return mealLocalSource.getMealById(mealID)
+    }
+
+    override suspend fun getRemoteMealById(mealId: String): MealResponse {
+        return mealRemoteDataSource.getMealById(mealId)
     }
 
     override suspend fun getFavoriteMeals(list: List<String>): List<Meal> {
         val res = mealLocalSource.getFavoriteMeals(list)
         return res
+    }
+
+    override suspend fun checkIfFavorite(mealId: String): Boolean {
+        return mealLocalSource.checkIfFavorite(mealId)
+    }
+
+    override suspend fun deleteMealById(mealID: String) {
+        mealLocalSource.deleteMealById(mealID)
     }
 }

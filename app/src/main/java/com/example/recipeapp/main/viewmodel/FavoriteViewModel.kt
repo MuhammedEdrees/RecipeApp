@@ -16,14 +16,12 @@ import kotlinx.coroutines.withContext
 class FavoriteViewModel(private val mealRepo: MealsRepository,
                         private val favoriteRepo: FavoriteRepository
 ) : ViewModel() {
-    private val _localMeal = MutableLiveData<Meal>()
-    val localMeal: LiveData<Meal> = _localMeal
     protected val _listOfMeals = MutableLiveData<List<Meal>>()
-    protected val _isFavorite = MutableLiveData<Boolean>()
-    val isFavorite : LiveData<Boolean> = _isFavorite
     val listOfMeals: LiveData<List<Meal>> = _listOfMeals
     protected val _listOfFavorites = MutableLiveData<List<Favorite>>()
     val listOfFavorites: LiveData<List<Favorite>> = _listOfFavorites
+    protected val _isFavorite = MutableLiveData<Boolean>()
+    val isFavorite : LiveData<Boolean> = _isFavorite
 
     fun addFavorite(fav: Favorite, meal: Meal) {
         viewModelScope.launch {
@@ -46,6 +44,16 @@ class FavoriteViewModel(private val mealRepo: MealsRepository,
     fun deleteFavorite(item: Favorite) {
         viewModelScope.launch {
             favoriteRepo.deleteLocalFavorite(item)
+        }
+    }
+    fun checkIfFavorite(mealId: String){
+        viewModelScope.launch{
+            _isFavorite.value = mealRepo.checkIfFavorite(mealId)
+        }
+    }
+    fun deletMeal(mealID: String) {
+        viewModelScope.launch {
+            mealRepo.deleteMealById(mealID)
         }
     }
 }

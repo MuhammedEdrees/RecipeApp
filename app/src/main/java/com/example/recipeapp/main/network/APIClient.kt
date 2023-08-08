@@ -1,5 +1,7 @@
 package com.example.recipeapp.main.network
 
+import android.util.Log
+import com.example.recipeapp.main.model.Meal
 import com.example.recipeapp.main.model.MealResponse
 
 object APIClient : MealRemoteDataSource {
@@ -14,5 +16,9 @@ object APIClient : MealRemoteDataSource {
 
     override suspend fun search(name: String): MealResponse {
         return BaseRetrofitHelper.retrofit.create(APIService::class.java).search(name)
+    }
+
+    override suspend fun getMealById(mealId: String): MealResponse {
+        return BaseRetrofitHelper.retrofit.create(APIService::class.java).getMealById(mealId)
     }
 }

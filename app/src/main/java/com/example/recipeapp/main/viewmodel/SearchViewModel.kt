@@ -14,4 +14,14 @@ class SearchViewModel(mealRepo: MealsRepository,
             _listOfMeals.value = mealRepo.search(query).meals ?: emptyList()
         }
     }
+    fun checkIfFavorite(mealId: String){
+        viewModelScope.launch{
+            _isFavorite.value = mealRepo.checkIfFavorite(mealId)
+        }
+    }
+    fun deletMeal(mealID: String) {
+        viewModelScope.launch {
+            mealRepo.deleteMealById(mealID)
+        }
+    }
 }

@@ -24,4 +24,12 @@ class MealLocalSourceImpl(private val context: Context): MealLocalSource {
         Log.d("edrees -->", "local source: ${res.map{it.strMeal}}")
         return res
     }
+
+    override suspend fun checkIfFavorite(mealId: String): Boolean {
+        return dao.checkIfFavorite(mealId) == 1
+    }
+
+    override suspend fun deleteMealById(mealID: String) {
+        dao.deleteMealById(mealID)
+    }
 }
