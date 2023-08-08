@@ -52,6 +52,7 @@ class DetailsFragment : Fragment() {
         viewModel.getRemoteMeal(args.mealId)
         viewModel.meal.observe(viewLifecycleOwner) {meal ->
             Log.d("edrees ->", "Response: ${meal}")
+
         }
         val collapsingToolbarLayout: CollapsingToolbarLayout = view.findViewById(R.id.collapsingToolbarLayout)
         collapsingToolbarLayout.title = "remo meal"
