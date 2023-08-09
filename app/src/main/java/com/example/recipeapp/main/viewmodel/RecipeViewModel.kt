@@ -47,9 +47,10 @@ open class RecipeViewModel(protected val mealRepo: MealsRepository,
     fun getListOfMeals() {
         viewModelScope.launch {
             Log.d("edrees ->", "Fuction called")
-            val response = APIClient.getMealsResponseByFirstLetter(('a'..'z').random()).meals ?: emptyList()
-            Log.d("vmodel",response.toString())
-            _listOfMeals.value = response
+              val  response = APIClient.getMealsResponseByFirstLetter(('a'..'z').random()).meals
+                    ?: emptyList()
+                Log.d("vmodel", response.toString())
+                _listOfMeals.value = response
         }
     }
 

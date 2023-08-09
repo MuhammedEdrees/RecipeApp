@@ -1,6 +1,8 @@
 package com.example.recipeapp.main.view
 
 import android.content.Context
+import android.graphics.drawable.Drawable
+import android.graphics.drawable.LayerDrawable
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -10,6 +12,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.activity.OnBackPressedCallback
 import androidx.cardview.widget.CardView
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
 import com.example.recipeapp.main.model.Favorite
@@ -61,7 +64,7 @@ class HomeFragment : Fragment(), SearchMealCallback {
         area=view.findViewById(R.id.meal_area)
         randomMealCardview = view.findViewById(R.id.random_meal_cardview)
         favBtn=view.findViewById(R.id.fav_btn)
-
+        //start shimmer, visable
         val factory=RecipeViewModelFactory(FavoriteRepositoryImpl(FavoriteLocalSourceImpl(requireContext())),MealsRepositoryImpl(APIClient,MealLocalSourceImpl(requireContext())))
         mealVModel = ViewModelProvider(this,factory).get(RecipeViewModel::class.java)
         mealVModel.getListOfMeals()
@@ -70,7 +73,7 @@ class HomeFragment : Fragment(), SearchMealCallback {
         rv.layoutManager =
             LinearLayoutManager(this.requireContext(), RecyclerView.HORIZONTAL, false)
         mealVModel.listOfMeals.observe(viewLifecycleOwner) { meals
-            ->
+            ->//stop shimmer, gone
             adapter.setData(meals)
         }
         mealVModel.getRandomMeal()
@@ -112,6 +115,7 @@ class HomeFragment : Fragment(), SearchMealCallback {
                 }
             }
         }
+
 
         requireActivity().onBackPressedDispatcher.addCallback(
             viewLifecycleOwner,
