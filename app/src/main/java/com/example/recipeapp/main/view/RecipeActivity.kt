@@ -88,15 +88,9 @@ class RecipeActivity : AppCompatActivity() {
     fun hideBarAndBottomNavigation() {
         supportActionBar?.hide()
         bottomNavigation.visibility = View.GONE
-//        val params = findViewById<FragmentContainerView>(R.id.activity_recipe_nav_host).layoutParams as ConstraintLayout.LayoutParams
-//        params.bottomToBottom = ConstraintLayout.LayoutParams.PARENT_ID
-//        params.topToTop = ConstraintLayout.LayoutParams.PARENT_ID
     }
     fun showBarAndBottomNavigation() {
         supportActionBar?.show()
         bottomNavigation.visibility = View.VISIBLE
-//        val params = findViewById<FragmentContainerView>(R.id.activity_recipe_nav_host).layoutParams as ConstraintLayout.LayoutParams
-//        params.bottomToTop = R.id.bottom_navigation
-//        params.topToBottom = R.id.top_app_bar_layout
     }
 }

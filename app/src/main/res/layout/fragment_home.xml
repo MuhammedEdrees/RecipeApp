@@ -30,77 +30,83 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/daily_recipe">
-
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <ImageView
-                android:id="@+id/meal_thumbnail"
-                android:layout_width="wrap_content"
-                android:layout_height="145dp"
-                android:layout_gravity="center"
-                android:scaleType="centerCrop"
-                android:layout_marginBottom="10dp"
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/random_meal_thumbnail_frame"
                 app:layout_constraintBottom_toTopOf="@id/meal_title"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                tools:srcCompat="@tools:sample/avatars" />
-            <TextView
-                android:id="@+id/meal_title"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="10dp"
-                android:text="TextView"
-                android:gravity="center_horizontal"
-                android:textSize="24sp"
-                android:textStyle="bold"
-                app:layout_constraintBottom_toTopOf="@id/meal_category"
-                app:layout_constraintTop_toBottomOf="@id/meal_thumbnail"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"/>
+                app:layout_constraintEnd_toEndOf="parent" >
+                <ImageView
+                    android:id="@+id/meal_thumbnail"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:scaleType="centerCrop"
+                    android:layout_marginBottom="10dp"
 
-            <TextView
-                android:id="@+id/meal_category"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="5dp"
-                android:text="@string/category_str"
-                android:textSize="18sp"
-                app:layout_constraintBottom_toTopOf="@id/meal_area"
-                app:layout_constraintTop_toBottomOf="@id/meal_title"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"/>
+                    tools:srcCompat="@tools:sample/avatars" />
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/gradient_bottom"/>
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+                    <TextView
+                        android:id="@+id/meal_title"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="10dp"
+                        android:text="TextView"
+                        android:gravity="center_horizontal"
+                        android:textSize="24sp"
+                        android:textStyle="bold"
+                        app:layout_constraintBottom_toTopOf="@id/meal_category"
+                        app:layout_constraintTop_toBottomOf="@id/random_meal_thumbnail_frame"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"/>
 
-            <TextView
-                android:id="@+id/meal_area"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="5dp"
-                android:text="@string/area_str"
-                android:textSize="18sp"
-                app:layout_constraintBottom_toTopOf="@id/fav_btn"
-                app:layout_constraintTop_toBottomOf="@id/meal_category"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"/>
+                    <TextView
+                        android:id="@+id/meal_category"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="5dp"
+                        android:text="@string/category_str"
+                        android:textSize="18sp"
+                        app:layout_constraintBottom_toTopOf="@id/meal_area"
+                        app:layout_constraintTop_toBottomOf="@id/meal_title"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"/>
+
+                    <TextView
+                        android:id="@+id/meal_area"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="5dp"
+                        android:text="@string/area_str"
+                        android:textSize="18sp"
+                        app:layout_constraintBottom_toTopOf="@id/fav_btn"
+                        app:layout_constraintTop_toBottomOf="@id/meal_category"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"/>
 
 
 
-            <CheckBox
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="end"
-                android:id="@+id/fav_btn"
-                android:button="@drawable/selector_fav_item"
-                android:fitsSystemWindows="true"
-                android:theme="@style/chkBtn"
-                app:useMaterialThemeColors="false"
-                app:layout_constraintTop_toBottomOf="@id/meal_area"
-                app:layout_constraintEnd_toEndOf="parent"/>
-
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
+                    <CheckBox
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="end"
+                        android:id="@+id/fav_btn"
+                        android:button="@drawable/selector_fav_item"
+                        android:fitsSystemWindows="true"
+                        android:theme="@style/chkBtn"
+                        app:useMaterialThemeColors="false"
+                        app:layout_constraintTop_toBottomOf="@id/meal_area"
+                        app:layout_constraintEnd_toEndOf="parent"/>
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </FrameLayout>
     </androidx.cardview.widget.CardView>
 
     <TextView
