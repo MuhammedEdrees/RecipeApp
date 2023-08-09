@@ -17,7 +17,7 @@ import com.example.recipeapp.main.model.Meal
 import com.example.recipeapp.main.viewmodel.RecipeViewModel
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 
-class HomeMealAdapter (private val fragment: MealCallback, private val owner: LifecycleOwner): RecyclerView.Adapter<HomeMealAdapter.HomeMealViewHolder>() {
+class HomeMealAdapter (private val fragment: SearchMealCallback): RecyclerView.Adapter<HomeMealAdapter.HomeMealViewHolder>() {
     private val data = mutableListOf<Meal>()
     class HomeMealViewHolder(row: View): RecyclerView.ViewHolder(row) {
         val thumbnailHolder = row.findViewById<ImageView>(R.id.meal_thumbnail)
@@ -44,7 +44,10 @@ class HomeMealAdapter (private val fragment: MealCallback, private val owner: Li
         holder.areaHolder.text = String.format(holder.itemView.resources.getString(R.string.area_str), data[position].strArea)
         val prefs = holder.itemView.context.getSharedPreferences("user_prefs", Context.MODE_PRIVATE)
         val userId = prefs.getInt("user_id", -1)
-        holder.favoriteButton.setOnCheckedChangeListener{buttonView, isChecked ->
+        holder.favoriteButton.setOnCheckedChangeListener(null)
+        holder.itemView.setOnClickListener(null)
+        holder.favoriteButton.isChecked = fragment.isFavoriteCallback(data[position].idMeal)
+        holder.favoriteButton.setOnCheckedChangeListener{ buttonView, isChecked ->
             if (isChecked) {
                 fragment.addFavoriteCallback(Favorite(userId, data[position].idMeal), data[position])
             } else {
@@ -54,13 +57,12 @@ class HomeMealAdapter (private val fragment: MealCallback, private val owner: Li
                         fragment.deleteFavoriteCallback(Favorite(userId, data[position].idMeal))
                     }
                     .setNegativeButton("No") { dialog, which ->
-                        dialog.cancel()
                         buttonView.isChecked = true
                     }.show()
             }
         }
         holder.itemView.setOnClickListener {
-            fragment.navigateToDetailsCallback(data[position].idMeal)
+            fragment.navigateToDetailsCallback(data[position])
         }
     }
 

@@ -47,7 +47,7 @@
             android:layout_marginTop="12dp"
             app:layout_constraintStart_toStartOf="@id/favorite_title"
             app:layout_constraintTop_toBottomOf="@id/favorite_title"
-            android:text="@string/category_str"
+            android:text="@string/category_label"
             android:textSize="18sp" />
         <TextView
             android:id="@+id/favorite_category_txt"
@@ -67,7 +67,7 @@
             app:layout_constraintStart_toStartOf="@id/favorite_category_label"
             app:layout_constraintEnd_toEndOf="@id/favorite_category_label"
             app:layout_constraintTop_toBottomOf="@id/favorite_category_label"
-            android:text="@string/area_str"
+            android:text="@string/area_label"
             android:textSize="18sp" />
 
         <TextView

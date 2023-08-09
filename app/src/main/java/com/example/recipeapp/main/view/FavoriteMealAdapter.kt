@@ -35,6 +35,7 @@ class FavoriteMealAdapter(val fragment: MealCallback) : RecyclerView.Adapter<Fav
 
     override fun onBindViewHolder(holder: FavoriteMealViewHolder, position: Int) {
         holder.favButton.setOnCheckedChangeListener(null)
+        holder.itemView.setOnClickListener(null)
         Glide.with(holder.itemView.context)
             .load(data[position].strMealThumb)
             .into(holder.favThumbnail)
@@ -60,7 +61,7 @@ class FavoriteMealAdapter(val fragment: MealCallback) : RecyclerView.Adapter<Fav
             }
         }
         holder.itemView.setOnClickListener {
-            fragment.navigateToDetailsCallback(data[position].idMeal)
+            fragment.navigateToDetailsCallback(data[position])
         }
     }
 

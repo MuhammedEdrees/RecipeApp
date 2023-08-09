@@ -42,6 +42,7 @@ class SearchMealAdapter(private val fragment: SearchMealCallback): RecyclerView.
         val prefs = holder.itemView.context.getSharedPreferences("user_prefs", Context.MODE_PRIVATE)
         val userId = prefs.getInt("user_id", -1)
         holder.favoriteButton.setOnCheckedChangeListener(null)
+        holder.itemView.setOnClickListener(null)
         holder.favoriteButton.isChecked = fragment.isFavoriteCallback(data[position].idMeal)
         holder.favoriteButton.setOnCheckedChangeListener{ buttonView, isChecked ->
             if (isChecked) {
@@ -58,7 +59,7 @@ class SearchMealAdapter(private val fragment: SearchMealCallback): RecyclerView.
             }
         }
         holder.itemView.setOnClickListener {
-            fragment.navigateToDetailsCallback(data[position].idMeal)
+            fragment.navigateToDetailsCallback(data[position])
         }
     }
 

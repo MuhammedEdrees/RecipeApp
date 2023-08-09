@@ -31,7 +31,7 @@ import com.example.recipeapp.main.viewmodel.RecipeViewModelFactory
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 
 
-class HomeFragment : Fragment() , SearchMealCallback{
+class HomeFragment : Fragment(), SearchMealCallback {
 
     lateinit var mealVModel:RecipeViewModel
     lateinit var rv :RecyclerView
@@ -54,7 +54,7 @@ class HomeFragment : Fragment() , SearchMealCallback{
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val rv =view.findViewById<RecyclerView>(R.id.recyclerView)
+        rv =view.findViewById(R.id.recyclerView)
         img=view.findViewById(R.id.meal_thumbnail)
         meal=view.findViewById(R.id.meal_title)
         catg=view.findViewById(R.id.meal_category)
@@ -65,7 +65,7 @@ class HomeFragment : Fragment() , SearchMealCallback{
         val factory=RecipeViewModelFactory(FavoriteRepositoryImpl(FavoriteLocalSourceImpl(requireContext())),MealsRepositoryImpl(APIClient,MealLocalSourceImpl(requireContext())))
         mealVModel = ViewModelProvider(this,factory).get(RecipeViewModel::class.java)
         mealVModel.getListOfMeals()
-        val adapter = HomeMealAdapter(this,viewLifecycleOwner)
+        val adapter = HomeMealAdapter(this)
         rv.adapter = adapter
         rv.layoutManager =
             LinearLayoutManager(this.requireContext(), RecyclerView.HORIZONTAL, false)
@@ -85,6 +85,9 @@ class HomeFragment : Fragment() , SearchMealCallback{
                         .placeholder(R.drawable.loading2)
                 )
                 .into(img)
+            randomMealCardview.setOnClickListener{
+                navigateToDetailsCallback(meal)
+            }
             randomMealCardview.setOnClickListener{
                 navigateToDetailsCallback(meal)
             }
@@ -128,13 +131,11 @@ class HomeFragment : Fragment() , SearchMealCallback{
     }
 
     override fun deleteFavoriteCallback(favorite: Favorite) {
-        val prefs = requireContext().getSharedPreferences("user_prefs", Context.MODE_PRIVATE)
-        val userId = prefs.getInt("user_id", -1)
         mealVModel.deleteFavorite(favorite)
-        mealVModel.checkIfFavorite(userId,favorite.mealID)
+        mealVModel.checkIfFavorite(favorite.mealID)
         mealVModel.isFavorite.observe(viewLifecycleOwner) {isFavorite ->
             if(isFavorite){
-                mealVModel.deleteMeal(favorite.mealID)
+                mealVModel.deletMeal(favorite.mealID)
             }
         }
         mealVModel.getUserFavorites(favorite.userID)

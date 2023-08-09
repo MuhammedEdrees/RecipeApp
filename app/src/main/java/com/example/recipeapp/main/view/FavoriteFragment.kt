@@ -10,6 +10,7 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.airbnb.lottie.LottieAnimationView
@@ -82,9 +83,9 @@ class FavoriteFragment : Fragment(), MealCallback {
         viewModel.getUserFavorites(favorite.userID)
     }
 
-    override fun navigateToDetailsCallback(mealId: String) {
-        val action = FavoriteFragmentDirections.actionFavoriteFragmentToDetailsFragment(mealId)
-        view?.findNavController()?.navigate(action)
+    override fun navigateToDetailsCallback(meal: Meal) {
+        val action = FavoriteFragmentDirections.actionFavoriteFragmentToDetailsFragment(meal)
+        findNavController().navigate(action)
     }
     fun setNoFavoriteAnimationVisible() {
         lottieLayout.visibility = View.VISIBLE
