@@ -29,13 +29,13 @@
                 android:background="@color/shimmer_color"
                 android:layout_margin="10dp"
                 android:scaleType="centerCrop"
-                app:layout_constraintBottom_toTopOf="@id/meal_title"
+                app:layout_constraintBottom_toTopOf="@id/random_meal_title"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"/>
 
             <TextView
-                android:id="@+id/meal_title"
+                android:id="@+id/random_meal_title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
@@ -56,7 +56,7 @@
                 android:layout_marginBottom="5dp"
                 android:textSize="18sp"
                 app:layout_constraintBottom_toTopOf="@id/meal_area"
-                app:layout_constraintTop_toBottomOf="@id/meal_title"
+                app:layout_constraintTop_toBottomOf="@id/random_meal_title"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toStartOf="@id/meal_check_box"/>
 
@@ -82,7 +82,7 @@
                 android:button="@drawable/selector_fav_item"
                 android:fitsSystemWindows="true"
                 android:theme="@style/chkBtn"
-                app:layout_constraintTop_toBottomOf="@id/meal_title"
+                app:layout_constraintTop_toBottomOf="@id/random_meal_title"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@id/meal_area"
                 />

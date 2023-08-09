@@ -21,7 +21,7 @@
         <ImageView
             android:id="@+id/favorite_thumbnail"
             android:layout_width="130dp"
-            android:layout_height="150dp"
+            android:layout_height="120dp"
             android:scaleType="centerCrop"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -31,24 +31,32 @@
             android:id="@+id/favorite_title"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
             android:layout_marginStart="16dp"
             tools:text="Title"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toEndOf="@id/favorite_thumbnail"
             app:layout_constraintEnd_toEndOf="parent"
-            android:gravity="center_horizontal"
-            android:textSize="24sp"
-            android:textStyle="bold"/>
+            android:gravity="start"
+            android:textSize="21sp"/>
+        <View
+            android:layout_width="0dp"
+            android:layout_height="2dp"
+            android:background="@color/shimmer_color"
+            android:layout_marginTop="8dp"
+            app:layout_constraintStart_toStartOf="@id/favorite_title"
+            app:layout_constraintEnd_toEndOf="@id/favorite_category_txt"
+            app:layout_constraintTop_toBottomOf="@id/favorite_title" />
 
         <TextView
             android:id="@+id/favorite_category_label"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
+            android:layout_marginTop="16dp"
             app:layout_constraintStart_toStartOf="@id/favorite_title"
             app:layout_constraintTop_toBottomOf="@id/favorite_title"
             android:text="@string/category_label"
-            android:textSize="18sp" />
+            android:textSize="14sp" />
         <TextView
             android:id="@+id/favorite_category_txt"
             android:layout_width="wrap_content"
@@ -57,7 +65,7 @@
             app:layout_constraintStart_toEndOf="@id/favorite_category_label"
             app:layout_constraintTop_toTopOf="@id/favorite_category_label"
             app:layout_constraintBottom_toBottomOf="@id/favorite_category_label"
-            android:textSize="18sp" />
+            android:textSize="14sp" />
 
         <TextView
             android:id="@+id/favorite_area_label"
@@ -68,7 +76,7 @@
             app:layout_constraintEnd_toEndOf="@id/favorite_category_label"
             app:layout_constraintTop_toBottomOf="@id/favorite_category_label"
             android:text="@string/area_label"
-            android:textSize="18sp" />
+            android:textSize="14sp" />
 
         <TextView
             android:id="@+id/favorite_area_txt"
@@ -80,7 +88,7 @@
             app:layout_constraintBottom_toBottomOf="@id/favorite_area_label"
             tools:text="Area Text"
             android:layout_marginBottom="5dp"
-            android:textSize="18sp" />
+            android:textSize="14sp" />
 
         <CheckBox
             android:layout_width="wrap_content"
@@ -89,6 +97,7 @@
             app:useMaterialThemeColors="false"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginBottom="6dp"
             android:button="@drawable/selector_fav_item"
             android:fitsSystemWindows="true"
             android:theme="@style/chkBtn" />
