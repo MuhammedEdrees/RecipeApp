@@ -1,13 +1,18 @@
 package com.example.recipeapp.main.view
 
+import android.app.ActionBar.LayoutParams
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
+import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.fragment.app.FragmentContainerView
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.example.recipeapp.R
 import com.example.recipeapp.auth.view.AuthenticationActivity
@@ -23,11 +28,33 @@ class RecipeActivity : AppCompatActivity() {
         setContentView(R.layout.activity_recipe)
         topBar = findViewById<MaterialToolbar>(R.id.top_app_bar)
         val navHostFragment = supportFragmentManager.findFragmentById(R.id.activity_recipe_nav_host) as NavHostFragment
-        val navController = navHostFragment.navController
+        navController = navHostFragment.navController
         bottomNavigation= findViewById(R.id.bottom_navigation)
         bottomNavigation.setupWithNavController(navController)
         setSupportActionBar(topBar)
-        supportActionBar?.title = "Recipe App"
+        setupActionBarWithNavController(navController)
+        navController.addOnDestinationChangedListener{_, destination, _ ->
+            when(destination.id) {
+                R.id.homeFragment -> {
+                    showBarAndBottomNavigation()
+                    supportActionBar?.title = "Home"
+                }
+                R.id.searchFragment -> {
+                    showBarAndBottomNavigation()
+                    supportActionBar?.title = "Search"
+                }
+                R.id.favoriteFragment -> {
+                    showBarAndBottomNavigation()
+                    supportActionBar?.title = "Favorites"
+                }
+                R.id.detailsFragment -> {
+                    hideBarAndBottomNavigation()
+                }
+                R.id.aboutUsFragment -> {
+                    hideBarAndBottomNavigation()
+                }
+            }
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -53,5 +80,23 @@ class RecipeActivity : AppCompatActivity() {
             }
             else -> super.onOptionsItemSelected(item)
         }
+    }
+    override fun onSupportNavigateUp(): Boolean {
+        return navController.navigateUp() || super.onSupportNavigateUp()
+    }
+
+    fun hideBarAndBottomNavigation() {
+        supportActionBar?.hide()
+        bottomNavigation.visibility = View.GONE
+//        val params = findViewById<FragmentContainerView>(R.id.activity_recipe_nav_host).layoutParams as ConstraintLayout.LayoutParams
+//        params.bottomToBottom = ConstraintLayout.LayoutParams.PARENT_ID
+//        params.topToTop = ConstraintLayout.LayoutParams.PARENT_ID
+    }
+    fun showBarAndBottomNavigation() {
+        supportActionBar?.show()
+        bottomNavigation.visibility = View.VISIBLE
+//        val params = findViewById<FragmentContainerView>(R.id.activity_recipe_nav_host).layoutParams as ConstraintLayout.LayoutParams
+//        params.bottomToTop = R.id.bottom_navigation
+//        params.topToBottom = R.id.top_app_bar_layout
     }
 }

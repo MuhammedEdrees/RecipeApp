@@ -18,6 +18,8 @@ open class RecipeViewModel(protected val mealRepo: MealsRepository,
 ) : ViewModel() {
     protected val _listOfMeals = MutableLiveData<List<Meal>>()
     protected val _RandomMeal = MutableLiveData<Meal>()
+    protected val _isUserFavorite = MutableLiveData<Boolean>()
+    val isUserFavorite : LiveData<Boolean> = _isUserFavorite
     protected val _isFavorite = MutableLiveData<Boolean>()
     val isFavorite : LiveData<Boolean> = _isFavorite
     val listOfMeals: LiveData<List<Meal>> = _listOfMeals
@@ -61,7 +63,7 @@ open class RecipeViewModel(protected val mealRepo: MealsRepository,
     }
     open fun checkIfFavorite(userId: Int, mealId: String) {
         viewModelScope.launch {
-            _isFavorite.value = favoriteRepo.checkIfFavorite(userId, mealId) == 1
+            _isUserFavorite.value = favoriteRepo.checkIfFavorite(userId, mealId) == 1
         }
     }
     fun resetSearchResult(){
