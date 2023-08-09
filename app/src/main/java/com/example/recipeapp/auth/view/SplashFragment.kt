@@ -28,7 +28,7 @@ class SplashFragment : Fragment() {
         lottie.playAnimation()
         val prefs = activity?.getSharedPreferences("user_prefs", Context.MODE_PRIVATE)
         Handler(Looper.getMainLooper()).postDelayed({
-            val userID = prefs?.getInt("user_id", -1)?:-1
+            val userID = prefs?.getInt("user_id", -1)
             if(userID == -1) {
                 view.findNavController().navigate(R.id.loginFragment)
             } else {

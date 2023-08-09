@@ -16,6 +16,7 @@ import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.example.recipeapp.R
 import com.example.recipeapp.auth.view.AuthenticationActivity
+import com.example.recipeapp.auth.view.LoginFragment
 import com.google.android.material.appbar.MaterialToolbar
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
@@ -26,7 +27,7 @@ class RecipeActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_recipe)
-        topBar = findViewById<MaterialToolbar>(R.id.top_app_bar)
+        topBar = findViewById(R.id.top_app_bar)
         val navHostFragment = supportFragmentManager.findFragmentById(R.id.activity_recipe_nav_host) as NavHostFragment
         navController = navHostFragment.navController
         bottomNavigation= findViewById(R.id.bottom_navigation)
@@ -65,10 +66,8 @@ class RecipeActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when(item.itemId) {
             R.id.sign_out -> {
-                val prefs = getSharedPreferences("user_prefs", MODE_PRIVATE)
-                val editor = prefs?.edit()
-                editor?.clear()
-                editor?.apply()
+                val userPrefs = getSharedPreferences("user_prefs", MODE_PRIVATE)
+                userPrefs.edit().clear().apply()
                 val intent = Intent(this, AuthenticationActivity::class.java)
                 startActivity(intent)
                 finish()
@@ -88,15 +87,10 @@ class RecipeActivity : AppCompatActivity() {
     fun hideBarAndBottomNavigation() {
         supportActionBar?.hide()
         bottomNavigation.visibility = View.GONE
-//        val params = findViewById<FragmentContainerView>(R.id.activity_recipe_nav_host).layoutParams as ConstraintLayout.LayoutParams
-//        params.bottomToBottom = ConstraintLayout.LayoutParams.PARENT_ID
-//        params.topToTop = ConstraintLayout.LayoutParams.PARENT_ID
     }
     fun showBarAndBottomNavigation() {
         supportActionBar?.show()
         bottomNavigation.visibility = View.VISIBLE
-//        val params = findViewById<FragmentContainerView>(R.id.activity_recipe_nav_host).layoutParams as ConstraintLayout.LayoutParams
-//        params.bottomToTop = R.id.bottom_navigation
-//        params.topToBottom = R.id.top_app_bar_layout
     }
+
 }

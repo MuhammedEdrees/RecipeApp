@@ -8,10 +8,10 @@
 
     <TextView
         android:id="@+id/daily_recipe"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:text="@string/our_daily_recipe"
-        android:layout_margin="10sp"
+        android:layout_marginVertical="10dp"
         android:textSize="24sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/random_meal_cardview"
@@ -22,95 +22,106 @@
     <androidx.cardview.widget.CardView
         android:id="@+id/random_meal_cardview"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="16dp"
+        android:layout_height="290dp"
+        android:layout_margin="12dp"
         app:cardCornerRadius="20dp"
         app:cardElevation="8dp"
         app:cardMaxElevation="8dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/daily_recipe">
-
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <ImageView
-                android:id="@+id/meal_thumbnail"
-                android:layout_width="wrap_content"
-                android:layout_height="145dp"
-                android:layout_gravity="center"
-                android:scaleType="centerCrop"
-                android:layout_marginBottom="10dp"
-                app:layout_constraintBottom_toTopOf="@id/meal_title"
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/random_meal_frame"
+                android:visibility="gone"
+                app:layout_constraintBottom_toTopOf="@id/random_meal_title"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                tools:srcCompat="@tools:sample/avatars" />
-            <TextView
-                android:id="@+id/meal_title"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="10dp"
-                android:text="TextView"
-                android:gravity="center_horizontal"
-                android:textSize="24sp"
-                android:textStyle="bold"
-                app:layout_constraintBottom_toTopOf="@id/meal_category"
-                app:layout_constraintTop_toBottomOf="@id/meal_thumbnail"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"/>
+                app:layout_constraintEnd_toEndOf="parent" >
+                <ImageView
+                    android:id="@+id/meal_thumbnail"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scaleType="centerCrop"
+                    tools:srcCompat="@tools:sample/avatars" />
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/gradient_bottom"/>
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+                    <androidx.constraintlayout.widget.Guideline
+                        android:id="@+id/random_meal_vertical_guideline"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        app:layout_constraintGuide_percent="0.85"/>
+                    <androidx.constraintlayout.widget.Guideline
+                        android:id="@+id/random_meal_horizontal_guideline"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        app:layout_constraintGuide_percent="0.78"/>
+                    <TextView
+                        android:id="@+id/random_meal_title"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="10dp"
+                        tools:text="Random Meal Title"
+                        android:gravity="start"
+                        android:textSize="21sp"
+                        android:textColor="@color/white"
+                        android:layout_marginStart="10dp"
+                        app:layout_constraintTop_toBottomOf="@id/random_meal_category_area_txt"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toEndOf="@id/random_meal_vertical_guideline"/>
 
-            <TextView
-                android:id="@+id/meal_category"
-                android:layout_width="300dp"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="5dp"
-                android:text="@string/category_str"
-                android:textSize="18sp"
-                app:layout_constraintBottom_toTopOf="@id/meal_area"
-                app:layout_constraintTop_toBottomOf="@id/meal_title"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toStartOf="@id/fav_btn"/>
-
-            <TextView
-                android:id="@+id/meal_area"
-                android:layout_width="300dp"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="5dp"
-                android:text="@string/area_str"
-                android:textSize="18sp"
-                app:layout_constraintBottom_toTopOf="@id/fav_btn"
-                app:layout_constraintTop_toBottomOf="@id/meal_category"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toStartOf="@id/fav_btn"/>
-
-
-
-            <CheckBox
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="end"
-                android:id="@+id/fav_btn"
-                android:button="@drawable/selector_fav_item"
-                android:fitsSystemWindows="true"
-                android:theme="@style/chkBtn"
-                app:useMaterialThemeColors="false"
-                app:layout_constraintTop_toBottomOf="@id/meal_title"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@id/meal_area"/>
-
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
+                    <TextView
+                        android:id="@+id/random_meal_category_area_txt"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:text="@string/category_area_str"
+                        android:textSize="16sp"
+                        android:textColor="@color/white_subtext_color"
+                        android:layout_marginStart="5dp"
+                        app:layout_constraintTop_toBottomOf="@id/random_meal_horizontal_guideline"
+                        app:layout_constraintStart_toStartOf="@id/random_meal_title"
+                        app:layout_constraintEnd_toStartOf="@id/random_meal_vertical_guideline"/>
+                    <CheckBox
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="end"
+                        android:id="@+id/fav_btn"
+                        android:button="@drawable/selector_fav_item"
+                        android:fitsSystemWindows="true"
+                        android:theme="@style/chkBtn"
+                        android:layout_marginTop="9dp"
+                        app:useMaterialThemeColors="false"
+                        app:layout_constraintTop_toTopOf="@id/random_meal_horizontal_guideline"
+                        app:layout_constraintStart_toEndOf="@id/random_meal_vertical_guideline"
+                        app:layout_constraintEnd_toEndOf="parent"/>
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </FrameLayout>
+        <com.facebook.shimmer.ShimmerFrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/random_meal_shimmer"
+            android:layout_gravity="center"
+            android:orientation="vertical"
+            app:duration="400">
+            <include layout="@layout/shimmer_random_meal"/>
+        </com.facebook.shimmer.ShimmerFrameLayout>
     </androidx.cardview.widget.CardView>
 
     <TextView
         android:id="@+id/our_recipes"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:text="@string/our_recipes"
         android:textSize="24sp"
-        android:layout_margin="10dp"
+        android:layout_marginVertical="10dp"
         android:textStyle="bold"
         app:layout_constraintTop_toBottomOf="@id/random_meal_cardview"
         app:layout_constraintStart_toStartOf="@id/random_meal_cardview"
@@ -118,11 +129,13 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="10dp"
+        android:layout_marginHorizontal="3dp"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.454"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/our_recipes" />
 
     <com.facebook.shimmer.ShimmerFrameLayout

@@ -8,20 +8,18 @@ import android.view.ViewGroup
 import android.widget.CheckBox
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.lifecycle.LifecycleOwner
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.recipeapp.R
 import com.example.recipeapp.main.model.Favorite
 import com.example.recipeapp.main.model.Meal
-import com.example.recipeapp.main.viewmodel.RecipeViewModel
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 
 class HomeMealAdapter (private val fragment: SearchMealCallback): RecyclerView.Adapter<HomeMealAdapter.HomeMealViewHolder>() {
     private val data = mutableListOf<Meal>()
     class HomeMealViewHolder(row: View): RecyclerView.ViewHolder(row) {
         val thumbnailHolder = row.findViewById<ImageView>(R.id.meal_thumbnail)
-        val titleHolder = row.findViewById<TextView>(R.id.meal_title)
+        val titleHolder = row.findViewById<TextView>(R.id.random_meal_title)
         val categoryHolder = row.findViewById<TextView>(R.id.meal_category)
         val areaHolder = row.findViewById<TextView>(R.id.meal_area)
         val favoriteButton = row.findViewById<CheckBox>(R.id.meal_check_box)

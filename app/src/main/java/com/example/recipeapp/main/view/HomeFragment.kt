@@ -1,20 +1,17 @@
 package com.example.recipeapp.main.view
 
 import android.content.Context
-import android.graphics.drawable.Drawable
-import android.graphics.drawable.LayerDrawable
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.CheckBox
+import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.activity.OnBackPressedCallback
 import androidx.cardview.widget.CardView
-import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
-import androidx.navigation.findNavController
 import com.example.recipeapp.main.model.Favorite
 import com.example.recipeapp.main.model.Meal
 import androidx.lifecycle.ViewModelProvider
@@ -42,8 +39,9 @@ class HomeFragment : Fragment(), SearchMealCallback {
     lateinit var randomMealCardview: CardView
     lateinit var img:ImageView
     lateinit var meal:TextView
-    lateinit var catg:TextView
-    lateinit var area:TextView
+    lateinit var categoryAreaText:TextView
+    lateinit var randomMealShimmer: ShimmerFrameLayout
+    lateinit var randomMealFrame: FrameLayout
     lateinit var favBtn:CheckBox
     lateinit var shimmer:ShimmerFrameLayout
 
@@ -61,11 +59,13 @@ class HomeFragment : Fragment(), SearchMealCallback {
         super.onViewCreated(view, savedInstanceState)
         rv =view.findViewById(R.id.recyclerView)
         img=view.findViewById(R.id.meal_thumbnail)
-        meal=view.findViewById(R.id.meal_title)
-        catg=view.findViewById(R.id.meal_category)
-        area=view.findViewById(R.id.meal_area)
+        meal=view.findViewById(R.id.random_meal_title)
         randomMealCardview = view.findViewById(R.id.random_meal_cardview)
+        categoryAreaText = view.findViewById(R.id.random_meal_category_area_txt)
         favBtn=view.findViewById(R.id.fav_btn)
+        randomMealShimmer = view.findViewById(R.id.random_meal_shimmer)
+        randomMealFrame = view.findViewById(R.id.random_meal_frame)
+        showRandomMealShimmer()
         shimmer=view.findViewById(R.id.shimmer_home_layout)
         //start shimmer, visable
         shimmer.startShimmer()
@@ -85,19 +85,12 @@ class HomeFragment : Fragment(), SearchMealCallback {
         }
         mealVModel.getRandomMeal()
         mealVModel.RandomMeal.observe(viewLifecycleOwner){ meal ->
+            hideRandomMealShimmer()
             this.meal.text=meal.strMeal
-            catg.text=String.format(getString(R.string.category_str), meal.strCategory)
-            area.text=String.format(getString(R.string.area_str), meal.strArea)
+            categoryAreaText.text=String.format(getString(R.string.category_area_str), meal.strArea, meal.strCategory)
             Glide.with(this)
                 .load(meal.strMealThumb)
-                .apply(
-                    RequestOptions()
-                        .placeholder(R.drawable.loading2)
-                )
                 .into(img)
-            randomMealCardview.setOnClickListener{
-                navigateToDetailsCallback(meal)
-            }
             randomMealCardview.setOnClickListener{
                 navigateToDetailsCallback(meal)
             }
@@ -131,6 +124,17 @@ class HomeFragment : Fragment(), SearchMealCallback {
                     requireActivity().finish()
                 }
             })
+    }
+
+    private fun showRandomMealShimmer() {
+        randomMealShimmer.visibility = View.VISIBLE
+        randomMealFrame.visibility = View.INVISIBLE
+        randomMealShimmer.startShimmer()
+    }
+    private fun hideRandomMealShimmer() {
+        randomMealShimmer.stopShimmer()
+        randomMealFrame.visibility = View.VISIBLE
+        randomMealShimmer.visibility = View.GONE
     }
 
     override fun isFavoriteCallback(mealId: String): Boolean {

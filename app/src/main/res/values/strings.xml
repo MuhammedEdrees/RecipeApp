@@ -62,18 +62,17 @@
         vestibulum. Fusce dictum libero quis erat maximus, vitae volutpat diam dignissim.
     </string>
     <string name="bottom_nav_home">Home</string>
+    <string name="category_area_str"> %1$s || %2$s </string>
     <string name="bottom_nav_search">Search</string>
     <string name="bottom_nav_favorites">Favorites</string>
     <string name="options_menu_sign_out">Sign Out</string>
     <string name="options_menu_about_us">About Us</string>
-    <string name="item_category_label">Category :</string>
-    <string name="search_item_area_label">Area         :</string>
     <string name="login">LOGIN</string>
     <string name="no_matches_found">No Matches Found</string>
     <string name="nothing_to_see_here">Nothing to See Here</string>
     <string name="our_daily_recipe">Recipe Of The Day</string>
     <string name="our_recipes">Recipes For You</string>
-    <string name="category_label">Category :</string>
+    <string name="category_label">Type :</string>
     <string name="area_label">Area :</string>
 
 </resources>
