@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
+    android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <androidx.cardview.widget.CardView
-        android:layout_width="match_parent"
+        android:layout_width="220dp"
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
         app:cardCornerRadius="20dp"
@@ -23,12 +23,12 @@
 
             <ImageView
                 android:id="@+id/meal_thumbnail"
-                android:layout_width="200dp"
+                android:layout_width="150dp"
                 android:layout_height="145dp"
                 android:layout_gravity="center"
-                android:background="@color/shimmer_color"
-                android:layout_margin="10dp"
+                android:layout_marginBottom="10dp"
                 android:scaleType="centerCrop"
+                android:background="@color/shimmer_color"
                 app:layout_constraintBottom_toTopOf="@id/meal_title"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -38,40 +38,49 @@
                 android:id="@+id/meal_title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="10dp"
+                android:layout_marginBottom="10dp"
                 android:gravity="center_horizontal"
                 android:background="@color/shimmer_color"
-                android:textSize="24sp"
+                android:textSize="20sp"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toTopOf="@id/meal_category"
                 app:layout_constraintTop_toBottomOf="@id/meal_thumbnail"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"/>
 
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guideline5"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_percent="0.85"/>
+
             <TextView
                 android:id="@+id/meal_category"
-                android:layout_width="300dp"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:background="@color/shimmer_color"
                 android:layout_marginBottom="5dp"
-                android:textSize="18sp"
+                android:layout_marginStart="10dp"
+                android:background="@color/shimmer_color"
+                android:textSize="15sp"
                 app:layout_constraintBottom_toTopOf="@id/meal_area"
                 app:layout_constraintTop_toBottomOf="@id/meal_title"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toStartOf="@id/meal_check_box"/>
+                app:layout_constraintEnd_toStartOf="@id/guideline5"/>
 
 
             <TextView
                 android:id="@+id/meal_area"
-                android:layout_width="300dp"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:background="@color/shimmer_color"
                 android:layout_marginBottom="5dp"
-                android:textSize="18sp"
+                android:layout_marginStart="10dp"
+                android:background="@color/shimmer_color"
+                android:textSize="15sp"
                 app:layout_constraintBottom_toTopOf="@id/meal_check_box"
                 app:layout_constraintTop_toBottomOf="@id/meal_category"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toStartOf="@id/meal_check_box"/>
+                app:layout_constraintEnd_toStartOf="@id/guideline5"/>
 
             <CheckBox
                 android:layout_width="wrap_content"
@@ -84,7 +93,7 @@
                 android:theme="@style/chkBtn"
                 app:layout_constraintTop_toBottomOf="@id/meal_title"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@id/meal_area"
+                app:layout_constraintStart_toEndOf="@id/guideline5"
                 />
 
 

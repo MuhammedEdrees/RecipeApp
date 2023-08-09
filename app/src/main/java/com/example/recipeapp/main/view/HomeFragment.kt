@@ -31,6 +31,7 @@ import com.example.recipeapp.main.repo.FavoriteRepositoryImpl
 import com.example.recipeapp.main.repo.MealsRepositoryImpl
 import com.example.recipeapp.main.viewmodel.RecipeViewModel
 import com.example.recipeapp.main.viewmodel.RecipeViewModelFactory
+import com.facebook.shimmer.ShimmerFrameLayout
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 
 
@@ -44,6 +45,7 @@ class HomeFragment : Fragment(), SearchMealCallback {
     lateinit var catg:TextView
     lateinit var area:TextView
     lateinit var favBtn:CheckBox
+    lateinit var shimmer:ShimmerFrameLayout
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -64,7 +66,10 @@ class HomeFragment : Fragment(), SearchMealCallback {
         area=view.findViewById(R.id.meal_area)
         randomMealCardview = view.findViewById(R.id.random_meal_cardview)
         favBtn=view.findViewById(R.id.fav_btn)
+        shimmer=view.findViewById(R.id.shimmer_home_layout)
         //start shimmer, visable
+        shimmer.startShimmer()
+        shimmer.visibility=View.VISIBLE
         val factory=RecipeViewModelFactory(FavoriteRepositoryImpl(FavoriteLocalSourceImpl(requireContext())),MealsRepositoryImpl(APIClient,MealLocalSourceImpl(requireContext())))
         mealVModel = ViewModelProvider(this,factory).get(RecipeViewModel::class.java)
         mealVModel.getListOfMeals()
@@ -74,6 +79,8 @@ class HomeFragment : Fragment(), SearchMealCallback {
             LinearLayoutManager(this.requireContext(), RecyclerView.HORIZONTAL, false)
         mealVModel.listOfMeals.observe(viewLifecycleOwner) { meals
             ->//stop shimmer, gone
+            shimmer.stopShimmer()
+            shimmer.visibility=View.GONE
             adapter.setData(meals)
         }
         mealVModel.getRandomMeal()

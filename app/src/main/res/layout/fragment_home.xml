@@ -112,7 +112,6 @@
         android:textSize="24sp"
         android:layout_margin="10dp"
         android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@id/recyclerView"
         app:layout_constraintTop_toBottomOf="@id/random_meal_cardview"
         app:layout_constraintStart_toStartOf="@id/random_meal_cardview"
         app:layout_constraintEnd_toEndOf="@id/random_meal_cardview"/>
@@ -126,7 +125,30 @@
         app:layout_constraintHorizontal_bias="0.454"
         app:layout_constraintTop_toBottomOf="@+id/our_recipes" />
 
+    <com.facebook.shimmer.ShimmerFrameLayout
+        android:id="@+id/shimmer_home_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="15dp"
+        android:orientation="horizontal"
+        app:layout_constraintTop_toBottomOf="@+id/our_recipes"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:duration="800">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <include layout="@layout/shimmer_home" />
+            <include layout="@layout/shimmer_home" />
+            <include layout="@layout/shimmer_home" />
+            <include layout="@layout/shimmer_home" />
+            <include layout="@layout/shimmer_home" />
 
+
+        </LinearLayout>
+    </com.facebook.shimmer.ShimmerFrameLayout>
 
 
 
