@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/download2"
-    tools:context=".auth.view.LoginFragment">>
+    tools:context=".auth.view.LoginFragment">
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"

@@ -38,6 +38,7 @@ class HomeMealAdapter (private val fragment: SearchMealCallback): RecyclerView.A
         Glide.with(holder.itemView.context)
             .load(data[position].strMealThumb)
             .into(holder.thumbnailHolder)
+        Log.d("edrees -->", "Thumbnail Loaded")
         holder.titleHolder.text = data[position].strMeal
         holder.categoryHolder.text = String.format(holder.itemView.resources.getString(R.string.category_str), data[position].strCategory)
         holder.areaHolder.text = String.format(holder.itemView.resources.getString(R.string.area_str), data[position].strArea)
