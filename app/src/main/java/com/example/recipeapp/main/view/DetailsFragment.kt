@@ -90,6 +90,16 @@ class DetailsFragment : Fragment() {
                     .into(thumbnail)
             }
 
+            val prefs = view.context.getSharedPreferences("user_prefs", Context.MODE_PRIVATE)
+            val userId = prefs.getInt("user_id", -1)
+            viewModel.checkIfFavorite(userId, meal.idMeal)
+            viewModel.isUserFavorite.observe(viewLifecycleOwner) {
+                Log.d("edrees ->", "IsChecked: $it")
+                if (it){
+                    //TODO("Change the button shape")
+                }
+            }
+//            TODO("Add on click listener to the favorite button to favorite a meal if it's not favorite and unfavorite if favorite")
 //            var isChecked = false
 //            val prefs = view.context.getSharedPreferences("user_prefs", Context.MODE_PRIVATE)
 //            val userId = prefs.getInt("user_id", -1)
