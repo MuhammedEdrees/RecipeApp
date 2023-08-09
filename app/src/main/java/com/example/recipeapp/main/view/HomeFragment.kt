@@ -1,13 +1,18 @@
 package com.example.recipeapp.main.view
 
+import android.content.Context
+import android.graphics.drawable.Drawable
+import android.graphics.drawable.LayerDrawable
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.CheckBox
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.activity.OnBackPressedCallback
 import androidx.cardview.widget.CardView
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
 import com.example.recipeapp.main.model.Favorite
@@ -26,6 +31,7 @@ import com.example.recipeapp.main.repo.FavoriteRepositoryImpl
 import com.example.recipeapp.main.repo.MealsRepositoryImpl
 import com.example.recipeapp.main.viewmodel.RecipeViewModel
 import com.example.recipeapp.main.viewmodel.RecipeViewModelFactory
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 
 
 class HomeFragment : Fragment(), SearchMealCallback {
@@ -37,6 +43,7 @@ class HomeFragment : Fragment(), SearchMealCallback {
     lateinit var meal:TextView
     lateinit var catg:TextView
     lateinit var area:TextView
+    lateinit var favBtn:CheckBox
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -56,6 +63,8 @@ class HomeFragment : Fragment(), SearchMealCallback {
         catg=view.findViewById(R.id.meal_category)
         area=view.findViewById(R.id.meal_area)
         randomMealCardview = view.findViewById(R.id.random_meal_cardview)
+        favBtn=view.findViewById(R.id.fav_btn)
+        //start shimmer, visable
         val factory=RecipeViewModelFactory(FavoriteRepositoryImpl(FavoriteLocalSourceImpl(requireContext())),MealsRepositoryImpl(APIClient,MealLocalSourceImpl(requireContext())))
         mealVModel = ViewModelProvider(this,factory).get(RecipeViewModel::class.java)
         mealVModel.getListOfMeals()
@@ -64,7 +73,7 @@ class HomeFragment : Fragment(), SearchMealCallback {
         rv.layoutManager =
             LinearLayoutManager(this.requireContext(), RecyclerView.HORIZONTAL, false)
         mealVModel.listOfMeals.observe(viewLifecycleOwner) { meals
-            ->
+            ->//stop shimmer, gone
             adapter.setData(meals)
         }
         mealVModel.getRandomMeal()
@@ -82,7 +91,31 @@ class HomeFragment : Fragment(), SearchMealCallback {
             randomMealCardview.setOnClickListener{
                 navigateToDetailsCallback(meal)
             }
+            randomMealCardview.setOnClickListener{
+                navigateToDetailsCallback(meal)
+            }
+
+            val prefs = requireContext().getSharedPreferences("user_prefs", Context.MODE_PRIVATE)
+            val userId = prefs.getInt("user_id", -1)
+            favBtn.setOnCheckedChangeListener(null)
+            favBtn.isChecked = mealVModel.listOfFavorites.value?.any { it.mealID == meal.idMeal } ?: false
+            favBtn.setOnCheckedChangeListener{ buttonView, isChecked ->
+                if (isChecked) {
+                    mealVModel.addFavorite(Favorite(userId, meal.idMeal), meal)
+                    mealVModel.getUserFavorites(userId)
+                } else {
+                    MaterialAlertDialogBuilder(requireContext()).setTitle("Confirm")
+                        .setMessage("Are you sure you want to remove this item from your favorites?")
+                        .setPositiveButton("Yes") { dialog, which ->
+                            mealVModel.deleteFavorite(Favorite(userId, meal.idMeal))
+                        }
+                        .setNegativeButton("No") { dialog, which ->
+                            buttonView.isChecked = true
+                        }.show()
+                }
+            }
         }
+
 
         requireActivity().onBackPressedDispatcher.addCallback(
             viewLifecycleOwner,

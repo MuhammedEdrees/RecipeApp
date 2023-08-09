@@ -71,8 +71,8 @@
     <string name="login">LOGIN</string>
     <string name="no_matches_found">No Matches Found</string>
     <string name="nothing_to_see_here">Nothing to See Here</string>
-    <string name="our_daily_recipe">Our Daily Recipe</string>
-    <string name="our_recipes">Our Recipes</string>
+    <string name="our_daily_recipe">Recipe Of The Day</string>
+    <string name="our_recipes">Recipes For You</string>
     <string name="category_label">Category :</string>
     <string name="area_label">Area :</string>
 
