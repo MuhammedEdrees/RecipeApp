@@ -43,6 +43,7 @@ class HomeFragment : Fragment(), SearchMealCallback {
     lateinit var randomMealShimmer: ShimmerFrameLayout
     lateinit var randomMealFrame: FrameLayout
     lateinit var favBtn:CheckBox
+    lateinit var shimmer:ShimmerFrameLayout
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -65,7 +66,10 @@ class HomeFragment : Fragment(), SearchMealCallback {
         randomMealShimmer = view.findViewById(R.id.random_meal_shimmer)
         randomMealFrame = view.findViewById(R.id.random_meal_frame)
         showRandomMealShimmer()
+        shimmer=view.findViewById(R.id.shimmer_home_layout)
         //start shimmer, visable
+        shimmer.startShimmer()
+        shimmer.visibility=View.VISIBLE
         val factory=RecipeViewModelFactory(FavoriteRepositoryImpl(FavoriteLocalSourceImpl(requireContext())),MealsRepositoryImpl(APIClient,MealLocalSourceImpl(requireContext())))
         mealVModel = ViewModelProvider(this,factory).get(RecipeViewModel::class.java)
         mealVModel.getListOfMeals()
@@ -75,6 +79,8 @@ class HomeFragment : Fragment(), SearchMealCallback {
             LinearLayoutManager(this.requireContext(), RecyclerView.HORIZONTAL, false)
         mealVModel.listOfMeals.observe(viewLifecycleOwner) { meals
             ->//stop shimmer, gone
+            shimmer.stopShimmer()
+            shimmer.visibility=View.GONE
             adapter.setData(meals)
         }
         mealVModel.getRandomMeal()

@@ -29,6 +29,8 @@ import com.example.myapplication3.TableAdapter
 import com.example.recipeapp.R
 import com.example.recipeapp.main.local.FavoriteLocalSourceImpl
 import com.example.recipeapp.main.local.MealLocalSourceImpl
+import com.example.recipeapp.main.model.Favorite
+import com.example.recipeapp.main.model.Meal
 import com.example.recipeapp.main.network.APIClient
 import com.example.recipeapp.main.repo.FavoriteRepositoryImpl
 import com.example.recipeapp.main.repo.MealsRepositoryImpl
@@ -40,6 +42,7 @@ import com.google.android.material.appbar.CollapsingToolbarLayout
 import com.google.android.material.appbar.MaterialToolbar
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.button.MaterialButton
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.YouTubePlayer
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.AbstractYouTubePlayerListener
@@ -63,7 +66,8 @@ class DetailsFragment : Fragment() {
         val activity = requireActivity()
 
         val topAppBarLayout = activity.findViewById<AppBarLayout>(R.id.top_app_bar_layout)
-        val bottomNavigationView = activity.findViewById<BottomNavigationView>(R.id.bottom_navigation)
+        val bottomNavigationView =
+            activity.findViewById<BottomNavigationView>(R.id.bottom_navigation)
 
         topAppBarLayout.visibility = View.GONE
         bottomNavigationView.visibility = View.GONE
@@ -76,6 +80,7 @@ class DetailsFragment : Fragment() {
             val collapsingToolbarLayout: CollapsingToolbarLayout =
                 view.findViewById(R.id.collapsingToolbarLayout)
             collapsingToolbarLayout.title = meal.strMeal
+
 
             val thumbnail: ImageView = view.findViewById(R.id.backdrop_image_view)
 
@@ -94,32 +99,42 @@ class DetailsFragment : Fragment() {
             val userId = prefs.getInt("user_id", -1)
             viewModel.checkIfFavorite(userId, meal.idMeal)
             viewModel.isUserFavorite.observe(viewLifecycleOwner) {
-                Log.d("edrees ->", "IsChecked: $it")
-                if (it){
-                    //TODO("Change the button shape")
+                if (it) {
+                    favoriteBtn.setImageResource(R.drawable.checked_favorite)
+                    viewModel.addFavorite(Favorite(userId, meal.idMeal), meal)
                 }
             }
-//            TODO("Add on click listener to the favorite button to favorite a meal if it's not favorite and unfavorite if favorite")
-//            var isChecked = false
-//            val prefs = view.context.getSharedPreferences("user_prefs", Context.MODE_PRIVATE)
-//            val userId = prefs.getInt("user_id", -1)
-//            viewModel.getUserFavorites(userId)
-//            for(el in viewModel.listOfFavorites.value!!)
-//            {
-//                if(el.mealID == meal.idMeal)
-//                {
-//                    isChecked = true
-//                    break
-//                }
-//            }
-//
-//            Log.d("bruh->", "$isChecked")
-//
-//            if(isChecked)
-//            {
-//                favoriteBtn.setBackgroundColor(Color.BLACK)
-//            }
 
+            var isChecked = false
+            viewModel.isUserFavorite.observe(viewLifecycleOwner) {
+                isChecked = it
+            }
+
+            favoriteBtn.setOnClickListener {
+
+                    Log.d("edrees ->", "IsChecked: $it")
+                    if (isChecked) {
+                        MaterialAlertDialogBuilder(requireContext()).setTitle("Confirm")
+                            .setMessage("Are you sure you want to remove this item from your favorites?")
+                            .setPositiveButton("Yes") { dialog, which ->
+                                viewModel.deleteFavorite(Favorite(userId, meal.idMeal))
+                                isChecked = false
+                                favoriteBtn.setImageResource(R.drawable.unchecked_favorite)
+                            }
+                            .setNegativeButton("No") { dialog, which ->
+                                favoriteBtn.setImageResource(R.drawable.checked_favorite)
+                                isChecked = true
+                                viewModel.addFavorite(Favorite(userId, meal.idMeal), meal)
+                            }.show()
+                    }
+                    else
+                    {
+                        favoriteBtn.setImageResource(R.drawable.checked_favorite)
+                        isChecked = true
+                        viewModel.addFavorite(Favorite(userId, meal.idMeal), meal)
+                    }
+
+            }
 
             view.findViewById<TextView>(R.id.categoryContent).text =
                 if (meal.strCategory.isNullOrEmpty()) "N/A" else meal.strCategory
@@ -203,7 +218,6 @@ class DetailsFragment : Fragment() {
                     super.onReady(youTubePlayer)
                     val videoId = meal.strYoutube?.lastIndexOf('=')
                         ?.let { meal.strYoutube.substring(it + 1) }
-                    Log.d("remo->", "$videoId")
                     youTubePlayer.loadVideo(videoId!!, 0F)
                     youTubePlayer.pause()
                     view.findViewById<Button>(R.id.startVideoBtn).setOnClickListener {
