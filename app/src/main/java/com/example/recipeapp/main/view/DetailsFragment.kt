@@ -105,28 +105,35 @@ class DetailsFragment : Fragment() {
                 }
             }
 
+            var isChecked = false
+            viewModel.isUserFavorite.observe(viewLifecycleOwner) {
+                isChecked = it
+            }
 
             favoriteBtn.setOnClickListener {
-                viewModel.isUserFavorite.observe(viewLifecycleOwner) {
+
                     Log.d("edrees ->", "IsChecked: $it")
-                    if (it) {
+                    if (isChecked) {
                         MaterialAlertDialogBuilder(requireContext()).setTitle("Confirm")
                             .setMessage("Are you sure you want to remove this item from your favorites?")
                             .setPositiveButton("Yes") { dialog, which ->
                                 viewModel.deleteFavorite(Favorite(userId, meal.idMeal))
+                                isChecked = false
                                 favoriteBtn.setImageResource(R.drawable.unchecked_favorite)
                             }
                             .setNegativeButton("No") { dialog, which ->
                                 favoriteBtn.setImageResource(R.drawable.checked_favorite)
+                                isChecked = true
                                 viewModel.addFavorite(Favorite(userId, meal.idMeal), meal)
                             }.show()
                     }
                     else
                     {
                         favoriteBtn.setImageResource(R.drawable.checked_favorite)
+                        isChecked = true
                         viewModel.addFavorite(Favorite(userId, meal.idMeal), meal)
                     }
-                }
+
             }
 
             view.findViewById<TextView>(R.id.categoryContent).text =
