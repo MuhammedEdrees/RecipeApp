@@ -8,7 +8,7 @@
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
-        android:layout_height="290dp"
+        android:layout_height="wrap_content"
         android:layout_margin="16dp"
         app:cardCornerRadius="20dp"
         app:cardElevation="8dp"
@@ -50,7 +50,7 @@
 
             <TextView
                 android:id="@+id/meal_category"
-                android:layout_width="match_parent"
+                android:layout_width="300dp"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="5dp"
                 android:text="@string/category_str"
@@ -58,32 +58,34 @@
                 app:layout_constraintBottom_toTopOf="@id/meal_area"
                 app:layout_constraintTop_toBottomOf="@id/meal_title"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"/>
+                app:layout_constraintEnd_toStartOf="@id/meal_check_box"/>
+
 
             <TextView
                 android:id="@+id/meal_area"
-                android:layout_width="match_parent"
+                android:layout_width="300dp"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="5dp"
                 android:text="@string/area_str"
                 android:textSize="18sp"
-                app:layout_constraintBottom_toTopOf="@id/favorite_check_box"
+                app:layout_constraintBottom_toTopOf="@id/meal_check_box"
                 app:layout_constraintTop_toBottomOf="@id/meal_category"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"/>
+                app:layout_constraintEnd_toStartOf="@id/meal_check_box"/>
 
             <CheckBox
                 android:layout_width="wrap_content"
                 android:id="@+id/meal_check_box"
                 android:layout_height="wrap_content"
                 app:useMaterialThemeColors="false"
-                style="?android:attr/starStyle"
                 android:layout_gravity="end"
                 android:button="@drawable/selector_fav_item"
                 android:fitsSystemWindows="true"
                 android:theme="@style/chkBtn"
-                app:layout_constraintTop_toBottomOf="@id/meal_area"
-                app:layout_constraintEnd_toEndOf="parent"/>
+                app:layout_constraintTop_toBottomOf="@id/meal_title"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/meal_area"
+                />
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>

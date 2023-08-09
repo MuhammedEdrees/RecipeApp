@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item name="favorite_animation_layout" type="id" />
+    <item name="guideline_favorite" type="id" />
+    <item name="animation_favorite" type="id" />
+    <item name="animation_text_favorite" type="id" />
+</resources>
