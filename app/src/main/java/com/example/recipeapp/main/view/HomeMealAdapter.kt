@@ -19,7 +19,7 @@ class HomeMealAdapter (private val fragment: SearchMealCallback): RecyclerView.A
     private val data = mutableListOf<Meal>()
     class HomeMealViewHolder(row: View): RecyclerView.ViewHolder(row) {
         val thumbnailHolder = row.findViewById<ImageView>(R.id.meal_thumbnail)
-        val titleHolder = row.findViewById<TextView>(R.id.random_meal_title)
+        val titleHolder = row.findViewById<TextView>(R.id.meal_title)
         val categoryHolder = row.findViewById<TextView>(R.id.meal_category)
         val areaHolder = row.findViewById<TextView>(R.id.meal_area)
         val favoriteButton = row.findViewById<CheckBox>(R.id.meal_check_box)

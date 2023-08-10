@@ -2,16 +2,15 @@ package com.example.recipeapp.auth.view
 
 import android.content.Context.MODE_PRIVATE
 import android.os.Bundle
-import androidx.lifecycle.Observer
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.activity.OnBackPressedCallback
+import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelStoreOwner
 import androidx.navigation.findNavController
-import androidx.navigation.fragment.findNavController
 import com.example.recipeapp.R
 import com.example.recipeapp.auth.local.UserLocalSourceImpl
 import com.example.recipeapp.auth.repo.UserRepositoryImpl
@@ -20,8 +19,6 @@ import com.example.recipeapp.auth.viewmodel.LoginViewmodel
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
-import java.util.regex.Pattern
-import java.util.regex.Matcher
 
 class LoginFragment : Fragment() {
     lateinit var usernameTextInputLayout: TextInputLayout
@@ -50,39 +47,48 @@ class LoginFragment : Fragment() {
         passwordEditText = passwordTextInputLayout.editText as TextInputEditText
         loginButton = view.findViewById(R.id.login_button)
         loginButton.setOnClickListener {
-            val username  = usernameEditText.text.toString()
+            val username = usernameEditText.text.toString()
             val password = passwordEditText.text.toString()
-            viewModel.verifyUsernameExists(username).observe(viewLifecycleOwner, Observer { result ->
-                if (result) {
-                    usernameTextInputLayout.error = null
-                    viewModel.getUserByUsername(username).observe(viewLifecycleOwner, Observer {user ->
-                        if(password == user.password) {
-                            passwordTextInputLayout.error = null
-                            editor?.putInt("user_id", user.id)
-                            editor?.apply()
-                            view.findNavController().navigate(R.id.recipeActivity)
-                            requireActivity().finish()
-                        } else {
-                            passwordTextInputLayout.error = "Wrong Password!"
-                        }
-                    })
-                } else {
-                    usernameTextInputLayout.error = "Username Doesn't Exist!"
-                }
-            })
+            viewModel.verifyUsernameExists(username)
+                .observe(viewLifecycleOwner, Observer { result ->
+                    if (result) {
+                        usernameTextInputLayout.error = null
+                        viewModel.getUserByUsername(username)
+                            .observe(viewLifecycleOwner, Observer { user ->
+                                if (password == user.password) {
+                                    passwordTextInputLayout.error = null
+                                    editor?.putInt("user_id", user.id)
+                                    editor?.apply()
+                                    view.findNavController().navigate(R.id.recipeActivity)
+                                    requireActivity().finish()
+                                } else {
+                                    passwordTextInputLayout.error = "Wrong Password!"
+                                }
+                            })
+                    } else {
+                        usernameTextInputLayout.error = "Username Doesn't Exist!"
+                    }
+                })
         }
         registerButton = view.findViewById(R.id.login_register_button)
         registerButton.setOnClickListener {
             view.findNavController().navigate(R.id.registerFragment)
         }
-        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, object: OnBackPressedCallback(true){
-            override fun handleOnBackPressed() {
-                requireActivity().finish()
-            }
-        })
+        requireActivity().onBackPressedDispatcher.addCallback(
+            viewLifecycleOwner,
+            object : OnBackPressedCallback(true) {
+                override fun handleOnBackPressed() {
+                    requireActivity().finish()
+                }
+            })
     }
-    fun prepareViewModel(){
-        val factory = LoginViewModelFactory(UserRepositoryImpl(UserLocalSourceImpl(requireActivity())))
-        viewModel = ViewModelProvider(requireActivity() as ViewModelStoreOwner, factory).get(LoginViewmodel::class.java)
+
+    fun prepareViewModel() {
+        val factory =
+            LoginViewModelFactory(UserRepositoryImpl(UserLocalSourceImpl(requireActivity())))
+        viewModel = ViewModelProvider(
+            requireActivity() as ViewModelStoreOwner,
+            factory
+        ).get(LoginViewmodel::class.java)
     }
 }

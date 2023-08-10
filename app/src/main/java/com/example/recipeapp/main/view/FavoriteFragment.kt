@@ -9,14 +9,12 @@ import android.widget.ImageView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.airbnb.lottie.LottieAnimationView
 import com.example.recipeapp.R
-import com.example.recipeapp.main.local.FavoriteLocalSourceImpl
-import com.example.recipeapp.main.local.MealLocalSourceImpl
+import com.example.recipeapp.main.local.LocalSourceImpl
 import com.example.recipeapp.main.model.Favorite
 import com.example.recipeapp.main.model.Meal
 import com.example.recipeapp.main.network.APIClient
@@ -40,6 +38,7 @@ class FavoriteFragment : Fragment(), MealCallback {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         prepareViewModel()
+        (requireActivity() as RecipeActivity).showBarAndBottomNavigation()
         lottie = view.findViewById(R.id.animation_favorite)
         lottieLayout = view.findViewById(R.id.favorite_animation_layout)
         recyclerView = view.findViewById(R.id.favorite_recycler_view)
@@ -63,8 +62,8 @@ class FavoriteFragment : Fragment(), MealCallback {
         }
     }
     private fun prepareViewModel() {
-        val factory = RecipeViewModelFactory(FavoriteRepositoryImpl(FavoriteLocalSourceImpl(requireContext())),
-                                        MealsRepositoryImpl(APIClient, MealLocalSourceImpl(requireContext())))
+        val factory = RecipeViewModelFactory(FavoriteRepositoryImpl(LocalSourceImpl(requireContext())),
+                                        MealsRepositoryImpl(APIClient, LocalSourceImpl(requireContext())))
         viewModel = ViewModelProvider(this, factory).get(FavoriteViewModel::class.java)
     }
 

@@ -2,21 +2,18 @@ package com.example.recipeapp.main.view
 
 import android.content.Context
 import android.graphics.Color
-import android.media.Image
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.Window
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.activity.OnBackPressedCallback
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.isVisible
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
@@ -27,19 +24,15 @@ import com.bumptech.glide.request.RequestOptions
 import com.example.myapplication3.IngredientRow
 import com.example.myapplication3.TableAdapter
 import com.example.recipeapp.R
-import com.example.recipeapp.main.local.FavoriteLocalSourceImpl
-import com.example.recipeapp.main.local.MealLocalSourceImpl
+import com.example.recipeapp.main.local.LocalSourceImpl
 import com.example.recipeapp.main.model.Favorite
-import com.example.recipeapp.main.model.Meal
 import com.example.recipeapp.main.network.APIClient
 import com.example.recipeapp.main.repo.FavoriteRepositoryImpl
 import com.example.recipeapp.main.repo.MealsRepositoryImpl
 import com.example.recipeapp.main.viewmodel.DetailsViewModel
 import com.example.recipeapp.main.viewmodel.RecipeViewModelFactory
-import com.example.recipeapp.main.viewmodel.SearchViewModel
 import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.appbar.CollapsingToolbarLayout
-import com.google.android.material.appbar.MaterialToolbar
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
@@ -251,8 +244,8 @@ class DetailsFragment : Fragment() {
 
     private fun prepareViewModel() {
         val factory = RecipeViewModelFactory(
-            FavoriteRepositoryImpl(FavoriteLocalSourceImpl(requireContext())),
-            MealsRepositoryImpl(APIClient, MealLocalSourceImpl(requireContext()))
+            FavoriteRepositoryImpl(LocalSourceImpl(requireContext())),
+            MealsRepositoryImpl(APIClient, LocalSourceImpl(requireContext()))
         )
         viewModel = ViewModelProvider(this, factory).get(DetailsViewModel::class.java)
     }

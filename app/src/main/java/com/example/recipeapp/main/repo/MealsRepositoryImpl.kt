@@ -1,12 +1,11 @@
 package com.example.recipeapp.main.repo
 
-import android.util.Log
-import com.example.recipeapp.main.local.MealLocalSource
+import com.example.recipeapp.main.local.LocalSource
 import com.example.recipeapp.main.model.Meal
 import com.example.recipeapp.main.model.MealResponse
 import com.example.recipeapp.main.network.MealRemoteDataSource
 
-class MealsRepositoryImpl(val mealRemoteDataSource: MealRemoteDataSource, val mealLocalSource: MealLocalSource): MealsRepository {
+class MealsRepositoryImpl(val mealRemoteDataSource: MealRemoteDataSource, val localSource: LocalSource): MealsRepository {
     override suspend fun getMealsResponseByFirstLetter(letter: Char): MealResponse {
         return mealRemoteDataSource.getMealsResponseByFirstLetter(letter)
     }
@@ -20,15 +19,15 @@ class MealsRepositoryImpl(val mealRemoteDataSource: MealRemoteDataSource, val me
     }
 
     override suspend fun insertMeal(meal: Meal) {
-        mealLocalSource.insertMeal(meal)
+        localSource.insertMeal(meal)
     }
 
     override suspend fun deleteMeal(meal: Meal) {
-        mealLocalSource.deleteMeal(meal)
+        localSource.deleteMeal(meal)
     }
 
     override suspend fun getLocalMealById(mealID: String): Meal {
-        return mealLocalSource.getMealById(mealID)
+        return localSource.getMealById(mealID)
     }
 
     override suspend fun getRemoteMealById(mealId: String): MealResponse {
@@ -36,15 +35,15 @@ class MealsRepositoryImpl(val mealRemoteDataSource: MealRemoteDataSource, val me
     }
 
     override suspend fun getFavoriteMeals(list: List<String>): List<Meal> {
-        val res = mealLocalSource.getFavoriteMeals(list)
+        val res = localSource.getFavoriteMeals(list)
         return res
     }
 
     override suspend fun checkIfFavorite(mealId: String): Boolean {
-        return mealLocalSource.checkIfFavorite(mealId)
+        return localSource.checkIfFavorite(mealId)
     }
 
     override suspend fun deleteMealById(mealID: String) {
-        mealLocalSource.deleteMealById(mealID)
+        localSource.deleteMealById(mealID)
     }
 }

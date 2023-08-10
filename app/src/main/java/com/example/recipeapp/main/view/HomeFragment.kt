@@ -19,10 +19,8 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.bumptech.glide.request.RequestOptions
 import com.example.recipeapp.R
-import com.example.recipeapp.main.local.FavoriteLocalSourceImpl
-import com.example.recipeapp.main.local.MealLocalSourceImpl
+import com.example.recipeapp.main.local.LocalSourceImpl
 import com.example.recipeapp.main.network.APIClient
 import com.example.recipeapp.main.repo.FavoriteRepositoryImpl
 import com.example.recipeapp.main.repo.MealsRepositoryImpl
@@ -57,6 +55,7 @@ class HomeFragment : Fragment(), SearchMealCallback {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        (requireActivity() as RecipeActivity).showBarAndBottomNavigation()
         rv =view.findViewById(R.id.recyclerView)
         img=view.findViewById(R.id.meal_thumbnail)
         meal=view.findViewById(R.id.random_meal_title)
@@ -70,7 +69,7 @@ class HomeFragment : Fragment(), SearchMealCallback {
         //start shimmer, visable
         shimmer.startShimmer()
         shimmer.visibility=View.VISIBLE
-        val factory=RecipeViewModelFactory(FavoriteRepositoryImpl(FavoriteLocalSourceImpl(requireContext())),MealsRepositoryImpl(APIClient,MealLocalSourceImpl(requireContext())))
+        val factory=RecipeViewModelFactory(FavoriteRepositoryImpl(LocalSourceImpl(requireContext())),MealsRepositoryImpl(APIClient,LocalSourceImpl(requireContext())))
         mealVModel = ViewModelProvider(this,factory).get(RecipeViewModel::class.java)
         mealVModel.getListOfMeals()
         val adapter = HomeMealAdapter(this)
