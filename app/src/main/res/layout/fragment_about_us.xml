@@ -92,7 +92,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Recipes app to explore new recipes easily"
+                android:text="@string/app_info"
                 android:textSize="18sp"
                 android:visibility="gone"
                 android:id="@+id/app_about_info"
@@ -195,7 +195,7 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="about alaa"
+                    android:text="@string/alaa_info"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/alaa_name"/>
