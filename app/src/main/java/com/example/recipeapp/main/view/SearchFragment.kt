@@ -14,14 +14,12 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.constraintlayout.widget.Guideline
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.airbnb.lottie.LottieAnimationView
 import com.example.recipeapp.R
-import com.example.recipeapp.main.local.FavoriteLocalSourceImpl
-import com.example.recipeapp.main.local.MealLocalSourceImpl
+import com.example.recipeapp.main.local.LocalSourceImpl
 import com.example.recipeapp.main.model.Favorite
 import com.example.recipeapp.main.model.Meal
 import com.example.recipeapp.main.network.APIClient
@@ -52,6 +50,7 @@ class SearchFragment : Fragment(), SearchMealCallback {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         prepareViewModel()
+        (requireActivity() as RecipeActivity).showBarAndBottomNavigation()
         viewModel.resetSearchResult()
         searchBar = view.findViewById<TextInputLayout>(R.id.search_text_input_layout).editText as TextInputEditText
         shimmer = view.findViewById(R.id.shimmer_search_layout)
@@ -97,8 +96,8 @@ class SearchFragment : Fragment(), SearchMealCallback {
         })
     }
     private fun prepareViewModel() {
-        val factory = RecipeViewModelFactory(FavoriteRepositoryImpl(FavoriteLocalSourceImpl(requireContext())),
-                                            MealsRepositoryImpl(APIClient, MealLocalSourceImpl(requireContext())))
+        val factory = RecipeViewModelFactory(FavoriteRepositoryImpl(LocalSourceImpl(requireContext())),
+                                            MealsRepositoryImpl(APIClient, LocalSourceImpl(requireContext())))
         viewModel = ViewModelProvider(this, factory).get(SearchViewModel::class.java)
     }
 

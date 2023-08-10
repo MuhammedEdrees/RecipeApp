@@ -3,6 +3,7 @@
     <style name="Base.Theme.RecipeApp" parent="Theme.Material3.DayNight.NoActionBar">
         <!-- Customize your light theme here. -->
          <item name="colorPrimary">@color/yellow</item>
+        <item name="android:colorBackground">@color/background_yellowish_white</item>
     </style>
 
 

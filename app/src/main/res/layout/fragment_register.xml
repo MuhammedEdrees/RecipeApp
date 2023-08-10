@@ -85,6 +85,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 app:errorEnabled="true"
+                app:endIconMode="password_toggle"
                 app:layout_constraintEnd_toEndOf="@+id/text_email_layout"
                 app:layout_constraintStart_toStartOf="@+id/text_email_layout"
                 app:layout_constraintTop_toBottomOf="@+id/text_email_layout">
@@ -104,6 +105,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 app:errorEnabled="true"
+                app:endIconMode="password_toggle"
                 app:layout_constraintEnd_toEndOf="@+id/text_pass_layout"
                 app:layout_constraintStart_toStartOf="@+id/text_pass_layout"
                 app:layout_constraintTop_toBottomOf="@+id/text_pass_layout">

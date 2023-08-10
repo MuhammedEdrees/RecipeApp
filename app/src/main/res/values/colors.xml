@@ -6,4 +6,6 @@
     <color name="yellow">#FFFFC107</color>
     <color name="white_subtext_color">#FFD3D3D3</color>
     <color name="white_text_color">#FFE5E4E2</color>
+    <color name="background_yellowish_white">#FFFFF8E1</color>
+    <color name="background_yellowish_dark_white">#FDE7A5</color>
 </resources>
