@@ -11,6 +11,7 @@ import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.isVisible
 import com.example.recipeapp.R
+import com.google.android.material.divider.MaterialDivider
 
 class AboutUsFragment : Fragment() {
 
@@ -38,7 +39,6 @@ class AboutUsFragment : Fragment() {
         appArrow=view.findViewById(R.id.app_Info_arrow)
         authorsArrow=view.findViewById(R.id.us_info_arrow)
         icon=view.findViewById(R.id.imageView)
-
         icon.setImageResource(R.drawable.culinary_art_icon)
 
         aboutApp.setOnClickListener {
