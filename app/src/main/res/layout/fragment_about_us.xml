@@ -99,11 +99,11 @@
                 app:layout_constraintStart_toEndOf="@id/app_about"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toTopOf="@+id/app_about_info"/>
-
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/app_info_2"
+                android:layout_marginTop="10dp"
                 android:textSize="18sp"
                 android:visibility="gone"
                 android:id="@+id/app_about_info"
@@ -154,6 +154,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     app:layout_constraintTop_toBottomOf="@id/about_us"
+                    android:layout_marginTop="10dp"
                     android:visibility="gone"
                     android:id="@+id/about_authors_layout">
 
