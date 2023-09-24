@@ -8,13 +8,14 @@ import androidx.lifecycle.viewModelScope
 import com.example.recipeapp.main.model.Favorite
 import com.example.recipeapp.main.model.Meal
 import com.example.recipeapp.main.model.MealResponse
-import com.example.recipeapp.main.network.APIClient
+import com.example.recipeapp.main.network.MealRemoteDataSourceImpl
 import com.example.recipeapp.main.repo.FavoriteRepository
 import com.example.recipeapp.main.repo.MealsRepository
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-open class RecipeViewModel(protected val mealRepo: MealsRepository,
-                           protected val favoriteRepo: FavoriteRepository
+open class RecipeViewModel @Inject constructor(protected val mealRepo: MealsRepository,
+                                              protected val favoriteRepo: FavoriteRepository
 ) : ViewModel() {
     protected val _listOfMeals = MutableLiveData<List<Meal>>()
     protected val _RandomMeal = MutableLiveData<Meal>()
@@ -49,8 +50,7 @@ open class RecipeViewModel(protected val mealRepo: MealsRepository,
     fun getListOfMeals() {
         viewModelScope.launch {
             Log.d("edrees ->", "Fuction called")
-              val  response = APIClient.getMealsResponseByFirstLetter(('a'..'z').random()).meals
-                    ?: emptyList()
+              val  response = mealRepo.getMealsResponseByFirstLetter(('a'..'z').random()).meals
                 Log.d("vmodel", response.toString())
                 _listOfMeals.value = response
         }
@@ -58,7 +58,7 @@ open class RecipeViewModel(protected val mealRepo: MealsRepository,
 
     fun getRandomMeal(){
         viewModelScope.launch {
-            val response: MealResponse = APIClient.getRandomMeal()
+            val response: MealResponse = mealRepo.getRandomMeal()
             _RandomMeal.value = response.meals.first()
         }
     }

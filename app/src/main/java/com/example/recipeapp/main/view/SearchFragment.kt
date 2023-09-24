@@ -13,27 +13,25 @@ import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.constraintlayout.widget.Guideline
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.airbnb.lottie.LottieAnimationView
 import com.example.recipeapp.R
-import com.example.recipeapp.main.local.LocalSourceImpl
 import com.example.recipeapp.main.model.Favorite
 import com.example.recipeapp.main.model.Meal
-import com.example.recipeapp.main.network.APIClient
-import com.example.recipeapp.main.repo.FavoriteRepositoryImpl
-import com.example.recipeapp.main.repo.MealsRepositoryImpl
-import com.example.recipeapp.main.viewmodel.RecipeViewModelFactory
 import com.example.recipeapp.main.viewmodel.SearchViewModel
 import com.facebook.shimmer.ShimmerFrameLayout
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
+import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
+@AndroidEntryPoint
 class SearchFragment : Fragment(), SearchMealCallback {
     lateinit var recyclerView: RecyclerView
     lateinit var searchAdapter: SearchMealAdapter
+    @Inject
     lateinit var viewModel: SearchViewModel
     lateinit var searchBar: TextInputEditText
     lateinit var shimmer: ShimmerFrameLayout
@@ -49,7 +47,6 @@ class SearchFragment : Fragment(), SearchMealCallback {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        prepareViewModel()
         (requireActivity() as RecipeActivity).showBarAndBottomNavigation()
         viewModel.resetSearchResult()
         searchBar = view.findViewById<TextInputLayout>(R.id.search_text_input_layout).editText as TextInputEditText
@@ -95,12 +92,6 @@ class SearchFragment : Fragment(), SearchMealCallback {
             }
         })
     }
-    private fun prepareViewModel() {
-        val factory = RecipeViewModelFactory(FavoriteRepositoryImpl(LocalSourceImpl(requireContext())),
-                                            MealsRepositoryImpl(APIClient, LocalSourceImpl(requireContext())))
-        viewModel = ViewModelProvider(this, factory).get(SearchViewModel::class.java)
-    }
-
     override fun onPause() {
         super.onPause()
         searchAdapter.setData(emptyList())

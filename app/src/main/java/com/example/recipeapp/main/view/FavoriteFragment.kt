@@ -17,15 +17,18 @@ import com.example.recipeapp.R
 import com.example.recipeapp.main.local.LocalSourceImpl
 import com.example.recipeapp.main.model.Favorite
 import com.example.recipeapp.main.model.Meal
-import com.example.recipeapp.main.network.APIClient
+import com.example.recipeapp.main.network.MealRemoteDataSourceImpl
 import com.example.recipeapp.main.repo.FavoriteRepositoryImpl
 import com.example.recipeapp.main.repo.MealsRepositoryImpl
 import com.example.recipeapp.main.viewmodel.FavoriteViewModel
-import com.example.recipeapp.main.viewmodel.RecipeViewModelFactory
+import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
+@AndroidEntryPoint
 class FavoriteFragment : Fragment(), MealCallback {
     private lateinit var recyclerView : RecyclerView
-    private lateinit var viewModel: FavoriteViewModel
+    @Inject
+    lateinit var viewModel: FavoriteViewModel
     private lateinit var lottie: LottieAnimationView
     private lateinit var lottieLayout: ConstraintLayout
     override fun onCreateView(
@@ -37,7 +40,6 @@ class FavoriteFragment : Fragment(), MealCallback {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        prepareViewModel()
         (requireActivity() as RecipeActivity).showBarAndBottomNavigation()
         lottie = view.findViewById(R.id.animation_favorite)
         lottieLayout = view.findViewById(R.id.favorite_animation_layout)
@@ -60,11 +62,6 @@ class FavoriteFragment : Fragment(), MealCallback {
             setFavoritesRecyclerViewVisible()
             adapter.setData(favoriteMeals)
         }
-    }
-    private fun prepareViewModel() {
-        val factory = RecipeViewModelFactory(FavoriteRepositoryImpl(LocalSourceImpl(requireContext())),
-                                        MealsRepositoryImpl(APIClient, LocalSourceImpl(requireContext())))
-        viewModel = ViewModelProvider(this, factory).get(FavoriteViewModel::class.java)
     }
 
     override fun addFavoriteCallback(favorite: Favorite, meal: Meal) {

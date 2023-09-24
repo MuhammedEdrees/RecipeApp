@@ -5,8 +5,10 @@ import android.util.Log
 import com.example.recipeapp.db.RecipeDatabase
 import com.example.recipeapp.main.model.Favorite
 import com.example.recipeapp.main.model.Meal
+import dagger.hilt.android.qualifiers.ApplicationContext
+import javax.inject.Inject
 
-class LocalSourceImpl(private val context: Context): LocalSource {
+class LocalSourceImpl @Inject constructor (@ApplicationContext private val context: Context): LocalSource {
     private val mealDao = RecipeDatabase.getInstance(context).mealDao()
     private val favoriteDao = RecipeDatabase.getInstance(context).favoriteDao()
     override suspend fun insertFavorite(favorite: Favorite) {

@@ -2,8 +2,9 @@ package com.example.recipeapp.main.repo
 
 import com.example.recipeapp.main.local.LocalSource
 import com.example.recipeapp.main.model.Favorite
+import javax.inject.Inject
 
-class FavoriteRepositoryImpl (private val localSource: LocalSource): FavoriteRepository {
+class FavoriteRepositoryImpl @Inject constructor(private val localSource: LocalSource): FavoriteRepository {
 
     override suspend fun insertLocalFavorite(favorite: Favorite) {
         localSource.insertFavorite(favorite)

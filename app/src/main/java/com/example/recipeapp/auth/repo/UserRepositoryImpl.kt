@@ -2,8 +2,9 @@ package com.example.recipeapp.auth.repo
 
 import com.example.recipeapp.auth.local.UserLocalSource
 import com.example.recipeapp.auth.model.User
+import javax.inject.Inject
 
-class UserRepositoryImpl(private val userLocalSource: UserLocalSource) : UserRepository {
+class UserRepositoryImpl @Inject constructor(private val userLocalSource: UserLocalSource) : UserRepository {
     override suspend fun insertUser(user: User) {
         userLocalSource.insertUser(user)
     }

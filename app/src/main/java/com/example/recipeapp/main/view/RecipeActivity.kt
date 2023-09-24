@@ -14,7 +14,9 @@ import com.example.recipeapp.R
 import com.example.recipeapp.auth.view.AuthenticationActivity
 import com.google.android.material.appbar.MaterialToolbar
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class RecipeActivity : AppCompatActivity() {
     private lateinit var topBar: MaterialToolbar
     private lateinit var navController: NavController

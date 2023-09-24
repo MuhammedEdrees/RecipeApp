@@ -8,8 +8,9 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
+import javax.inject.Inject
 
-class RegisterViewmodel(val repo: UserRepository): ViewModel() {
+class RegisterViewmodel @Inject constructor(val repo: UserRepository): ViewModel() {
     fun verifyUsernameExists(username: String):  MutableLiveData<Boolean>{
         val result = MutableLiveData<Boolean>()
         viewModelScope.launch {

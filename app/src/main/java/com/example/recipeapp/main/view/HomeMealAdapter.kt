@@ -25,14 +25,14 @@ class HomeMealAdapter (private val fragment: SearchMealCallback): RecyclerView.A
         val favoriteButton = row.findViewById<CheckBox>(R.id.meal_check_box)
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HomeMealAdapter.HomeMealViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HomeMealViewHolder {
         val layout = LayoutInflater.from(parent.context).inflate(R.layout.single_row, parent, false)
-        return HomeMealAdapter.HomeMealViewHolder(layout)
+        return HomeMealViewHolder(layout)
     }
 
     override fun getItemCount() = data.size
 
-    override fun onBindViewHolder(holder: HomeMealAdapter.HomeMealViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: HomeMealViewHolder, position: Int) {
         Glide.with(holder.itemView.context)
             .load(data[position].strMealThumb)
             .into(holder.thumbnailHolder)

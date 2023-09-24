@@ -4,8 +4,10 @@ import android.content.Context
 import com.example.recipeapp.auth.dao.UserDao
 import com.example.recipeapp.auth.model.User
 import com.example.recipeapp.db.RecipeDatabase
+import dagger.hilt.android.qualifiers.ApplicationContext
+import javax.inject.Inject
 
-class UserLocalSourceImpl(val context: Context) : UserLocalSource {
+class UserLocalSourceImpl @Inject constructor(@ApplicationContext val context: Context) : UserLocalSource {
     private var dao: UserDao = RecipeDatabase.getInstance(context).userDao()
 
     override suspend fun insertUser(user: User) {

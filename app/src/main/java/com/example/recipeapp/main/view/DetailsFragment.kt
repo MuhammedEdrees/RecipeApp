@@ -14,7 +14,6 @@ import android.widget.TextView
 import androidx.activity.OnBackPressedCallback
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.isVisible
-import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -24,13 +23,8 @@ import com.bumptech.glide.request.RequestOptions
 import com.example.myapplication3.IngredientRow
 import com.example.myapplication3.TableAdapter
 import com.example.recipeapp.R
-import com.example.recipeapp.main.local.LocalSourceImpl
 import com.example.recipeapp.main.model.Favorite
-import com.example.recipeapp.main.network.APIClient
-import com.example.recipeapp.main.repo.FavoriteRepositoryImpl
-import com.example.recipeapp.main.repo.MealsRepositoryImpl
 import com.example.recipeapp.main.viewmodel.DetailsViewModel
-import com.example.recipeapp.main.viewmodel.RecipeViewModelFactory
 import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.appbar.CollapsingToolbarLayout
 import com.google.android.material.bottomnavigation.BottomNavigationView
@@ -40,10 +34,14 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.YouTubePlayer
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.AbstractYouTubePlayerListener
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTubePlayerView
+import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
+@AndroidEntryPoint
 class DetailsFragment : Fragment() {
 
     val args: DetailsFragmentArgs by navArgs()
+    @Inject
     lateinit var viewModel: DetailsViewModel
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -65,7 +63,6 @@ class DetailsFragment : Fragment() {
         topAppBarLayout.visibility = View.GONE
         bottomNavigationView.visibility = View.GONE
 
-        prepareViewModel()
         args.meal.also { meal ->
 
             val favoriteBtn: FloatingActionButton = view.findViewById(R.id.favoriteBtn)
@@ -242,13 +239,6 @@ class DetailsFragment : Fragment() {
         }
     }
 
-    private fun prepareViewModel() {
-        val factory = RecipeViewModelFactory(
-            FavoriteRepositoryImpl(LocalSourceImpl(requireContext())),
-            MealsRepositoryImpl(APIClient, LocalSourceImpl(requireContext()))
-        )
-        viewModel = ViewModelProvider(this, factory).get(DetailsViewModel::class.java)
-    }
 
     fun setOnClickListener(view: View, labelID: Int, contentID: Int, arrowID: Int) {
         view.findViewById<TextView>(labelID).setOnClickListener {

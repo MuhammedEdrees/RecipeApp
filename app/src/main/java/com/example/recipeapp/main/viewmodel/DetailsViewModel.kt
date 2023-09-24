@@ -9,8 +9,9 @@ import com.example.recipeapp.main.model.Meal
 import com.example.recipeapp.main.repo.FavoriteRepository
 import com.example.recipeapp.main.repo.MealsRepository
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class DetailsViewModel(mealRepo: MealsRepository,
+class DetailsViewModel@Inject constructor(mealRepo: MealsRepository,
                        favoriteRepo: FavoriteRepository) : RecipeViewModel(mealRepo, favoriteRepo) {
     private val _meal = MutableLiveData<Meal>()
     val meal: LiveData<Meal> = _meal

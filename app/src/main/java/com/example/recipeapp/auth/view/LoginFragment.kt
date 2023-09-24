@@ -8,18 +8,15 @@ import android.view.ViewGroup
 import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.ViewModelStoreOwner
 import androidx.navigation.findNavController
 import com.example.recipeapp.R
-import com.example.recipeapp.auth.local.UserLocalSourceImpl
-import com.example.recipeapp.auth.repo.UserRepositoryImpl
-import com.example.recipeapp.auth.viewmodel.LoginViewModelFactory
 import com.example.recipeapp.auth.viewmodel.LoginViewmodel
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
-
+import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
+@AndroidEntryPoint
 class LoginFragment : Fragment() {
     lateinit var usernameTextInputLayout: TextInputLayout
     lateinit var usernameEditText: TextInputEditText
@@ -27,6 +24,7 @@ class LoginFragment : Fragment() {
     lateinit var passwordEditText: TextInputEditText
     lateinit var loginButton: MaterialButton
     lateinit var registerButton: MaterialButton
+    @Inject
     lateinit var viewModel: LoginViewmodel
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -38,7 +36,6 @@ class LoginFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        prepareViewModel()
         val prefs = activity?.getSharedPreferences("user_prefs", MODE_PRIVATE)
         val editor = prefs?.edit()
         usernameTextInputLayout = view.findViewById(R.id.login_username_textfield)
@@ -81,14 +78,5 @@ class LoginFragment : Fragment() {
                     requireActivity().finish()
                 }
             })
-    }
-
-    fun prepareViewModel() {
-        val factory =
-            LoginViewModelFactory(UserRepositoryImpl(UserLocalSourceImpl(requireActivity())))
-        viewModel = ViewModelProvider(
-            requireActivity() as ViewModelStoreOwner,
-            factory
-        ).get(LoginViewmodel::class.java)
     }
 }

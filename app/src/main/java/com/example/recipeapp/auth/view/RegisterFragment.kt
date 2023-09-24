@@ -10,24 +10,22 @@ import android.widget.Button
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.ViewModelStoreOwner
-import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import com.example.recipeapp.R
 import com.example.recipeapp.auth.local.UserLocalSourceImpl
 import com.example.recipeapp.auth.model.User
 import com.example.recipeapp.auth.repo.UserRepositoryImpl
 import com.example.recipeapp.auth.view.util.Validation
-import com.example.recipeapp.auth.viewmodel.RegisterViewModelFactory
 import com.example.recipeapp.auth.viewmodel.RegisterViewmodel
 import com.example.recipeapp.db.RecipeDatabase
-import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.runBlocking
-
+import javax.inject.Inject
+@AndroidEntryPoint
 class RegisterFragment : Fragment() {
+    @Inject
     lateinit var viewModel: RegisterViewmodel
 
     override fun onCreateView(
@@ -44,9 +42,6 @@ class RegisterFragment : Fragment() {
             val confirmPassword: String =
                 view.findViewById<TextInputEditText?>(R.id.confirm_password).text.toString()
             val repo = UserRepositoryImpl(UserLocalSourceImpl(requireActivity()))
-
-            prepareViewModel()
-
             var count = 0
 
             if (username.isEmpty()) {
@@ -128,13 +123,5 @@ class RegisterFragment : Fragment() {
             }
         }
         return view
-    }
-
-    fun prepareViewModel() {
-        val factory =
-            RegisterViewModelFactory(UserRepositoryImpl(UserLocalSourceImpl(requireActivity())))
-        viewModel = ViewModelProvider(requireActivity() as ViewModelStoreOwner, factory).get(
-            RegisterViewmodel::class.java
-        )
     }
 }
