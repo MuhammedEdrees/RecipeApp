@@ -8,8 +8,9 @@ import com.example.recipeapp.auth.repo.UserRepository
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
+import javax.inject.Inject
 
-class LoginViewmodel(val repo: UserRepository): ViewModel() {
+class LoginViewmodel @Inject constructor(val repo: UserRepository): ViewModel() {
     fun verifyUsernameExists(username: String): MutableLiveData<Boolean> {
         val result = MutableLiveData<Boolean>()
         viewModelScope.launch {

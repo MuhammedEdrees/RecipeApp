@@ -21,18 +21,20 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.recipeapp.R
 import com.example.recipeapp.main.local.LocalSourceImpl
-import com.example.recipeapp.main.network.APIClient
+import com.example.recipeapp.main.network.MealRemoteDataSourceImpl
 import com.example.recipeapp.main.repo.FavoriteRepositoryImpl
 import com.example.recipeapp.main.repo.MealsRepositoryImpl
 import com.example.recipeapp.main.viewmodel.RecipeViewModel
-import com.example.recipeapp.main.viewmodel.RecipeViewModelFactory
 import com.facebook.shimmer.ShimmerFrameLayout
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
-
+@AndroidEntryPoint
 class HomeFragment : Fragment(), SearchMealCallback {
 
-    lateinit var mealVModel:RecipeViewModel
+    @Inject
+    lateinit var viewmodel:RecipeViewModel
     lateinit var rv :RecyclerView
     lateinit var randomMealCardview: CardView
     lateinit var img:ImageView
@@ -69,21 +71,19 @@ class HomeFragment : Fragment(), SearchMealCallback {
         //start shimmer, visable
         shimmer.startShimmer()
         shimmer.visibility=View.VISIBLE
-        val factory=RecipeViewModelFactory(FavoriteRepositoryImpl(LocalSourceImpl(requireContext())),MealsRepositoryImpl(APIClient,LocalSourceImpl(requireContext())))
-        mealVModel = ViewModelProvider(this,factory).get(RecipeViewModel::class.java)
-        mealVModel.getListOfMeals()
+        viewmodel.getListOfMeals()
         val adapter = HomeMealAdapter(this)
         rv.adapter = adapter
         rv.layoutManager =
             LinearLayoutManager(this.requireContext(), RecyclerView.HORIZONTAL, false)
-        mealVModel.listOfMeals.observe(viewLifecycleOwner) { meals
+        viewmodel.listOfMeals.observe(viewLifecycleOwner) { meals
             ->//stop shimmer, gone
             shimmer.stopShimmer()
             shimmer.visibility=View.GONE
             adapter.setData(meals)
         }
-        mealVModel.getRandomMeal()
-        mealVModel.RandomMeal.observe(viewLifecycleOwner){ meal ->
+        viewmodel.getRandomMeal()
+        viewmodel.RandomMeal.observe(viewLifecycleOwner){ meal ->
             hideRandomMealShimmer()
             this.meal.text=meal.strMeal
             categoryAreaText.text=String.format(getString(R.string.category_area_str), meal.strArea, meal.strCategory)
@@ -97,16 +97,16 @@ class HomeFragment : Fragment(), SearchMealCallback {
             val prefs = requireContext().getSharedPreferences("user_prefs", Context.MODE_PRIVATE)
             val userId = prefs.getInt("user_id", -1)
             favBtn.setOnCheckedChangeListener(null)
-            favBtn.isChecked = mealVModel.listOfFavorites.value?.any { it.mealID == meal.idMeal } ?: false
+            favBtn.isChecked = viewmodel.listOfFavorites.value?.any { it.mealID == meal.idMeal } ?: false
             favBtn.setOnCheckedChangeListener{ buttonView, isChecked ->
                 if (isChecked) {
-                    mealVModel.addFavorite(Favorite(userId, meal.idMeal), meal)
-                    mealVModel.getUserFavorites(userId)
+                    viewmodel.addFavorite(Favorite(userId, meal.idMeal), meal)
+                    viewmodel.getUserFavorites(userId)
                 } else {
                     MaterialAlertDialogBuilder(requireContext()).setTitle("Confirm")
                         .setMessage("Are you sure you want to remove this item from your favorites?")
                         .setPositiveButton("Yes") { dialog, which ->
-                            mealVModel.deleteFavorite(Favorite(userId, meal.idMeal))
+                            viewmodel.deleteFavorite(Favorite(userId, meal.idMeal))
                         }
                         .setNegativeButton("No") { dialog, which ->
                             buttonView.isChecked = true
@@ -137,22 +137,22 @@ class HomeFragment : Fragment(), SearchMealCallback {
     }
 
     override fun isFavoriteCallback(mealId: String): Boolean {
-        return mealVModel.listOfFavorites.value?.any {it.mealID == mealId} ?: false
+        return viewmodel.listOfFavorites.value?.any {it.mealID == mealId} ?: false
     }
 
     override fun addFavoriteCallback(favorite: Favorite, meal: Meal) {
-        mealVModel.addFavorite(favorite, meal)
+        viewmodel.addFavorite(favorite, meal)
     }
 
     override fun deleteFavoriteCallback(favorite: Favorite) {
-        mealVModel.deleteFavorite(favorite)
-        mealVModel.checkIfFavorite(favorite.mealID)
-        mealVModel.isFavorite.observe(viewLifecycleOwner) {isFavorite ->
+        viewmodel.deleteFavorite(favorite)
+        viewmodel.checkIfFavorite(favorite.mealID)
+        viewmodel.isFavorite.observe(viewLifecycleOwner) { isFavorite ->
             if(isFavorite){
-                mealVModel.deletMeal(favorite.mealID)
+                viewmodel.deletMeal(favorite.mealID)
             }
         }
-        mealVModel.getUserFavorites(favorite.userID)
+        viewmodel.getUserFavorites(favorite.userID)
     }
     override fun navigateToDetailsCallback(meal: Meal) {
         val action = HomeFragmentDirections.actionHomeFragmentToDetailsFragment(meal)

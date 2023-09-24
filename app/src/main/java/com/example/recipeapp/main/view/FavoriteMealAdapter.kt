@@ -1,7 +1,6 @@
 package com.example.recipeapp.main.view
 
 import android.content.Context
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,10 +12,9 @@ import com.bumptech.glide.Glide
 import com.example.recipeapp.R
 import com.example.recipeapp.main.model.Favorite
 import com.example.recipeapp.main.model.Meal
-import com.example.recipeapp.main.viewmodel.FavoriteViewModel
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 
-class FavoriteMealAdapter(val fragment: MealCallback) : RecyclerView.Adapter<FavoriteMealAdapter.FavoriteMealViewHolder>() {
+class FavoriteMealAdapter(private val callback: MealCallback) : RecyclerView.Adapter<FavoriteMealAdapter.FavoriteMealViewHolder>() {
     private val data = mutableListOf<Meal>()
     class FavoriteMealViewHolder(val row: View): RecyclerView.ViewHolder(row) {
         val favThumbnail = row.findViewById<ImageView>(R.id.favorite_thumbnail)
@@ -47,12 +45,12 @@ class FavoriteMealAdapter(val fragment: MealCallback) : RecyclerView.Adapter<Fav
         val userId = prefs.getInt("user_id", -1)
         holder.favButton.setOnCheckedChangeListener{buttonView, isChecked ->
             if (isChecked) {
-                fragment.addFavoriteCallback(Favorite(userId, data[position].idMeal), data[position])
+                callback.addFavoriteCallback(Favorite(userId, data[position].idMeal), data[position])
             } else {
                 MaterialAlertDialogBuilder(holder.itemView.context).setTitle("Confirm")
                     .setMessage("Are you sure you want to remove this item from your favorites?")
                     .setPositiveButton("Yes") { dialog, which ->
-                        fragment.deleteFavoriteCallback(Favorite(userId, data[position].idMeal))
+                        callback.deleteFavoriteCallback(Favorite(userId, data[position].idMeal))
                     }
                     .setNegativeButton("No") { dialog, which ->
                         dialog.cancel()
@@ -61,7 +59,7 @@ class FavoriteMealAdapter(val fragment: MealCallback) : RecyclerView.Adapter<Fav
             }
         }
         holder.itemView.setOnClickListener {
-            fragment.navigateToDetailsCallback(data[position])
+            callback.navigateToDetailsCallback(data[position])
         }
     }
 

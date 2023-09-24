@@ -25,7 +25,7 @@ class SearchMealAdapter(private val fragment: SearchMealCallback): RecyclerView.
         val favoriteButton = row.findViewById<CheckBox>(R.id.favorite_check_box)
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SearchMealAdapter.MealViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MealViewHolder {
         val layout = LayoutInflater.from(parent.context).inflate(R.layout.favorite_list_item, parent, false)
         return MealViewHolder(layout)
     }

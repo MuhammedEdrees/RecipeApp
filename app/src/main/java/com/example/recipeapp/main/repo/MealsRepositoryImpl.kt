@@ -4,8 +4,9 @@ import com.example.recipeapp.main.local.LocalSource
 import com.example.recipeapp.main.model.Meal
 import com.example.recipeapp.main.model.MealResponse
 import com.example.recipeapp.main.network.MealRemoteDataSource
+import javax.inject.Inject
 
-class MealsRepositoryImpl(val mealRemoteDataSource: MealRemoteDataSource, val localSource: LocalSource): MealsRepository {
+class MealsRepositoryImpl @Inject constructor(private val mealRemoteDataSource: MealRemoteDataSource, private val localSource: LocalSource): MealsRepository {
     override suspend fun getMealsResponseByFirstLetter(letter: Char): MealResponse {
         return mealRemoteDataSource.getMealsResponseByFirstLetter(letter)
     }
@@ -35,8 +36,7 @@ class MealsRepositoryImpl(val mealRemoteDataSource: MealRemoteDataSource, val lo
     }
 
     override suspend fun getFavoriteMeals(list: List<String>): List<Meal> {
-        val res = localSource.getFavoriteMeals(list)
-        return res
+        return localSource.getFavoriteMeals(list)
     }
 
     override suspend fun checkIfFavorite(mealId: String): Boolean {
